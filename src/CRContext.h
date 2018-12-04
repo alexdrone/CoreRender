@@ -33,7 +33,7 @@ NS_SWIFT_NAME(Context)
 
 /// Build a new node hiearchy in this context.
 /// @note: This is analogous to call @c registerNodeHierarchyInContext: on the root node.
-- (CRNode *)buildNodeHiearchy:(__attribute__((noescape))CRNode * (^)(void))nodeHierarchy;
+- (CRNode *)buildNodeHiearchy:(__attribute__((noescape))CRNode * (^)(CRContext *))nodeHierarchy;
 
 /// Add the object as delegate for this context.
 - (void)addDelegate:(id<CRContextDelegate>)delegate;

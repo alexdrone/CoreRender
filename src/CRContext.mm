@@ -39,8 +39,8 @@
   return container;
 }
 
-- (CRNode *)buildNodeHiearchy:(__attribute__((noescape))CRNode * (^)(void))nodeHierarchy {
-  const auto node = nodeHierarchy();
+- (CRNode *)buildNodeHiearchy:(__attribute__((noescape))CRNode * (^)(CRContext *))nodeHierarchy {
+  const auto node = nodeHierarchy(self);
   [node registerNodeHierarchyInContext:self];
   return node;
 }

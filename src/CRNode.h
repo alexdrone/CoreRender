@@ -69,6 +69,12 @@ NS_SWIFT_NAME(ConcreteNode)
           viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
+- (instancetype)initWithType:(Class)type
+             reuseIdentifier:(nullable NSString *)reuseIdentifier
+                  controller:(CRController *)controller
+          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+
 + (instancetype)nodeWithType:(Class)type
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
@@ -76,10 +82,31 @@ NS_SWIFT_NAME(ConcreteNode)
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
+             reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
-+ (instancetype)nodeWithType:(Class)type layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
++ (instancetype)nodeWithType:(Class)type
+                         key:(nullable NSString *)key
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+
++ (instancetype)nodeWithType:(Class)type
+             reuseIdentifier:(nullable NSString *)reuseIdentifier
+                  controller:(CRController *)controller
+          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+
++ (instancetype)nodeWithType:(Class)type
+             reuseIdentifier:(NSString *)reuseIdentifier
+                  controller:(CRController *)controller
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+
++ (instancetype)nodeWithType:(Class)type
+                  controller:(CRController *)controller
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+
++ (instancetype)nodeWithType:(Class)type
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 #pragma mark Setup
 

@@ -72,6 +72,46 @@ public extension AnyNode {
   return node
 }
 
+/// Creates a new *CRNode*.
+/// - parameter reuseIdentifer: The reuse identifier for this node is its hierarchy.
+/// Identifiers help Render understand which items have changed.
+/// A custom *reuseIdentifier* is mandatory if the node has a custom creation closure.
+/// - parameter controller: The controller that is going to be associated to this node.
+/// - parameter create: Custom view initialization closure.
+/// - parameter layoutSpec: This closure is invoked whenever the 'layout' method is invoked.
+/// Configure your backing view by using the *UILayout* object (e.g.):
+/// ```
+/// ... { spec in
+///   spec.set(\UIView.backgroundColor, value: .green)
+///   spec.set(\UIView.layer.borderWidth, value: 1)
+/// ```
+/// You can also access to the view directly (this is less performant because the infrastructure
+/// can't keep tracks of these view changes, but necessary when coping with more complex view
+/// configuration methods).
+/// ```
+/// ... { spec in
+///   spec.view.backgroundColor = .green
+///   spec.view.setTitle("FOO", for: .normal)
+/// ```
+@inline(__always) public func Node<V: UIView, P: Props, S: State, C: Controller<P, S>> (
+  type: V.Type,
+  controller: C,
+  props: P? = nil,
+  reuseIdentifier: String? = nil,
+  key: String? = nil,
+  create: (() -> V)? = nil,
+  layoutSpec: @escaping (LayoutSpec<V>) -> Void
+  ) -> ConcreteNode<V> {
+  let node = ConcreteNode<V>(
+    type: V.self,
+    reuseIdentifier: reuseIdentifier,
+    key: controller.key,
+    viewInitialization: create,
+    layoutSpec: layoutSpec)
+  node.bindController(C.self, initialState: S(), props: props ?? P())
+  return node
+}
+
 /// Sets the value of a desired keypath using typesafe writable reference keypaths.
 /// - parameter spec: The *LayoutSpec* object that is currently handling the view configuration.
 /// - parameter keyPath: The target keypath.

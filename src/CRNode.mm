@@ -2,6 +2,7 @@
 #import "CRUmbrellaHeader.h"
 
 @interface CRNode ()
+@property(nonatomic, readwrite) __kindof CRController *controller;
 @property(nonatomic, readwrite) NSUInteger index;
 @property(nonatomic, readwrite, nullable, weak) CRNode *parent;
 @property(nonatomic, readwrite, nullable) __kindof UIView *renderedView;
@@ -43,7 +44,23 @@ void CRIllegalControllerTypeException(NSString *reason) {
   return self;
 }
 
+
+- (instancetype)initWithType:(Class)type
+             reuseIdentifier:(nullable NSString *)reuseIdentifier
+                  controller:(CRController *)controller
+          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  auto node = [[CRNode alloc] initWithType:type
+                           reuseIdentifier:reuseIdentifier
+                                       key:controller.key
+                        viewInitialization:viewInitialization
+                                layoutSpec:layoutSpec];
+  node.controller = controller;
+  return node;
+}
+
 #pragma mark - Convenience Initializer
+
 
 + (instancetype)nodeWithType:(Class)type
              reuseIdentifier:(NSString *)reuseIdentifier
@@ -58,11 +75,55 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 + (instancetype)nodeWithType:(Class)type
+             reuseIdentifier:(NSString *)reuseIdentifier
+                         key:(nullable NSString *)key
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  return [[CRNode alloc] initWithType:type
+                      reuseIdentifier:reuseIdentifier
+                                  key:key
+                   viewInitialization:nil
+                           layoutSpec:layoutSpec];
+}
+
++ (instancetype)nodeWithType:(Class)type
                          key:(nullable NSString *)key
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
                       reuseIdentifier:nil
                                   key:key
+                   viewInitialization:nil
+                           layoutSpec:layoutSpec];
+}
+
++ (instancetype)nodeWithType:(Class)type
+             reuseIdentifier:(NSString *)reuseIdentifier
+                  controller:(CRController *)controller
+          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  return [[CRNode alloc] initWithType:type
+                      reuseIdentifier:reuseIdentifier
+                           controller:controller
+                   viewInitialization:nil
+                           layoutSpec:layoutSpec];
+}
+
++ (instancetype)nodeWithType:(Class)type
+             reuseIdentifier:(NSString *)reuseIdentifier
+                  controller:(CRController *)controller
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  return [[CRNode alloc] initWithType:type
+                      reuseIdentifier:reuseIdentifier
+                           controller:controller
+                   viewInitialization:nil
+                           layoutSpec:layoutSpec];
+}
+
++ (instancetype)nodeWithType:(Class)type
+                  controller:(CRController *)controller
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  return [[CRNode alloc] initWithType:type
+                      reuseIdentifier:nil
+                           controller:controller
                    viewInitialization:nil
                            layoutSpec:layoutSpec];
 }
