@@ -53,7 +53,7 @@ public extension AnyNode {
 /// ```
 @inline(__always) public func Node<V: UIView, P: Props, S: State> (
   type: V.Type,
-  controller: Controller<P, S>.Type? = nil,
+  controllerType: Controller<P, S>.Type? = nil,
   props: P? = nil,
   reuseIdentifier: String? = nil,
   key: String? = nil,
@@ -66,8 +66,8 @@ public extension AnyNode {
     key: key,
     viewInitialization: create,
     layoutSpec: layoutSpec)
-  if let controller = controller {
-    node.bindController(controller, initialState: S(), props: props ?? P())
+  if let controllerType = controllerType {
+    node.bindController(controllerType, initialState: S(), props: props ?? P())
   }
   return node
 }
@@ -98,7 +98,6 @@ public extension AnyNode {
   controller: C,
   props: P? = nil,
   reuseIdentifier: String? = nil,
-  key: String? = nil,
   create: (() -> V)? = nil,
   layoutSpec: @escaping (LayoutSpec<V>) -> Void
   ) -> ConcreteNode<V> {
@@ -110,6 +109,19 @@ public extension AnyNode {
     layoutSpec: layoutSpec)
   node.bindController(C.self, initialState: S(), props: props ?? P())
   return node
+}
+
+/// Retrieves a controller from the context.
+@inline(__always) public func ControllerProvider<C: AnyController> (
+  _ ctx: Context,
+  type: C.Type,
+  key: String? = nil
+) -> ControllerProvider<C> {
+  if let key = key {
+    return ctx.controllerProvider(ofType: type, withKey: key) as! ControllerProvider<C>
+  } else {
+    return ctx.controllerProvider(ofType: type) as! ControllerProvider<C>
+  }
 }
 
 /// Sets the value of a desired keypath using typesafe writable reference keypaths.
@@ -131,3 +143,4 @@ public extension AnyNode {
 }
 
 public typealias LayoutOptions = CRNodeLayoutOptions
+

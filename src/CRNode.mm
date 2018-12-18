@@ -1,4 +1,5 @@
 #import "CRController+Private.h"
+#import "CRContext+Private.h"
 #import "CRUmbrellaHeader.h"
 
 @interface CRNode ()
@@ -55,7 +56,9 @@ void CRIllegalControllerTypeException(NSString *reason) {
                                        key:controller.key
                         viewInitialization:viewInitialization
                                 layoutSpec:layoutSpec];
-  node.controller = controller;
+  [self bindController:controller.class
+          initialState:[[controller.state.class alloc] init]
+                 props:[[controller.props.class alloc] init]];
   return node;
 }
 

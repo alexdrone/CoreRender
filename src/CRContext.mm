@@ -1,5 +1,36 @@
 #import "CRController+Private.h"
+#import "CRContext+Private.h"
 #import "CRUmbrellaHeader.h"
+
+#pragma mark - CRControllerProvider
+
+@implementation CRControllerProvider {
+  NSString *_key;
+  Class _type;
+}
+
+- (instancetype)initWithContext:(CRContext *)context
+                           type:(Class)controllerType
+                  controllerKey:(NSString *)controllerKey {
+  if (self = [super init]) {
+    _context = context;
+    _key = controllerKey;
+    _type = controllerType;
+  }
+  return self;
+}
+
+- (CRController *)controller {
+  if (_key) {
+    return [_context controllerOfType:_type withKey:_key];
+  } else {
+    return [_context controllerOfType:_type];
+  }
+}
+
+@end
+
+#pragma mark - CRContext
 
 @implementation CRContext {
   NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, CRController *> *> *_controllers;
@@ -29,6 +60,14 @@
   CR_ASSERT_ON_MAIN_THREAD();
   if (![type isStateless]) return nil;
   return [self controllerOfType:type withKey:CRControllerStatelessKey];
+}
+
+- (CRControllerProvider *)controllerProviderOfType:(Class)type withKey:(NSString *)key {
+  return [[CRControllerProvider alloc] initWithContext:self type:type controllerKey:key];
+}
+
+- (CRControllerProvider *)controllerProviderOfType:(Class)type {
+  return [[CRControllerProvider alloc] initWithContext:self type:type controllerKey:nil];
 }
 
 - (NSMutableDictionary<NSString *, CRController *> *)_containerForType:(Class)type {
