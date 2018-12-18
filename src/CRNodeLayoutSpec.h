@@ -10,7 +10,10 @@ NS_SWIFT_NAME(LayoutSpec)
 @property(nonatomic, readonly, nullable, weak) CRNode *node;
 /// The context for this node hierarchy.
 @property(nonatomic, readonly, nullable, weak) CRContext *context;
-
+/// Lays out the view subtree.
+/// @note: The layout directives are executed top down and *after* the Yoga layout has been
+/// computed (if applicable).
+@property(nonatomic, copy, nullable) void (^onLayoutSubviews)(CRNode *, UIView *, CGSize);
 /// The boundaries of this node.
 @property(nonatomic, readonly) CGSize size;
 

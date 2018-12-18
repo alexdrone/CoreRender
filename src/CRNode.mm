@@ -276,6 +276,10 @@ void CRIllegalControllerTypeException(NSString *reason) {
     _renderedView.frame.size = CGSizeZero;
     [_renderedView.yoga markDirty];
   }
+
+  if (spec.onLayoutSubviews) {
+    spec.onLayoutSubviews(self, _renderedView, size);
+  }
 }
 
 - (void)_computeFlexboxLayoutConstrainedToSize:(CGSize)size {
