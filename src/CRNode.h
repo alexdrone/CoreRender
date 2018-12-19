@@ -5,7 +5,8 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(NodeLayoutOptions)
 typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
   CRNodeLayoutOptionsNone = 1 << 0,
-  CRNodeLayoutOptionsSizeContainerViewToFit = 1 << 1
+  CRNodeLayoutOptionsSizeContainerViewToFit = 1 << 1,
+  CRNodeLayoutOptionsUseSafeAreaInsets = 1 << 2
 };
 
 @class CRNode;

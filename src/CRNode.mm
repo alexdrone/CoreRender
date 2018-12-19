@@ -312,8 +312,25 @@ void CRIllegalControllerTypeException(NSString *reason) {
   CR_ASSERT_ON_MAIN_THREAD();
   if (_parent != nil) return [_parent layoutConstrainedToSize:size withOptions:options];
 
+  auto safeAreaOffset = CGPointZero;
+  if (@available(iOS 11, *)) {
+    if (options & CRNodeLayoutOptionsUseSafeAreaInsets) {
+      UIEdgeInsets safeArea = _renderedView.superview.safeAreaInsets;
+      CGFloat heightInsets = safeArea.top + safeArea.bottom;
+      CGFloat widthInsets = safeArea.left + safeArea.right;
+      size.height -= heightInsets;
+      size.width -= widthInsets;
+      safeAreaOffset.x = safeArea.left;
+      safeAreaOffset.y = safeArea.top;
+    }
+  }
+
   [self _configureConstrainedToSize:size withOptions:options];
   [self _computeFlexboxLayoutConstrainedToSize:size];
+  auto frame = _renderedView.frame;
+  frame.origin.x += safeAreaOffset.x;
+  frame.origin.y += safeAreaOffset.y;
+  _renderedView.frame = frame;
   [self _animateLayoutChangesIfNecessary];
 
   if (options & CRNodeLayoutOptionsSizeContainerViewToFit) {

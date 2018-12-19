@@ -17,7 +17,7 @@ class CounterViewController: UIViewController {
     node = context.buildNodeHiearchy { ctx in
       counterNode(ctx: ctx)
     }
-    node?.reconcile(in: view, constrainedTo: view.bounds.size, with: [])
+    node?.reconcile(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
   }
 
   override func viewDidLayoutSubviews() {
