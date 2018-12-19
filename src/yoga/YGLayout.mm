@@ -257,8 +257,10 @@ static YGSize YGMeasureView(YGNodeRef node, float width, YGMeasureMode widthMode
                                                      .height = constrainedHeight,
                                                  }];
   return (YGSize){
-      .width = YGSanitizeMeasurement(constrainedWidth, sizeThatFits.width, widthMode),
-      .height = YGSanitizeMeasurement(constrainedHeight, sizeThatFits.height, heightMode),
+      .width = static_cast<float>(
+          YGSanitizeMeasurement(constrainedWidth, sizeThatFits.width, widthMode)),
+      .height = static_cast<float>(
+          YGSanitizeMeasurement(constrainedHeight, sizeThatFits.height, heightMode)),
   };
 }
 

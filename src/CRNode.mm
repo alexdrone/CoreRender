@@ -1,6 +1,11 @@
-#import "CRController+Private.h"
+#import "CRNode.h"
 #import "CRContext+Private.h"
-#import "CRUmbrellaHeader.h"
+#import "CRController+Private.h"
+#import "CRMacros.h"
+#import "CRNodeBridge.h"
+#import "CRNodeLayoutSpec.h"
+#import "UIView+CRNode.h"
+#import "YGLayout.h"
 
 @interface CRNode ()
 @property(nonatomic, readwrite) __kindof CRController *controller;
@@ -24,7 +29,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
   __weak CRContext *_context;
   struct {
     unsigned int shouldInvokeDidMount : 1;
-  }__attribute__((packed, aligned(1))) _flags;
+  } __attribute__((packed, aligned(1))) _flags;
 }
 
 #pragma mark - Initializer
@@ -45,7 +50,6 @@ void CRIllegalControllerTypeException(NSString *reason) {
   return self;
 }
 
-
 - (instancetype)initWithType:(Class)type
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                   controller:(CRController *)controller
@@ -63,7 +67,6 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 #pragma mark - Convenience Initializer
-
 
 + (instancetype)nodeWithType:(Class)type
              reuseIdentifier:(NSString *)reuseIdentifier

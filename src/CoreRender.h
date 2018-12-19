@@ -1,4 +1,5 @@
 #import <CoreRender/CRContext.h>
+#import <CoreRender/CRController.h>
 #import <CoreRender/CRMacros.h>
 #import <CoreRender/CRNode.h>
 #import <CoreRender/CRNodeBridge.h>

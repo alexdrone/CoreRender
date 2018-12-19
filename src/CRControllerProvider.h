@@ -8,5 +8,4 @@
 #ifndef CRControllerProvider_h
 #define CRControllerProvider_h
 
-
 #endif /* CRControllerProvider_h */

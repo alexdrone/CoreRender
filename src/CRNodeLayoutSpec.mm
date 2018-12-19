@@ -1,4 +1,9 @@
-#import "CRUmbrellaHeader.h"
+#import "CRNodeLayoutSpec.h"
+#import "CRController.h"
+#import "CRMacros.h"
+#import "CRNode.h"
+#import "CRNodeBridge.h"
+#import "UIView+CRNode.h"
 
 @implementation CRNodeLayoutSpec {
   NSMutableDictionary<NSString *, CRNodeLayoutSpecProperty *> *_properties;

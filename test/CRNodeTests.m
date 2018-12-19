@@ -1,14 +1,14 @@
-#import <XCTest/XCTest.h>
 #import <CoreRender/CoreRender.h>
+#import <XCTest/XCTest.h>
 
 @interface CRNodeTests : XCTestCase
-@property (nonatomic, weak) UILabel *testOutlet;
+@property(nonatomic, weak) UILabel *testOutlet;
 @end
 
-@interface TestController : CRController<CRNullProps *, CRNullState *>
+@interface TestController : CRController <CRNullProps *, CRNullState *>
 @end
 
-@interface TestStatelessController : CRStatelessController<CRNullProps *>
+@interface TestStatelessController : CRStatelessController <CRNullProps *>
 @end
 
 @implementation CRNodeTests
@@ -16,9 +16,9 @@
 - (CRNode *)buildLabelNode {
   const auto node = [CRNode nodeWithType:UILabel.class
                               layoutSpec:^(CRNodeLayoutSpec<UILabel *> *spec) {
-    [spec set:CR_KEYPATH(spec.view, text) value:@"test"];
-    [spec set:CR_KEYPATH(spec.view, textColor) value:UIColor.redColor];
-  }];
+                                [spec set:CR_KEYPATH(spec.view, text) value:@"test"];
+                                [spec set:CR_KEYPATH(spec.view, textColor) value:UIColor.redColor];
+                              }];
   return node;
 }
 
@@ -56,15 +56,13 @@
 }
 
 - (void)testNestedLayout {
-  const auto node = [CRNode nodeWithType:UIView.self layoutSpec:^(CRNodeLayoutSpec *spec) {
-    [spec set:CR_KEYPATH(spec.view, backgroundColor) value:UIColor.redColor];
-    [spec set:CR_KEYPATH(spec.view, yoga.padding) value:@42];
-  }];
-  [node appendChildren:@[
-     [self buildLabelNode],
-     [self buildLabelNode],
-     [self buildLabelNode]
-  ]];
+  const auto node = [CRNode nodeWithType:UIView.self
+                              layoutSpec:^(CRNodeLayoutSpec *spec) {
+                                [spec set:CR_KEYPATH(spec.view, backgroundColor)
+                                    value:UIColor.redColor];
+                                [spec set:CR_KEYPATH(spec.view, yoga.padding) value:@42];
+                              }];
+  [node appendChildren:@[ [self buildLabelNode], [self buildLabelNode], [self buildLabelNode] ]];
   const auto containerView = [[UIView alloc] init];
   const auto context = [[CRContext alloc] init];
   [node registerNodeHierarchyInContext:context];
@@ -90,13 +88,13 @@
   CRNode *node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+                     layoutSpec:^(CRNodeLayoutSpec *spec){
+                     }];
     [node bindController:TestStatelessController.class
             initialState:CRNullState.null
                    props:CRNullProps.null];
     test = YES;
-  }
-  @catch(NSException *e) {
+  } @catch (NSException *e) {
     test = NO;
   }
   XCTAssertTrue(test);
@@ -107,13 +105,11 @@
   @try {
     node = [CRNode nodeWithType:UIView.self
                             key:@"1"
-                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
-    [node bindController:TestController.class
-            initialState:CRNullState.null
-                   props:CRNullProps.null];
+                     layoutSpec:^(CRNodeLayoutSpec *spec){
+                     }];
+    [node bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
     test = YES;
-  }
-  @catch(NSException *e) {
+  } @catch (NSException *e) {
     test = NO;
   }
   XCTAssertTrue(test);
@@ -123,13 +119,11 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
-                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
-    [node bindController:TestController.class
-            initialState:CRNullState.null
-                   props:CRNullProps.null];
+                     layoutSpec:^(CRNodeLayoutSpec *spec){
+                     }];
+    [node bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
     test = YES;
-  }
-  @catch(NSException *e) {
+  } @catch (NSException *e) {
     test = NO;
   }
   XCTAssertFalse(test);
@@ -139,13 +133,13 @@
   @try {
     node = [CRNode nodeWithType:UIView.self
                             key:@"1"
-                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+                     layoutSpec:^(CRNodeLayoutSpec *spec){
+                     }];
     [node bindController:TestStatelessController.class
             initialState:CRNullState.null
                    props:CRNullProps.null];
     test = YES;
-  }
-  @catch(NSException *e) {
+  } @catch (NSException *e) {
     test = NO;
   }
   XCTAssertFalse(test);
@@ -155,10 +149,10 @@
   @try {
     node = [CRNode nodeWithType:UIView.self
                             key:@"1"
-                     layoutSpec:^(CRNodeLayoutSpec *spec) {}];
+                     layoutSpec:^(CRNodeLayoutSpec *spec){
+                     }];
     test = YES;
-  }
-  @catch(NSException *e) {
+  } @catch (NSException *e) {
     test = NO;
   }
   XCTAssertTrue(test);
@@ -171,25 +165,26 @@
   __block auto expectLeafNodeHasController = NO;
   __block auto expectLeafNodeHasState = NO;
   __block auto expectLeafNodeHasProps = NO;
-  const auto root = [CRNode nodeWithType:UIView.class
-                                     key:@"foo"
-                              layoutSpec:^(CRNodeLayoutSpec *spec) {
-
-    const auto controller = [spec controllerOfType:TestController.class];
-    expectRootNodeHasController = CR_DYNAMIC_CAST(TestController, controller);
-    expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, controller.state);
-    expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, controller.props);
-  }];
+  const auto root =
+      [CRNode nodeWithType:UIView.class
+                       key:@"foo"
+                layoutSpec:^(CRNodeLayoutSpec *spec) {
+                  const auto controller = [spec controllerOfType:TestController.class];
+                  expectRootNodeHasController = CR_DYNAMIC_CAST(TestController, controller);
+                  expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, controller.state);
+                  expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, controller.props);
+                }];
   [root bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
 
-  const auto leaf = [CRNode nodeWithType:UIView.class
-                              layoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto controller = [spec controllerOfType:TestController.class];
-    expectLeafNodeHasController = CR_DYNAMIC_CAST(TestController, controller);
-    expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, controller.state);
-    expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, controller.props);
-  }];
-  [root appendChildren:@[leaf]];
+  const auto leaf =
+      [CRNode nodeWithType:UIView.class
+                layoutSpec:^(CRNodeLayoutSpec *spec) {
+                  const auto controller = [spec controllerOfType:TestController.class];
+                  expectLeafNodeHasController = CR_DYNAMIC_CAST(TestController, controller);
+                  expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, controller.state);
+                  expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, controller.props);
+                }];
+  [root appendChildren:@[ leaf ]];
 
   const auto context = [[CRContext alloc] init];
   [root registerNodeHierarchyInContext:context];

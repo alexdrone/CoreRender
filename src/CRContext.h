@@ -1,4 +1,4 @@
-#import "CRUmbrellaHeader.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +17,7 @@ NS_SWIFT_NAME(ContextDelegate)
 @end
 
 NS_SWIFT_NAME(ControllerProvider)
-@interface CRControllerProvider<__covariant C: NSObject *> : NSObject
+@interface CRControllerProvider<__covariant C : NSObject *> : NSObject
 - (instancetype)init NS_UNAVAILABLE;
 /// The context that spawn thix
 @property(nonatomic, readonly, nullable, weak) CRContext *context;

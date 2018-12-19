@@ -1,6 +1,10 @@
-#import "CRUmbrellaHeader.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class CRNode;
+@class CRContext;
+@class CRController;
 
 NS_SWIFT_NAME(LayoutSpec)
 @interface CRNodeLayoutSpec<__covariant V : UIView *> : NSObject

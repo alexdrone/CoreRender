@@ -1,5 +1,8 @@
 #import <objc/runtime.h>
-#import "CRUmbrellaHeader.h"
+#import "CRMacros.h"
+#import "CRNode.h"
+#import "CRNodeBridge.h"
+#import "UIView+CRNode.h"
 
 @implementation UIView (CRNode)
 @dynamic cr_nodeBridge;

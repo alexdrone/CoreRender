@@ -1,5 +1,6 @@
 #import "CRController+Private.h"
-#import "CRUmbrellaHeader.h"
+#import "CRMacros.h"
+#import "CRNode.h"
 
 NSString *CRControllerStatelessKey = @"_CRControllerStatelessKey";
 NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";

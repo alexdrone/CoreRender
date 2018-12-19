@@ -1,4 +1,4 @@
-#import "CRUmbrellaHeader.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -11,6 +11,7 @@ typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
 
 @class CRNode;
 @class CRContext;
+@class CRController;
 @class CRNodeLayoutSpec<__covariant V : UIView *>;
 @class CRState;
 @class CRProps;
@@ -106,8 +107,7 @@ NS_SWIFT_NAME(ConcreteNode)
                   controller:(CRController *)controller
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
-+ (instancetype)nodeWithType:(Class)type
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
++ (instancetype)nodeWithType:(Class)type layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 #pragma mark Setup
 

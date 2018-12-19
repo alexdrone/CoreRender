@@ -1,4 +1,9 @@
-#import "CRUmbrellaHeader.h"
+#import "CRNodeBridge.h"
+#import "CRController.h"
+#import "CRMacros.h"
+#import "CRNode.h"
+#import "CRNodeBridge.h"
+#import "UIView+CRNode.h"
 
 @implementation CRNodeBridge {
   /// The previous rect for the associated view.
@@ -84,9 +89,7 @@
 - (void)_restoreAlphaRecursively {
   if (!_view.cr_hasNode) return;
   if (fabs(_view.alpha - _targetAlpha) > FLT_EPSILON) _view.alpha = _targetAlpha;
-  CR_FOREACH(subview, _view.subviews) {
-    [subview.cr_nodeBridge _restoreAlphaRecursively];
-  }
+  CR_FOREACH(subview, _view.subviews) { [subview.cr_nodeBridge _restoreAlphaRecursively]; }
 }
 
 - (void)setPropertyWithKeyPath:(NSString *)keyPath

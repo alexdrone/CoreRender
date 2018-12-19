@@ -3,6 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @class CRContext;
 @class CRNode;
+@protocol CRNodeDelegate;
 
 extern NSString *CRControllerStatelessKey;
 
