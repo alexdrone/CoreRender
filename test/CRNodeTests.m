@@ -104,7 +104,9 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
+                reuseIdentifier:nil
                             key:@"1"
+                       viewInit:nil
                      layoutSpec:^(CRNodeLayoutSpec *spec){
                      }];
     [node bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
@@ -132,7 +134,9 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
+                reuseIdentifier:nil
                             key:@"1"
+                       viewInit:nil
                      layoutSpec:^(CRNodeLayoutSpec *spec){
                      }];
     [node bindController:TestStatelessController.class
@@ -148,7 +152,9 @@
   node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
+                reuseIdentifier:nil
                             key:@"1"
+                       viewInit:nil
                      layoutSpec:^(CRNodeLayoutSpec *spec){
                      }];
     test = YES;
@@ -167,7 +173,9 @@
   __block auto expectLeafNodeHasProps = NO;
   const auto root =
       [CRNode nodeWithType:UIView.class
+           reuseIdentifier:nil
                        key:@"foo"
+                  viewInit:nil
                 layoutSpec:^(CRNodeLayoutSpec *spec) {
                   const auto controller = [spec controllerOfType:TestController.class];
                   expectRootNodeHasController = CR_DYNAMIC_CAST(TestController, controller);

@@ -64,7 +64,7 @@ public extension AnyNode {
     type: V.self,
     reuseIdentifier: reuseIdentifier,
     key: key,
-    viewInitialization: create,
+    viewInit: create,
     layoutSpec: layoutSpec)
   if let controllerType = controllerType {
     node.bindController(controllerType, initialState: S(), props: props ?? P())
@@ -105,7 +105,7 @@ public extension AnyNode {
     type: V.self,
     reuseIdentifier: reuseIdentifier,
     key: controller.key,
-    viewInitialization: create,
+    viewInit: create,
     layoutSpec: layoutSpec)
   node.bindController(C.self, initialState: S(), props: props ?? P())
   return node

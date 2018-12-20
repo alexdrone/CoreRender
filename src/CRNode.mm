@@ -13,7 +13,7 @@
 @property(nonatomic, readwrite, nullable, weak) CRNode *parent;
 @property(nonatomic, readwrite, nullable) __kindof UIView *renderedView;
 /// The view initialization block.
-@property(nonatomic, copy) UIView * (^viewInitialization)(void);
+@property(nonatomic, copy) UIView * (^viewInit)(void);
 /// View configuration block.
 @property(nonatomic, copy, nonnull) void (^layoutSpec)(CRNodeLayoutSpec *);
 @end
@@ -38,14 +38,14 @@ void CRIllegalControllerTypeException(NSString *reason) {
 - (instancetype)initWithType:(Class)type
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(NSString *)key
-          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                    viewInit:(UIView * (^_Nullable)(void))viewInit
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   if (self = [super init]) {
     _reuseIdentifier = CR_NIL_COALESCING(reuseIdentifier, NSStringFromClass(type));
     _key = key;
     _viewType = type;
     _mutableChildren = [[NSMutableArray alloc] init];
-    self.viewInitialization = viewInitialization;
+    self.viewInit = viewInit;
     self.layoutSpec = layoutSpec;
   }
   return self;
@@ -54,12 +54,12 @@ void CRIllegalControllerTypeException(NSString *reason) {
 - (instancetype)initWithType:(Class)type
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                   controller:(CRController *)controller
-          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                    viewInit:(UIView * (^_Nullable)(void))viewInit
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   auto node = [[CRNode alloc] initWithType:type
                            reuseIdentifier:reuseIdentifier
                                        key:controller.key
-                        viewInitialization:viewInitialization
+                                  viewInit:viewInit
                                 layoutSpec:layoutSpec];
   [self bindController:controller.class
           initialState:[[controller.state.class alloc] init]
@@ -72,66 +72,24 @@ void CRIllegalControllerTypeException(NSString *reason) {
 + (instancetype)nodeWithType:(Class)type
              reuseIdentifier:(NSString *)reuseIdentifier
                          key:(nullable NSString *)key
-          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                    viewInit:(UIView * (^_Nullable)(void))viewInit
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
                       reuseIdentifier:reuseIdentifier
                                   key:key
-                   viewInitialization:viewInitialization
-                           layoutSpec:layoutSpec];
-}
-
-+ (instancetype)nodeWithType:(Class)type
-             reuseIdentifier:(NSString *)reuseIdentifier
-                         key:(nullable NSString *)key
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
-  return [[CRNode alloc] initWithType:type
-                      reuseIdentifier:reuseIdentifier
-                                  key:key
-                   viewInitialization:nil
-                           layoutSpec:layoutSpec];
-}
-
-+ (instancetype)nodeWithType:(Class)type
-                         key:(nullable NSString *)key
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
-  return [[CRNode alloc] initWithType:type
-                      reuseIdentifier:nil
-                                  key:key
-                   viewInitialization:nil
+                             viewInit:viewInit
                            layoutSpec:layoutSpec];
 }
 
 + (instancetype)nodeWithType:(Class)type
              reuseIdentifier:(NSString *)reuseIdentifier
                   controller:(CRController *)controller
-          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                    viewInit:(UIView * (^_Nullable)(void))viewInit
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   return [[CRNode alloc] initWithType:type
                       reuseIdentifier:reuseIdentifier
                            controller:controller
-                   viewInitialization:nil
-                           layoutSpec:layoutSpec];
-}
-
-+ (instancetype)nodeWithType:(Class)type
-             reuseIdentifier:(NSString *)reuseIdentifier
-                  controller:(CRController *)controller
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
-  return [[CRNode alloc] initWithType:type
-                      reuseIdentifier:reuseIdentifier
-                           controller:controller
-                   viewInitialization:nil
-                           layoutSpec:layoutSpec];
-}
-
-+ (instancetype)nodeWithType:(Class)type
-                  controller:(CRController *)controller
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
-  return [[CRNode alloc] initWithType:type
-                      reuseIdentifier:nil
-                           controller:controller
-                   viewInitialization:nil
+                             viewInit:nil
                            layoutSpec:layoutSpec];
 }
 
@@ -140,7 +98,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
   return [[CRNode alloc] initWithType:type
                       reuseIdentifier:nil
                                   key:nil
-                   viewInitialization:nil
+                             viewInit:nil
                            layoutSpec:layoutSpec];
 }
 
@@ -425,7 +383,8 @@ void CRIllegalControllerTypeException(NSString *reason) {
 - (void)setNeedsReconcile {
   CR_ASSERT_ON_MAIN_THREAD();
   if (_parent != nil) return [_parent setNeedsReconcile];
-  [self reconcileInView:nil constrainedToSize:_renderedView.superview.bounds.size
+  [self reconcileInView:nil
+      constrainedToSize:_renderedView.superview.bounds.size
             withOptions:_options];
 }
 
@@ -439,7 +398,6 @@ void CRIllegalControllerTypeException(NSString *reason) {
   const auto spec = [[CRNodeLayoutSpec alloc] initWithNode:self
                                          constrainedToSize:_renderedView.superview.bounds.size];
   _layoutSpec(spec);
-
 }
 
 @end

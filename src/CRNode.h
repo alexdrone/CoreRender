@@ -68,44 +68,26 @@ NS_SWIFT_NAME(ConcreteNode)
 - (instancetype)initWithType:(Class)type
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                          key:(nullable NSString *)key
-          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
+                    viewInit:(UIView * (^_Nullable)(void))viewInit
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 - (instancetype)initWithType:(Class)type
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                   controller:(CRController *)controller
-          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
-
-+ (instancetype)nodeWithType:(Class)type
-             reuseIdentifier:(NSString *)reuseIdentifier
-                         key:(nullable NSString *)key
-          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
-
-+ (instancetype)nodeWithType:(Class)type
-             reuseIdentifier:(NSString *)reuseIdentifier
-                         key:(nullable NSString *)key
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
-
-+ (instancetype)nodeWithType:(Class)type
-                         key:(nullable NSString *)key
+                    viewInit:(UIView * (^_Nullable)(void))viewInit
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
              reuseIdentifier:(nullable NSString *)reuseIdentifier
-                  controller:(CRController *)controller
-          viewInitialization:(UIView * (^_Nullable)(void))viewInitialization
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+                         key:(nullable NSString *)key
+                    viewInit:(UIView * (^_Nullable)(void))viewInit
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type
-             reuseIdentifier:(NSString *)reuseIdentifier
+             reuseIdentifier:(nullable NSString *)reuseIdentifier
                   controller:(CRController *)controller
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
-
-+ (instancetype)nodeWithType:(Class)type
-                  controller:(CRController *)controller
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
+                    viewInit:(UIView * (^_Nullable)(void))viewInit
+                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec;
 
 + (instancetype)nodeWithType:(Class)type layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
