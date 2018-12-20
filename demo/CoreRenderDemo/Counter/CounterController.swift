@@ -12,8 +12,7 @@ class CounterViewController: UIViewController {
     nodeHierarchy = NodeHierarchy(context: context) { ctx in
       counterNode(ctx: ctx)
     }
-    // Do any additional setup after loading the view, typically from a nib.
-    nodeHierarchy?.rebuild(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
+    nodeHierarchy?.build(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
   }
 
   override func viewDidLayoutSubviews() {

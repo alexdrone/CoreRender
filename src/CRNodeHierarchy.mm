@@ -21,9 +21,9 @@
 
 #pragma mark Render
 
-- (void)rebuildHierarchyInView:(UIView *)view
-             constrainedToSize:(CGSize)size
-                   withOptions:(CRNodeLayoutOptions)options {
+- (void)buildHierarchyInView:(UIView *)view
+           constrainedToSize:(CGSize)size
+                 withOptions:(CRNodeLayoutOptions)options {
   CR_ASSERT_ON_MAIN_THREAD();
   _containerView = view;
   _size = size;
@@ -53,7 +53,7 @@
 
 - (void)setNeedsRebuildHierarchy {
   CR_ASSERT_ON_MAIN_THREAD();
-  [self rebuildHierarchyInView:_containerView constrainedToSize:_size withOptions:_options];
+  [self buildHierarchyInView:_containerView constrainedToSize:_size withOptions:_options];
 }
 
 - (void)setNeedsReconcile {

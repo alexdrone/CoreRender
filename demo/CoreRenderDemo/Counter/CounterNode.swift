@@ -24,17 +24,17 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
       action: #selector(CounterController.incrementCounter),
       for: .touchUpInside)
   }
-  let manualLayoutDot = Node(type: UIView.self) { spec in
-    spec.onLayoutSubviews = { _, view, size in
-      view.yoga.isIncludedInLayout = false
-      view.backgroundColor = .red
-      view.frame = CGRect(x: 10, y: 10, width: 16, height: 16)
-      view.cornerRadius = 8
-    }
-  }
+//  let manualLayoutDot = Node(type: UIView.self) { spec in
+//    spec.onLayoutSubviews = { _, view, size in
+//      view.yoga.isIncludedInLayout = false
+//      view.backgroundColor = .red
+//      view.frame = CGRect(x: 10, y: 10, width: 16, height: 16)
+//      view.cornerRadius = 8
+//    }
+//  }
 
   node.append(children: [wrapper])
-  wrapper.append(children: [label, manualLayoutDot])
+  wrapper.append(children: [label])
 
   return node
 }

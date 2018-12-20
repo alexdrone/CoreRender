@@ -20,9 +20,9 @@ NS_SWIFT_NAME(NodeHierarchy)
 
 /// Constructs a new node hierarchy by invoking the @c buildNodeHierarchy block and reconciles it
 /// against the view passed as argument.
-- (void)rebuildHierarchyInView:(UIView *)view
-             constrainedToSize:(CGSize)size
-                   withOptions:(CRNodeLayoutOptions)options;
+- (void)buildHierarchyInView:(UIView *)view
+           constrainedToSize:(CGSize)size
+                 withOptions:(CRNodeLayoutOptions)options;
 
 /// See @c CRNode.reconcileInView:constrainedToSize:withOptions:.
 - (void)reconcileInView:(nullable UIView *)view
