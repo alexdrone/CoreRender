@@ -136,6 +136,15 @@ NS_SWIFT_NAME(ConcreteNode)
 /// Tells the node that the node/view hierarchy must be reconciled.
 - (void)setNeedsReconcile;
 
+/// Tells the node that the node/view hierarchy must be re-layout.
+/// @note This is preferable to @c setNeedsReconcile whenever there's going to be no changes in
+/// the view hierarchy,
+- (void)setNeedsLayout;
+
+/// Re-configure the node's backed view.
+/// @note This won't invalidate the layout.
+- (void)setNeedsConfigure;
+
 #pragma mark Querying
 
 /// Returns the view in the subtree of this node with the given @c key.
