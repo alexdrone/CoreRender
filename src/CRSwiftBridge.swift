@@ -98,14 +98,14 @@ public extension AnyNode {
   controller: C,
   props: P? = nil,
   reuseIdentifier: String? = nil,
-  create: (() -> V)? = nil,
+  viewInit: (() -> V)? = nil,
   layoutSpec: @escaping (LayoutSpec<V>) -> Void
   ) -> ConcreteNode<V> {
   let node = ConcreteNode<V>(
     type: V.self,
     reuseIdentifier: reuseIdentifier,
     key: controller.key,
-    viewInit: create,
+    viewInit: viewInit,
     layoutSpec: layoutSpec)
   node.bindController(C.self, initialState: S(), props: props ?? P())
   return node
