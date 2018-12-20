@@ -28,6 +28,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
   NSMutableArray<CRNode *> *_mutableChildren;
   __weak CRContext *_context;
   CRNodeLayoutOptions _options;
+  CGSize _size;
   struct {
     unsigned int shouldInvokeDidMount : 1;
   } __attribute__((packed, aligned(1))) _flags;
@@ -275,6 +276,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
   if (_parent != nil) return [_parent layoutConstrainedToSize:size withOptions:options];
 
   _options = options;
+  _size = size;
   auto safeAreaOffset = CGPointZero;
   if (@available(iOS 11, *)) {
     if (options & CRNodeLayoutOptionsUseSafeAreaInsets) {
@@ -364,6 +366,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
     return [_parent reconcileInView:view constrainedToSize:size withOptions:options];
 
   _options = options;
+  _size = size;
   const auto containerView = CR_NIL_COALESCING(view, _renderedView.superview);
   const auto bounds = CGSizeEqualToSize(size, CGSizeZero) ? containerView.bounds.size : size;
   [self _reconcileNode:self
@@ -391,12 +394,11 @@ void CRIllegalControllerTypeException(NSString *reason) {
 - (void)setNeedsLayout {
   CR_ASSERT_ON_MAIN_THREAD();
   if (_parent != nil) return [_parent setNeedsLayout];
-  [self layoutConstrainedToSize:_renderedView.superview.bounds.size withOptions:_options];
+  [self layoutConstrainedToSize:_size withOptions:_options];
 }
 
 - (void)setNeedsConfigure {
-  const auto spec = [[CRNodeLayoutSpec alloc] initWithNode:self
-                                         constrainedToSize:_renderedView.superview.bounds.size];
+  const auto spec = [[CRNodeLayoutSpec alloc] initWithNode:self constrainedToSize:_size];
   _layoutSpec(spec);
 }
 
