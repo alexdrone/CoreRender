@@ -30,10 +30,6 @@ NS_SWIFT_NAME(Context)
 /// Layout animator for the nodes registered to this context.
 @property(nonatomic, nullable) UIViewPropertyAnimator *layoutAnimator;
 
-/// Build a new node hiearchy in this context.
-/// @note: This is analogous to call @c registerNodeHierarchyInContext: on the root node.
-- (CRNode *)buildNodeHiearchy:(__attribute__((noescape))CRNode * (^)(CRContext *))nodeHierarchy;
-
 /// Returns the controller (or instantiate a new one) of type @c type for the unique identifier
 /// passed as argument.
 /// @note: Returns @c nil if @c type is not a subclass of @c CRController (or if it's a statelss

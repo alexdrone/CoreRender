@@ -16,6 +16,11 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 #pragma mark - Controller
 
 @implementation CRController
+
+- (CRNodeHierarchy *)nodeHierarchy {
+  return _node.nodeHierarchy;
+}
+
 // By default controllers are *stateful*.
 // Override @c CRStatelessController for a *stateless* controller.
 + (BOOL)isStateless {
@@ -36,11 +41,6 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 
 - (void)onMount {
   // Override in subclasses.
-}
-
-- (void)setNeedsReconcile {
-  CR_ASSERT_ON_MAIN_THREAD();
-  [self.node setNeedsReconcile];
 }
 
 @end

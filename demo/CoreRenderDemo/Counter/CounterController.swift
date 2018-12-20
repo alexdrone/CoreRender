@@ -4,24 +4,20 @@ import CoreRender
 // MARK: - ViewController
 
 class CounterViewController: UIViewController {
-  private var node: ConcreteNode<UIView>?
+  private var nodeHierarchy: NodeHierarchy?
   private let context = Context()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
-    render()
-  }
-
-  func render() {
-    node = context.buildNodeHiearchy { ctx in
+    nodeHierarchy = NodeHierarchy(context: context) { ctx in
       counterNode(ctx: ctx)
     }
-    node?.reconcile(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
+    // Do any additional setup after loading the view, typically from a nib.
+    nodeHierarchy?.rebuild(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
   }
 
   override func viewDidLayoutSubviews() {
-    render()
+    nodeHierarchy?.setNeedsLayout()
   }
 }
 
@@ -31,7 +27,7 @@ class CounterController: Controller<NullProps, CounterState> {
   @objc dynamic func incrementCounter() {
     self.state.count += 1
     print("count: \(self.state.count)")
-    self.setNeedsReconcile()
+    nodeHierarchy?.setNeedsReconcile()
   }
 }
 

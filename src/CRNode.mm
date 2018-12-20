@@ -3,6 +3,7 @@
 #import "CRController+Private.h"
 #import "CRMacros.h"
 #import "CRNodeBridge.h"
+#import "CRNodeHierarchy.h"
 #import "CRNodeLayoutSpec.h"
 #import "UIView+CRNode.h"
 #import "YGLayout.h"
@@ -26,8 +27,8 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 @implementation CRNode {
   NSMutableArray<CRNode *> *_mutableChildren;
+  __weak CRNodeHierarchy *_nodeHierarchy;
   __weak CRContext *_context;
-  CRNodeLayoutOptions _options;
   CGSize _size;
   struct {
     unsigned int shouldInvokeDidMount : 1;
@@ -139,6 +140,19 @@ void CRIllegalControllerTypeException(NSString *reason) {
                      : [context controllerOfType:_controllerType];
 }
 
+- (CRNodeHierarchy *)nodeHierarchy {
+  if (!_parent) return _nodeHierarchy;
+  return _parent.nodeHierarchy;
+}
+
+- (void)setNodeHierarchy:(CRNodeHierarchy *)nodeHierarchy {
+  if (!_parent) {
+    _nodeHierarchy = nodeHierarchy;
+    return;
+  }
+  [_parent setNodeHierarchy:nodeHierarchy];
+}
+
 #pragma mark - Children
 
 - (NSArray<CRNode *> *)children {
@@ -216,7 +230,11 @@ void CRIllegalControllerTypeException(NSString *reason) {
     _renderedView = reusableView;
     _renderedView.cr_nodeBridge.node = self;
   } else {
-    _renderedView = [[self.viewType alloc] initWithFrame:CGRectZero];
+    if (_viewInit) {
+      _renderedView = _viewInit();
+    } else {
+      _renderedView = [[self.viewType alloc] initWithFrame:CGRectZero];
+    }
     _renderedView.yoga.isEnabled = YES;
     _renderedView.tag = _reuseIdentifier.hash;
     _renderedView.cr_nodeBridge.node = self;
@@ -275,7 +293,6 @@ void CRIllegalControllerTypeException(NSString *reason) {
   CR_ASSERT_ON_MAIN_THREAD();
   if (_parent != nil) return [_parent layoutConstrainedToSize:size withOptions:options];
 
-  _options = options;
   _size = size;
   auto safeAreaOffset = CGPointZero;
   if (@available(iOS 11, *)) {
@@ -365,7 +382,6 @@ void CRIllegalControllerTypeException(NSString *reason) {
   if (_parent != nil)
     return [_parent reconcileInView:view constrainedToSize:size withOptions:options];
 
-  _options = options;
   _size = size;
   const auto containerView = CR_NIL_COALESCING(view, _renderedView.superview);
   const auto bounds = CGSizeEqualToSize(size, CGSizeZero) ? containerView.bounds.size : size;
@@ -381,20 +397,6 @@ void CRIllegalControllerTypeException(NSString *reason) {
     _flags.shouldInvokeDidMount = NO;
     [self.delegate rootNodeDidMount:self];
   }
-}
-
-- (void)setNeedsReconcile {
-  CR_ASSERT_ON_MAIN_THREAD();
-  if (_parent != nil) return [_parent setNeedsReconcile];
-  [self reconcileInView:nil
-      constrainedToSize:_renderedView.superview.bounds.size
-            withOptions:_options];
-}
-
-- (void)setNeedsLayout {
-  CR_ASSERT_ON_MAIN_THREAD();
-  if (_parent != nil) return [_parent setNeedsLayout];
-  [self layoutConstrainedToSize:_size withOptions:_options];
 }
 
 - (void)setNeedsConfigure {

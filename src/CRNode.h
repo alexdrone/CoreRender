@@ -10,6 +10,7 @@ typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
 };
 
 @class CRNode;
+@class CRNodeHierarchy;
 @class CRContext;
 @class CRController;
 @class CRNodeLayoutSpec<__covariant V : UIView *>;
@@ -31,7 +32,9 @@ NS_SWIFT_NAME(NodeDelegate)
 NS_SWIFT_NAME(ConcreteNode)
 @interface CRNode<__covariant V : UIView *> : NSObject
 /// The context associated with this node hierarchy.
-@property(nonatomic, readonly, nullable) CRContext *context;
+@property(nonatomic, readonly, nullable, weak) CRContext *context;
+/// The node hierarchy this node belongs to (if applicable).
+@property(nonatomic, nullable, weak) CRNodeHierarchy *nodeHierarchy;
 /// The reuse identifier for this node is its hierarchy.
 /// Identifiers help Render understand which items have changed.
 /// A custom *reuseIdentifier* is mandatory if the node has a custom creation closure.
@@ -114,14 +117,6 @@ NS_SWIFT_NAME(ConcreteNode)
 
 /// Layout and configure the views.
 - (void)layoutConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options;
-
-/// Tells the node that the node/view hierarchy must be reconciled.
-- (void)setNeedsReconcile;
-
-/// Tells the node that the node/view hierarchy must be re-layout.
-/// @note This is preferable to @c setNeedsReconcile whenever there's going to be no changes in
-/// the view hierarchy,
-- (void)setNeedsLayout;
 
 /// Re-configure the node's backed view.
 /// @note This won't invalidate the layout.

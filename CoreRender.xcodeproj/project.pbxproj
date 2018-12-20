@@ -10,6 +10,8 @@
 		16900D5B21145C2700B6BF85 /* CRController.h in Headers */ = {isa = PBXBuildFile; fileRef = 16900D5921145C2700B6BF85 /* CRController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16900D5C21145C2700B6BF85 /* CRController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16900D5A21145C2700B6BF85 /* CRController.mm */; };
 		16900D5E211472AA00B6BF85 /* CRController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16900D5D211472AA00B6BF85 /* CRController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		16CC023E21CBDA5C00555F0A /* CRNodeHierarchy.h in Headers */ = {isa = PBXBuildFile; fileRef = 16CC023C21CBDA5C00555F0A /* CRNodeHierarchy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		16CC023F21CBDA5C00555F0A /* CRNodeHierarchy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16CC023D21CBDA5C00555F0A /* CRNodeHierarchy.mm */; };
 		16DE15A521B734B400B9AB65 /* CRContext+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16DE15A421B734B400B9AB65 /* CRContext+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		BF_127239259546 /* CRUmbrellaHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_192531073524 /* CRUmbrellaHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_132083663318 /* Yoga.c in Sources */ = {isa = PBXBuildFile; fileRef = FR_992392398074 /* Yoga.c */; };
@@ -48,6 +50,8 @@
 		16900D5921145C2700B6BF85 /* CRController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRController.h; sourceTree = "<group>"; };
 		16900D5A21145C2700B6BF85 /* CRController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRController.mm; sourceTree = "<group>"; };
 		16900D5D211472AA00B6BF85 /* CRController+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CRController+Private.h"; sourceTree = "<group>"; };
+		16CC023C21CBDA5C00555F0A /* CRNodeHierarchy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNodeHierarchy.h; sourceTree = "<group>"; };
+		16CC023D21CBDA5C00555F0A /* CRNodeHierarchy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeHierarchy.mm; sourceTree = "<group>"; };
 		16DE15A421B734B400B9AB65 /* CRContext+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CRContext+Private.h"; sourceTree = "<group>"; };
 		FR_103086332183 /* UIView+CRNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+CRNode.h"; sourceTree = "<group>"; };
 		FR_154129109600 /* CRNodeLayoutSpec.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeLayoutSpec.mm; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 				16900D5D211472AA00B6BF85 /* CRController+Private.h */,
 				16900D5A21145C2700B6BF85 /* CRController.mm */,
 				FR_766493304644 /* CRMacros.h */,
+				16CC023C21CBDA5C00555F0A /* CRNodeHierarchy.h */,
+				16CC023D21CBDA5C00555F0A /* CRNodeHierarchy.mm */,
 				FR_441077196049 /* CRNode.h */,
 				FR_882987497637 /* CRNode.mm */,
 				FR_229333217053 /* CRNodeBridge.h */,
@@ -161,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF_405804783477 /* CRContext.h in Headers */,
+				16CC023E21CBDA5C00555F0A /* CRNodeHierarchy.h in Headers */,
 				BF_457776453065 /* CRMacros.h in Headers */,
 				BF_653280238411 /* CRNode.h in Headers */,
 				BF_570003296635 /* CRNodeBridge.h in Headers */,
@@ -260,6 +267,7 @@
 				BF_139404374290 /* CRNode.mm in Sources */,
 				BF_269367569910 /* CRNodeBridge.mm in Sources */,
 				BF_504580378182 /* CRNodeLayoutSpec.mm in Sources */,
+				16CC023F21CBDA5C00555F0A /* CRNodeHierarchy.mm in Sources */,
 				BF_265977215372 /* CRSwiftBridge.swift in Sources */,
 				BF_183038341856 /* UIView+CRNode.mm in Sources */,
 				BF_253667324706 /* YGLayout.mm in Sources */,

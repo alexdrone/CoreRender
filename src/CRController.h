@@ -3,6 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @class CRContext;
 @class CRNode;
+@class CRNodeHierarchy;
 @protocol CRNodeDelegate;
 
 extern NSString *CRControllerStatelessKey;
@@ -36,6 +37,8 @@ NS_SWIFT_NAME(Controller)
 /// The current controller state.
 @property(nonatomic, readwrite) S state;
 /// The UI node assigned to this controller.
+@property(nonatomic, readonly, nullable, weak) CRNodeHierarchy *nodeHierarchy;
+/// The UI node assigned to this controller.
 @property(nonatomic, readonly, nullable, weak) CRNode *node;
 
 /// Controllers are instantiated from @c CRContext.
@@ -47,9 +50,6 @@ NS_SWIFT_NAME(Controller)
 /// The UI node  associated to this controller has just been added to the view hierarchy.
 /// @note: This is similiar to @c viewDidAppear on @c UIViewController.
 - (void)onMount;
-
-/// Calls @c reconcileInView:constrainedToSize:withOptions: on the root node of this hierarchy.
-- (void)setNeedsReconcile;
 
 @end
 

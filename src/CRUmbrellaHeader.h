@@ -4,6 +4,7 @@
 #import "CRMacros.h"
 #import "CRNode.h"
 #import "CRNodeBridge.h"
+#import "CRNodeHierarchy.h"
 #import "CRNodeLayoutSpec.h"
 #import "UIView+CRNode.h"
 #import "YGLayout.h"
