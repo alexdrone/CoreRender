@@ -43,11 +43,13 @@ void CRNodeBuilderException(NSString *reason) {
   return self;
 }
 
-- (instancetype)withController:(id)obj {
+- (instancetype)withController:(id)obj initialState:(CRState *)state props:(CRProps *)props {
   CR_ASSERT_ON_MAIN_THREAD();
   const auto controller = CR_DYNAMIC_CAST_OR_ASSERT(CRController, obj);
   _controller = controller;
   _key = controller.key;
+  _initialState = state;
+  _volatileProps = props;
   return self;
 }
 
@@ -64,7 +66,7 @@ void CRNodeBuilderException(NSString *reason) {
   return self;
 }
 
-- (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec * _Nonnull))layoutSpec {
+- (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec *_Nonnull))layoutSpec {
   CR_ASSERT_ON_MAIN_THREAD();
   _layoutSpec = layoutSpec;
   return self;
@@ -73,12 +75,6 @@ void CRNodeBuilderException(NSString *reason) {
 - (instancetype)withProps:(CRProps *)props {
   CR_ASSERT_ON_MAIN_THREAD();
   _volatileProps = props;
-  return self;
-}
-
-- (instancetype)withInitialState:(CRState *)state {
-  CR_ASSERT_ON_MAIN_THREAD();
-  _initialState = state;
   return self;
 }
 
@@ -129,7 +125,6 @@ void CRNodeBuilderException(NSString *reason) {
   }
   [node appendChildren:_mutableChildren];
   return node;
-
 }
 
 @end

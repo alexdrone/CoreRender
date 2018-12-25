@@ -16,7 +16,7 @@ NS_SWIFT_NAME(NodeBuilder)
 - (instancetype)withKey:(NSString *)key;
 /// Manually assign a controller to this node.
 /// @note: The node will automatically have the same node of the controller passed as argument.
-- (instancetype)withController:(id)controller;
+- (instancetype)withController:(id)obj initialState:(CRState *)state props:(CRProps *)props;
 /// The controller type assigned to this node.
 - (instancetype)withControllerType:(Class)controllerType;
 /// Custom view initialization code.
@@ -27,8 +27,6 @@ NS_SWIFT_NAME(NodeBuilder)
 - (instancetype)withChildren:(NSArray *)children;
 /// Externally defined props.
 - (instancetype)withProps:(CRProps *)props;
-/// The initial state for this node (if applicable).
-- (instancetype)withInitialState:(CRState *)state;
 /// Add a child to the node children list.
 - (instancetype)addChild:(CRNode *)node;
 /// Build the concrete node.

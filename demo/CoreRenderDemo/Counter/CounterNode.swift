@@ -6,8 +6,7 @@ import CoreRender
 func counterNode(ctx: Context) -> ConcreteNode<UIView> {
   let provider = ControllerProvider(ctx, type: CounterController.self, key: "counter_root")
   return makeNode(type: UIView.self)
-    .withController(provider.controller)
-    .withInitialState(CounterState())
+    .withController(provider.controller, initialState: CounterState(), props: NullProps.null)
     .withLayoutSpec { spec in
       set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
       set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)
@@ -16,7 +15,7 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
       makeNode(type: UIButton.self)
         .withReuseIdentifier("button")
         .withLayoutSpec { spec in
-          let controller = provider.controller
+          let controller = subtreeController(spec, type: CounterController.self)!
           spec.view?.cr_resetAllTargets()
           spec.view?.addTarget(
             controller,

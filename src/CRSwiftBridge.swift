@@ -147,5 +147,12 @@ public extension AnyNode {
   spec.set(kvc, value: value, animator: animator);
 }
 
+@inline(__always) public func subtreeController<C: AnyController, V: UIView>(
+  _ spec: LayoutSpec<V>,
+  type: C.Type
+) -> C? {
+  return spec.controller(ofType: C.self) as? C
+}
+
 public typealias LayoutOptions = CRNodeLayoutOptions
 

@@ -14,6 +14,7 @@ NS_SWIFT_NAME(LayoutSpec)
 @property(nonatomic, readonly, nullable, weak) CRNode *node;
 /// The context for this node hierarchy.
 @property(nonatomic, readonly, nullable, weak) CRContext *context;
+
 /// Lays out the view subtree.
 /// @note: The layout directives are executed top down and *after* the Yoga layout has been
 /// computed (if applicable).
@@ -36,7 +37,7 @@ NS_SWIFT_NAME(LayoutSpec)
 - (void)resetAllTargets;
 
 /// Returns the the first controller of type @c controllerType in the current subtree.
-- (nullable __kindof CRController *)controllerOfType:(Class)controllerType;
+- (nullable id)controllerOfType:(Class)controllerType;
 
 @end
 
