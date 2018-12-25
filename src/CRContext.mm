@@ -5,6 +5,11 @@
 
 #pragma mark - CRControllerProvider
 
+void CRControllerProviderException(NSString *reason) {
+  //@throw [NSException exceptionWithName:@"ControllerProviderException" reason:reason userInfo:nil];
+  NSLog(reason);
+}
+
 @implementation CRControllerProvider {
   NSString *_key;
   Class _type;
@@ -22,11 +27,19 @@
 }
 
 - (CRController *)controller {
+  CRController *controller;
   if (_key) {
-    return [_context controllerOfType:_type withKey:_key];
+    controller = [_context controllerOfType:_type withKey:_key];
   } else {
-    return [_context controllerOfType:_type];
+    controller = [_context controllerOfType:_type];
   }
+  if (!controller.props || !controller.state) {
+    CRControllerProviderException(@"The controller has not yet been init'd (no props/ state set)");
+  }
+  if (!controller.node) {
+    CRControllerProviderException(@"The controller has no node.");
+  }
+  return controller;
 }
 
 @end

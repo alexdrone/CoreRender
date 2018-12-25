@@ -124,6 +124,11 @@ public extension AnyNode {
   }
 }
 
+/// Swift generic wrapper around NodeBuilder.
+@inline(__always) public func makeNode<V: UIView>(type: V.Type) -> NodeBuilder<V> {
+  return NodeBuilder<V>(type: V.self)
+}
+
 /// Sets the value of a desired keypath using typesafe writable reference keypaths.
 /// - parameter spec: The *LayoutSpec* object that is currently handling the view configuration.
 /// - parameter keyPath: The target keypath.

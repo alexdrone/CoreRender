@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1614ED5D21CD9D4D0041813D /* CRNodeBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 1614ED5B21CD9D4D0041813D /* CRNodeBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1614ED5E21CD9D4D0041813D /* CRNodeBuilder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1614ED5C21CD9D4D0041813D /* CRNodeBuilder.mm */; };
 		16900D5B21145C2700B6BF85 /* CRController.h in Headers */ = {isa = PBXBuildFile; fileRef = 16900D5921145C2700B6BF85 /* CRController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16900D5C21145C2700B6BF85 /* CRController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16900D5A21145C2700B6BF85 /* CRController.mm */; };
 		16900D5E211472AA00B6BF85 /* CRController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 16900D5D211472AA00B6BF85 /* CRController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1614ED5B21CD9D4D0041813D /* CRNodeBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CRNodeBuilder.h; path = src/CRNodeBuilder.h; sourceTree = SOURCE_ROOT; };
+		1614ED5C21CD9D4D0041813D /* CRNodeBuilder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = CRNodeBuilder.mm; path = src/CRNodeBuilder.mm; sourceTree = SOURCE_ROOT; };
 		16900D5921145C2700B6BF85 /* CRController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRController.h; sourceTree = "<group>"; };
 		16900D5A21145C2700B6BF85 /* CRController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRController.mm; sourceTree = "<group>"; };
 		16900D5D211472AA00B6BF85 /* CRController+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CRController+Private.h"; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 				16CC023D21CBDA5C00555F0A /* CRNodeHierarchy.mm */,
 				FR_441077196049 /* CRNode.h */,
 				FR_882987497637 /* CRNode.mm */,
+				1614ED5B21CD9D4D0041813D /* CRNodeBuilder.h */,
+				1614ED5C21CD9D4D0041813D /* CRNodeBuilder.mm */,
 				FR_229333217053 /* CRNodeBridge.h */,
 				FR_266875401349 /* CRNodeBridge.mm */,
 				FR_849819399313 /* CRNodeLayoutSpec.h */,
@@ -167,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF_405804783477 /* CRContext.h in Headers */,
+				1614ED5D21CD9D4D0041813D /* CRNodeBuilder.h in Headers */,
 				16CC023E21CBDA5C00555F0A /* CRNodeHierarchy.h in Headers */,
 				BF_457776453065 /* CRMacros.h in Headers */,
 				BF_653280238411 /* CRNode.h in Headers */,
@@ -273,6 +280,7 @@
 				BF_253667324706 /* YGLayout.mm in Sources */,
 				BF_132083663318 /* Yoga.c in Sources */,
 				16900D5C21145C2700B6BF85 /* CRController.mm in Sources */,
+				1614ED5E21CD9D4D0041813D /* CRNodeBuilder.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

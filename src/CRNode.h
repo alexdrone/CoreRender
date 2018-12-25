@@ -57,6 +57,8 @@ NS_SWIFT_NAME(ConcreteNode)
 @property(nonatomic, nullable, weak) id<CRNodeDelegate> delegate;
 /// The type of the associated controller.
 @property(nonatomic, nullable, readonly) Class controllerType;
+/// Whether this node is a @c CRNullNode or not.
+@property(nonatomic, readonly) BOOL isNullNode;
 /// Returns the associated controller.
 /// @note: @c nil if this node hierarchy is not registered to any @c CRContext, or if
 /// @c controllerType is @c nil.
@@ -74,21 +76,9 @@ NS_SWIFT_NAME(ConcreteNode)
                     viewInit:(UIView * (^_Nullable)(void))viewInit
                   layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 
-- (instancetype)initWithType:(Class)type
-             reuseIdentifier:(nullable NSString *)reuseIdentifier
-                  controller:(CRController *)controller
-                    viewInit:(UIView * (^_Nullable)(void))viewInit
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
-
 + (instancetype)nodeWithType:(Class)type
              reuseIdentifier:(nullable NSString *)reuseIdentifier
                          key:(nullable NSString *)key
-                    viewInit:(UIView * (^_Nullable)(void))viewInit
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec;
-
-+ (instancetype)nodeWithType:(Class)type
-             reuseIdentifier:(nullable NSString *)reuseIdentifier
-                  controller:(CRController *)controller
                     viewInit:(UIView * (^_Nullable)(void))viewInit
                   layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec;
 
@@ -129,6 +119,13 @@ NS_SWIFT_NAME(ConcreteNode)
 
 /// Returns all the views that have been registered with the given @c reuseIdentifier.
 - (NSArray<UIView *> *)viewsWithReuseIdentifier:(NSString *)reuseIdentifier;
+
+@end
+
+@interface CRNullNode : CRNode
+
+/// The default nil node instance.
+@property(class, readonly) CRNullNode *nullNode;
 
 @end
 

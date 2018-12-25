@@ -53,22 +53,6 @@ void CRIllegalControllerTypeException(NSString *reason) {
   return self;
 }
 
-- (instancetype)initWithType:(Class)type
-             reuseIdentifier:(nullable NSString *)reuseIdentifier
-                  controller:(CRController *)controller
-                    viewInit:(UIView * (^_Nullable)(void))viewInit
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
-  auto node = [[CRNode alloc] initWithType:type
-                           reuseIdentifier:reuseIdentifier
-                                       key:controller.key
-                                  viewInit:viewInit
-                                layoutSpec:layoutSpec];
-  [self bindController:controller.class
-          initialState:[[controller.state.class alloc] init]
-                 props:[[controller.props.class alloc] init]];
-  return node;
-}
-
 #pragma mark - Convenience Initializer
 
 + (instancetype)nodeWithType:(Class)type
@@ -80,18 +64,6 @@ void CRIllegalControllerTypeException(NSString *reason) {
                       reuseIdentifier:reuseIdentifier
                                   key:key
                              viewInit:viewInit
-                           layoutSpec:layoutSpec];
-}
-
-+ (instancetype)nodeWithType:(Class)type
-             reuseIdentifier:(NSString *)reuseIdentifier
-                  controller:(CRController *)controller
-                    viewInit:(UIView * (^_Nullable)(void))viewInit
-                  layoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
-  return [[CRNode alloc] initWithType:type
-                      reuseIdentifier:reuseIdentifier
-                           controller:controller
-                             viewInit:nil
                            layoutSpec:layoutSpec];
 }
 
@@ -155,6 +127,10 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 #pragma mark - Children
 
+- (BOOL)isNullNode {
+  return NO;
+}
+
 - (NSArray<CRNode *> *)children {
   return _mutableChildren;
 }
@@ -163,6 +139,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
   CR_ASSERT_ON_MAIN_THREAD();
   auto lastIndex = _mutableChildren.lastObject.index;
   CR_FOREACH(child, children) {
+    if (child.isNullNode) continue;
     child.index = lastIndex++;
     child.parent = self;
     [_mutableChildren addObject:child];
@@ -243,6 +220,9 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (void)_configureConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options {
+  if (_controllerType) {
+    [self bindController:_controllerType initialState:_initialState props:_volatileProps];
+  }
   [self _constructViewWithReusableView:nil];
   [_renderedView.cr_nodeBridge storeViewSubTreeOldGeometry];
   const auto spec = [[CRNodeLayoutSpec alloc] initWithNode:self constrainedToSize:size];
@@ -402,6 +382,25 @@ void CRIllegalControllerTypeException(NSString *reason) {
 - (void)setNeedsConfigure {
   const auto spec = [[CRNodeLayoutSpec alloc] initWithNode:self constrainedToSize:_size];
   _layoutSpec(spec);
+}
+
+@end
+
+#pragma mark - nullNode
+
+@implementation CRNullNode
+
++ (instancetype)nullNode {
+  static CRNullNode *sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    sharedInstance = [[self alloc] init];
+  });
+  return sharedInstance;
+}
+
+- (BOOL)isNullNode {
+  return YES;
 }
 
 @end

@@ -3,6 +3,7 @@
 #import <CoreRender/CRMacros.h>
 #import <CoreRender/CRNode.h>
 #import <CoreRender/CRNodeBridge.h>
+#import <CoreRender/CRNodeBuilder.h>
 #import <CoreRender/CRNodeHierarchy.h>
 #import <CoreRender/CRNodeLayoutSpec.h>
 #import <CoreRender/UIView+CRNode.h>
