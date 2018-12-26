@@ -1,4 +1,4 @@
-# CoreRender [![Swift](https://img.shields.io/badge/swift-4.*-orange.svg?style=flat)](#) [![ObjC++](https://img.shields.io/badge/ObjC++-blue.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-|-Marzipan-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
+# CoreRender [![Swift](https://img.shields.io/badge/swift-4.*-orange.svg?style=flat)](#) [![ObjC++](https://img.shields.io/badge/ObjC++-blue.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 <img src="docs/assets/logo_new.png" width=150 alt="Render" align=right />
 
