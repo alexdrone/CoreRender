@@ -4,9 +4,12 @@ import CoreRender
 // MARK: - CoreRender.Node
 
 func counterNode(ctx: Context) -> ConcreteNode<UIView> {
-  let provider = ControllerProvider(ctx, type: CounterController.self, key: "counter_root")
   return makeNode(type: UIView.self)
-    .withController(provider.controller, initialState: CounterState(), props: NullProps.null)
+    .withControllerType(
+      CounterController.self,
+      key: "counter_root",
+      initialState: CounterState(),
+      props: NullProps.null)
     .withLayoutSpec { spec in
       set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
       set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)

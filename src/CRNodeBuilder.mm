@@ -53,10 +53,16 @@ void CRNodeBuilderException(NSString *reason) {
   return self;
 }
 
-- (instancetype)withControllerType:(Class)controllerType {
+- (instancetype)withControllerType:(Class)controllerType
+                               key:(NSString *)key
+                      initialState:(CRState *)state
+                             props:(CRProps *)props {
   CR_ASSERT_ON_MAIN_THREAD();
   NSAssert([controllerType isSubclassOfClass:CRController.class], @"");
   _controllerType = controllerType;
+  _key = key;
+  _initialState = state;
+  _volatileProps = props;
   return self;
 }
 
