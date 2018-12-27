@@ -10,6 +10,8 @@ CoreRender is an ObjC++ *(Swift compatible)* minimal and performance-oriented im
 * **Flexbox layout:** CoreRender includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.
 * **Fine-grained recycling:** Any component such as a text or image can be recycled and reused anywhere in the UI.
 
+### Installing the framework
+
 ```
 cd {PROJECT_ROOT_DIRECTORY}
 curl "https://raw.githubusercontent.com/alexdrone/CoreRender/master/bin/dist.zip" > dist.zip && unzip dist.zip && rm dist.zip;
