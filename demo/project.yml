@@ -1,0 +1,15 @@
+name: CoreRenderDemo
+options:
+  bundleIdPrefix: io.alexdrone.CoreRenderDemo
+targets:
+  CoreRenderDemo:
+    type: application
+    platform: iOS
+    deploymentTarget: "10.0"
+    sources: src/
+    dependencies:
+      - framework: ../bin/CoreRender.framework
+    settings:
+      base:
+        INFOPLIST_FILE: src/Info.plist
+        INFOPLIST_PREPROCESS: YES

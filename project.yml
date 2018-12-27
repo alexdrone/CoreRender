@@ -17,7 +17,7 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: src/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: io.render.neutrino
+        PRODUCT_BUNDLE_IDENTIFIER: io.alexdrone.CoreRender
         PLATFORM: platform $platform
         GCC_GENERATE_DEBUGGING_SYMBOLS: YES
         GCC_DEBUGGING_SYMBOLS: full,
@@ -26,6 +26,9 @@ targets:
         SWIFT_OPTIMIZATION_LEVEL: -Owholemodule
         # 3.0, 4.0 and 4,1 supported
         SWIFT_VERSION: 4.2
+    postbuildScripts:
+      - name: Dist
+      - script: PRODUCT="${BUILT_PRODUCTS_DIR}/${TARGET_NAME}"; cp -R "${PRODUCT}.framework" ./bin; cp -R "${PRODUCT}.framework.dSYM" ./bin; cd ./bin; zip -r dist.zip "${PRODUCT}.framework.dSY" "${PRODUCT}.framework";
   Test:
     platform: iOS
     type: bundle.unit-test

@@ -1,0 +1,11 @@
+framework module CoreRender {
+  umbrella header "CoreRender.h"
+
+  export *
+  module * { export * }
+}
+
+module CoreRender.Swift {
+    header "CoreRender-Swift.h"
+    requires objc
+}
