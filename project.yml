@@ -17,7 +17,7 @@ targets:
     settings:
       base:
         INFOPLIST_FILE: src/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: io.alexdrone.CoreRender
+        PRODUCT_BUNDLE_IDENTIFIER: io.alexdrone.corerender
         PLATFORM: platform $platform
         GCC_GENERATE_DEBUGGING_SYMBOLS: YES
         GCC_DEBUGGING_SYMBOLS: full,
@@ -28,7 +28,7 @@ targets:
         SWIFT_VERSION: 4.2
     postbuildScripts:
       - name: Dist
-      - script: PRODUCT="${BUILT_PRODUCTS_DIR}/${TARGET_NAME}"; cp -R "${PRODUCT}.framework" ./bin; cp -R "${PRODUCT}.framework.dSYM" ./bin; cd ./bin; zip -r dist.zip "${PRODUCT}.framework.dSY" "${PRODUCT}.framework";
+      - script: NAME="CoreRender";PRODUCT="${BUILT_PRODUCTS_DIR}";cp -R "${PRODUCT}/${NAME}.framework" ./bin;cp -R "${PRODUCT}/${NAME}.framework.dSYM" ./bin;cd ./bin;zip -r dist.zip *;
   Test:
     platform: iOS
     type: bundle.unit-test
