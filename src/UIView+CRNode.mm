@@ -3,6 +3,7 @@
 #import "CRNode.h"
 #import "CRNodeBridge.h"
 #import "UIView+CRNode.h"
+#import "YGLayout.h"
 
 @implementation UIView (CRNode)
 @dynamic cr_nodeBridge;
@@ -39,4 +40,29 @@
   rect.size.height = CR_NORMALIZE(rect.size.height);
   self.frame = rect;
 }
+@end
+
+@implementation UIScrollView (CRNode)
+
+- (void)cr_adjustContentSizePostLayout {
+  if ([self isKindOfClass:UITableView.class]) return;
+  if ([self isKindOfClass:UICollectionView.class]) return;
+  dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC));
+  dispatch_after(time, dispatch_get_main_queue(), ^{
+    CGFloat x = 0;
+    CGFloat y = 0;
+    CR_FOREACH(subview, self.subviews) {
+      x = MAX(x, CGRectGetMaxX(subview.frame));
+      y = MAX(y, CGRectGetMaxY(subview.frame));
+    }
+    if (self.yoga.flexDirection == YGFlexDirectionColumn ||
+        self.yoga.flexDirection == YGFlexDirectionRowReverse) {
+      self.contentSize = CGSizeMake(self.contentSize.width, y);
+    } else {
+      self.contentSize = CGSizeMake(x, self.contentSize.height);
+    }
+    self.scrollEnabled = YES;
+  });
+}
+
 @end

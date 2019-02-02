@@ -72,7 +72,7 @@ void CRNodeBuilderException(NSString *reason) {
   return self;
 }
 
-- (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec *_Nonnull))layoutSpec {
+- (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec *))layoutSpec {
   CR_ASSERT_ON_MAIN_THREAD();
   _layoutSpec = layoutSpec;
   return self;

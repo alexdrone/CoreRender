@@ -4,13 +4,25 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Headers/CRContext+Private.h</key>
+		<data>
+		tz22zfWvn05QThSmH6aA0j8Qcrc=
+		</data>
 		<key>Headers/CRContext.h</key>
 		<data>
 		w5dkMB3uNQUlmmeaug17Iiilenc=
 		</data>
+		<key>Headers/CRController+Private.h</key>
+		<data>
+		T1+UyyN1OKCSHPh5jKigHF+rNv4=
+		</data>
 		<key>Headers/CRController.h</key>
 		<data>
 		Rdm3XGWCtHfvkIYOz1qcu6vS1YI=
+		</data>
+		<key>Headers/CRControllerProvider.h</key>
+		<data>
+		TKEpu6ghlUcrCw/UdQTl2plT+5s=
 		</data>
 		<key>Headers/CRMacros.h</key>
 		<data>
@@ -18,11 +30,15 @@
 		</data>
 		<key>Headers/CRNode.h</key>
 		<data>
-		CtjAllzVSqkueG7L5GOB/sVp5do=
+		nvZHof78Z7wzvGAknQ8l57kycdo=
 		</data>
 		<key>Headers/CRNodeBridge.h</key>
 		<data>
 		n6VOld9pe6ICKoQADUA60SsjUuk=
+		</data>
+		<key>Headers/CRNodeBuilder.h</key>
+		<data>
+		S2DI3qTgi7TTuUffPeEoBbtqVuE=
 		</data>
 		<key>Headers/CRNodeHierarchy.h</key>
 		<data>
@@ -30,11 +46,11 @@
 		</data>
 		<key>Headers/CRNodeLayoutSpec.h</key>
 		<data>
-		oFHtNg6yiKXCAtUrX9qNWa4NW9w=
+		aIZh8G17eeMlbgtmv0Ew9iL+2hU=
 		</data>
 		<key>Headers/CRUmbrellaHeader.h</key>
 		<data>
-		vOfggn8tJexAP6F1YdanoHzoqBk=
+		6Pg3suYZnal5ZvQutyyjU2C2gbY=
 		</data>
 		<key>Headers/CoreRender-Swift.h</key>
 		<data>
@@ -42,11 +58,11 @@
 		</data>
 		<key>Headers/CoreRender.h</key>
 		<data>
-		zHQ8PmdNylxIr0Q6q6uZHwJHzNc=
+		zI1vdPfk3KT+kP2EhkYecnZl4WI=
 		</data>
 		<key>Headers/UIView+CRNode.h</key>
 		<data>
-		tB0ye5MCM8EZ0ftcrK+v5ZH3Cnk=
+		ARGlLfZPo1th24/WRbmcWmDlkFM=
 		</data>
 		<key>Headers/YGLayout.h</key>
 		<data>
@@ -58,23 +74,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		pnvVjAysRy8B4KOUlxYLhp6i2YY=
+		dlhCDjDuH6wPzUpiMK+FjadsyAU=
 		</data>
 		<key>Modules/CoreRender.swiftmodule/i386.swiftdoc</key>
 		<data>
-		RxO4GidkDOAeU5KlO1kECp5hffI=
+		cwTtQ4pGkQDvqzMlXCvskm11aQg=
 		</data>
 		<key>Modules/CoreRender.swiftmodule/i386.swiftmodule</key>
 		<data>
-		BqAqCvv+nFJL1yxJ/eWL9aUgG+Q=
+		5gA5P1YpBA6beXytNgrQbeUjDLY=
 		</data>
 		<key>Modules/CoreRender.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		U2Hdc9qHghcve7qbTw0nu7wdG1c=
+		ltUNAashc/6WYKWyhbG1RrFuVp0=
 		</data>
 		<key>Modules/CoreRender.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		/044AbDhPAojyZtMZv7Onel19HA=
+		1kaaQOfRpnzGCQ5BdumnzdCHNuE=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -91,6 +107,17 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Headers/CRContext+Private.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			tz22zfWvn05QThSmH6aA0j8Qcrc=
+			</data>
+			<key>hash2</key>
+			<data>
+			Q+j87qhZ4w8ujhD9VfnPosXnXFoZ6XMXxNhay+OCBWg=
+			</data>
+		</dict>
 		<key>Headers/CRContext.h</key>
 		<dict>
 			<key>hash</key>
@@ -102,6 +129,17 @@
 			Qbyh5ozMCJi4u2sNpmAHas2/lwklSMCvOLc7Chexpf4=
 			</data>
 		</dict>
+		<key>Headers/CRController+Private.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			T1+UyyN1OKCSHPh5jKigHF+rNv4=
+			</data>
+			<key>hash2</key>
+			<data>
+			VlTw69FGQ2x7z1JkWMOKnFd4ximm/LaFRnOjnZh55Kw=
+			</data>
+		</dict>
 		<key>Headers/CRController.h</key>
 		<dict>
 			<key>hash</key>
@@ -111,6 +149,17 @@
 			<key>hash2</key>
 			<data>
 			n070KJ1eKPF4EgeV/+YPUdvfPJyTtAytbCeO94W2IyM=
+			</data>
+		</dict>
+		<key>Headers/CRControllerProvider.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			TKEpu6ghlUcrCw/UdQTl2plT+5s=
+			</data>
+			<key>hash2</key>
+			<data>
+			RRXN7Yl3Kdz5rjH4l45C0Y3lxFre2toVAWCIy3G6j1s=
 			</data>
 		</dict>
 		<key>Headers/CRMacros.h</key>
@@ -128,11 +177,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			CtjAllzVSqkueG7L5GOB/sVp5do=
+			nvZHof78Z7wzvGAknQ8l57kycdo=
 			</data>
 			<key>hash2</key>
 			<data>
-			MIsxM8xDPWYU1jqo0EiYSTQK9Q8YbqqeSS+FCErpMrc=
+			KBjhk1RB1JcnFavBb/99gjKBKcTY7nXWQb61N2BoAQw=
 			</data>
 		</dict>
 		<key>Headers/CRNodeBridge.h</key>
@@ -144,6 +193,17 @@
 			<key>hash2</key>
 			<data>
 			s8pqmFwFqwMe7sCVpCV6HlyFJxTFLnevJiaYDplwmVQ=
+			</data>
+		</dict>
+		<key>Headers/CRNodeBuilder.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			S2DI3qTgi7TTuUffPeEoBbtqVuE=
+			</data>
+			<key>hash2</key>
+			<data>
+			sq99px4ypZB6xxFsBONIUykTvWetsQBO/j3xx9pcVpk=
 			</data>
 		</dict>
 		<key>Headers/CRNodeHierarchy.h</key>
@@ -161,22 +221,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			oFHtNg6yiKXCAtUrX9qNWa4NW9w=
+			aIZh8G17eeMlbgtmv0Ew9iL+2hU=
 			</data>
 			<key>hash2</key>
 			<data>
-			I7vMGcJww5xAA21vBZwGt3dUFfl/8Qhlzqr3YEMWLUo=
+			kaF8r+0Io1aaopp71Y2wQlFcr9c/7mUc3XZsht0c9ak=
 			</data>
 		</dict>
 		<key>Headers/CRUmbrellaHeader.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			vOfggn8tJexAP6F1YdanoHzoqBk=
+			6Pg3suYZnal5ZvQutyyjU2C2gbY=
 			</data>
 			<key>hash2</key>
 			<data>
-			hWnW1d9Azrkp0RNJvJRTKfcibDJx417WjK8Qa+j5yEg=
+			WokM3ggnUTZC2GpVlMJ9BgUznGnDTJ4EdCH5+PdFC9w=
 			</data>
 		</dict>
 		<key>Headers/CoreRender-Swift.h</key>
@@ -194,22 +254,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			zHQ8PmdNylxIr0Q6q6uZHwJHzNc=
+			zI1vdPfk3KT+kP2EhkYecnZl4WI=
 			</data>
 			<key>hash2</key>
 			<data>
-			na+X3xpF9kUW+qX9cOpEhnow+0m52QSIE+pxbqDi7r8=
+			cBM5LB1pe8daxdN7oAK3Qcv7Mg9Kc3FLBFEGUGhiy1w=
 			</data>
 		</dict>
 		<key>Headers/UIView+CRNode.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			tB0ye5MCM8EZ0ftcrK+v5ZH3Cnk=
+			ARGlLfZPo1th24/WRbmcWmDlkFM=
 			</data>
 			<key>hash2</key>
 			<data>
-			RTrSXcaGETI/ZEWF51CuC9dUiV96V/GNL1xmt3U6/EI=
+			ujiv8A3yhNTuYstNtn9SqnWrsmSKlNlXD6IB+U25JsI=
 			</data>
 		</dict>
 		<key>Headers/YGLayout.h</key>
@@ -238,44 +298,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			RxO4GidkDOAeU5KlO1kECp5hffI=
+			cwTtQ4pGkQDvqzMlXCvskm11aQg=
 			</data>
 			<key>hash2</key>
 			<data>
-			gLkA7E/8EeBuBOebX8Jnz9kZaVkO1X7oznxkGvi5nQ0=
+			5ZSorhui04YzPGzZ/tEsN6TtJk7UKhiSqfD4+mzh2BE=
 			</data>
 		</dict>
 		<key>Modules/CoreRender.swiftmodule/i386.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			BqAqCvv+nFJL1yxJ/eWL9aUgG+Q=
+			5gA5P1YpBA6beXytNgrQbeUjDLY=
 			</data>
 			<key>hash2</key>
 			<data>
-			db1Gj0MV8TgGG8TwmqeTA51TJ/tlWKcNNYZZC15gqRo=
+			IXTRyMDLQnUlhAlxNFbOkjYxyQPnaP7LSPCsoMVZpj4=
 			</data>
 		</dict>
 		<key>Modules/CoreRender.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			U2Hdc9qHghcve7qbTw0nu7wdG1c=
+			ltUNAashc/6WYKWyhbG1RrFuVp0=
 			</data>
 			<key>hash2</key>
 			<data>
-			wj4skQS10noYNB7kDEwgzBX07aJKn6FJAEWnXyj23+8=
+			4dl6VH87ltKAjHbZSICM7i0saCsHc9n+j9J4ctFi2F4=
 			</data>
 		</dict>
 		<key>Modules/CoreRender.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/044AbDhPAojyZtMZv7Onel19HA=
+			1kaaQOfRpnzGCQ5BdumnzdCHNuE=
 			</data>
 			<key>hash2</key>
 			<data>
-			pTfPKfieuofNaI9XgDFiYtHRne+7ENA3iWXaJkr+Lrg=
+			fKHwnfrF4664TIIp/nLPEeao3Wvk0zAtuiSfC4WjxvM=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

@@ -8,7 +8,7 @@
 void CRControllerProviderException(NSString *reason) {
   //@throw [NSException exceptionWithName:@"ControllerProviderException" reason:reason
   // userInfo:nil];
-  NSLog(reason);
+  NSLog(@"%@", reason);
 }
 
 @implementation CRControllerProvider {

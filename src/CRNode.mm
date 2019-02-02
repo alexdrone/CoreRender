@@ -307,6 +307,9 @@ void CRIllegalControllerTypeException(NSString *reason) {
     rect.origin = superview.frame.origin;
     superview.frame = rect;
   }
+  if ([_renderedView isKindOfClass:UIScrollView.class]) {
+    [(UIScrollView *)_renderedView cr_adjustContentSizePostLayout];
+  }
 }
 
 - (void)_reconcileNode:(CRNode *)node

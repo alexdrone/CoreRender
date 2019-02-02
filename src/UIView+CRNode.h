@@ -18,4 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface UIScrollView (CRNode)
+/// Set the scroll view content size (if necessary).
+- (void)cr_adjustContentSizePostLayout;
+
+@end
+
 NS_ASSUME_NONNULL_END
