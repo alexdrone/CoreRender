@@ -28,7 +28,6 @@
 		BF_A9D0AAA34C49FDF9C7E9A436D29F1D0F /* CRNode.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_533DCFE421797DBB70F06808415FDCE9 /* CRNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_AAC5F8C53B54CE471C5D41B05BBE33BF /* YGLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = FR_1CAB4EF2FE367E8448C8EEE045FE8378 /* YGLayout.mm */; };
 		BF_AC80FDC4F58F7EC7C61E0406294D30EC /* CRContext.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_DD8F49714E95A7842F68A8A2C28B9EB1 /* CRContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF_AD573FF52CB3B2C665DF5B4856A2F3E2 /* CRControllerProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_FBA2D27FA231E63E5AB8F13E33CFA221 /* CRControllerProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_BAD65659E3D8066584ABFA5E5743691A /* CRController.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_A45DAF29C35A125E287B382D0E9D4117 /* CRController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_BEF7C9E4713D3CDB195B6797A62E17DE /* CRNodeLayoutSpec.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_6A362E80355B5E114CFD2EF58DE3129B /* CRNodeLayoutSpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF_D2855F3962F8EB6FBDD7163746F10EE4 /* UIView+CRNode.h in Headers */ = {isa = PBXBuildFile; fileRef = FR_8D99556BEE32AE8BE567D22C233FD265 /* UIView+CRNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -95,7 +94,6 @@
 		FR_ECF2777C4C88D0037BF1CB26E86897C4 /* CRContext+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CRContext+Private.h"; sourceTree = "<group>"; };
 		FR_F0CAA8C1D081B42D71197EBEABF93168 /* Yoga.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Yoga.h; sourceTree = "<group>"; };
 		FR_FB7D6CFDAE89C23E3B2E35C4965E4CC0 /* CRNodeHierarchy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeHierarchy.mm; sourceTree = "<group>"; };
-		FR_FBA2D27FA231E63E5AB8F13E33CFA221 /* CRControllerProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRControllerProvider.h; sourceTree = "<group>"; };
 		FR_FE2047458CDAE67B7659F9719A34B710 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,7 +128,6 @@
 				FR_A45DAF29C35A125E287B382D0E9D4117 /* CRController.h */,
 				FR_E30F8683F371E6E13C5CEC4D895D9D4D /* CRController.mm */,
 				FR_804E70F1CF8557FC3FEF02A8F7E3FFC0 /* CRController+Private.h */,
-				FR_FBA2D27FA231E63E5AB8F13E33CFA221 /* CRControllerProvider.h */,
 				FR_689A5CC02ACCFF0ED2CCD4A2469A61D4 /* CRMacros.h */,
 				FR_533DCFE421797DBB70F06808415FDCE9 /* CRNode.h */,
 				FR_E807D881B7803D1B9B0B873BD2B71E99 /* CRNode.mm */,
@@ -194,7 +191,6 @@
 				BF_AC80FDC4F58F7EC7C61E0406294D30EC /* CRContext.h in Headers */,
 				BF_F4D8C364F409BB19E1BAA357502FDF67 /* CRController+Private.h in Headers */,
 				BF_BAD65659E3D8066584ABFA5E5743691A /* CRController.h in Headers */,
-				BF_AD573FF52CB3B2C665DF5B4856A2F3E2 /* CRControllerProvider.h in Headers */,
 				BF_01F94BF5C6CFB4C3797F9A2299412FFC /* CRMacros.h in Headers */,
 				BF_A9D0AAA34C49FDF9C7E9A436D29F1D0F /* CRNode.h in Headers */,
 				BF_34308E57CD087563497189AFFCDC8C73 /* CRNodeBridge.h in Headers */,
