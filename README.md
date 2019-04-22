@@ -64,7 +64,7 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
             action: #selector(CounterController.incrementCounter),
             for: .touchUpInside)
           return button
-        }.withReuseIdentifier("button") .// Re-use identifier for this view (mandatory when the view has a custom initialization.
+        }.withReuseIdentifier("button")  // Re-use identifier for this view (mandatory when the view has a custom initialization.
         .withLayoutSpec { spec in        // View configuration.
           let count = controllerProvider?.controller.state.count ?? 0
           spec.view?.setTitle("Count: \(count)", for: .normal)
