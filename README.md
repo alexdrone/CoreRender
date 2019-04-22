@@ -2,7 +2,7 @@
 
 <img src="docs/assets/logo_new.png" width=150 alt="Render" align=right />
 
-CoreRender is an ObjC++ *(Swift compatible)* minimal and performance-oriented implementation of [Render](https://github.com/alexdrone/Render).
+CoreRender is an ObjC++ *(with a Swift bridge)* minimal and performance-oriented implementation of [Render](https://github.com/alexdrone/Render).
 
 ### Introduction
 
