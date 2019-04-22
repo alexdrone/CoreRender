@@ -40,7 +40,7 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
   struct Key {
     static let counterRoot = "counterRoot"
   }
-  // Retrieve the root node controller.
+  // Retrieves the root node controller.
   let controllerProvider = ctx.controllerProvider(
     type: CounterController.self,
     key: Key.counterRoot)
