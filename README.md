@@ -64,7 +64,7 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
             action: #selector(CounterController.incrementCounter),
             for: .touchUpInside)
           return button
-        }.withReuseIdentifier("button")  // Re-use identifier for this view (mandatory when the view has a custom initialization.
+        }.withReuseIdentifier("button")  // Re-use identifier for this view (mandatory when the view has a custom initialization).
         .withLayoutSpec { spec in        // View configuration.
           let count = controllerProvider?.controller.state.count ?? 0
           spec.view?.setTitle("Count: \(count)", for: .normal)
@@ -79,9 +79,9 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
 class CounterController: Controller<NullProps, CounterState> {
   
   func incrementCounter() {
-    self.state.count += 1
+    self.state.count += 1 .              // Update the state.
     print("count: \(self.state.count)")
-    nodeHierarchy?.setNeedsReconcile()
+    nodeHierarchy?.setNeedsReconcile()   // Trigger the reconciliation algorithm on the view hiearchy associated to this controller.
   }
 }
 
