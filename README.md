@@ -45,30 +45,30 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
     type: CounterController.self,
     key: Key.counterRoot)
   // Returns the node hiearchy.
-  return ctx.makeNode(type: UIView.self)
-    .withControllerType(
+  return ctx.makeNode(type: UIView.self) // UIView container view.
+    .withControllerType(                 // Binds a controller to the view.
       CounterController.self,
-      key: Key.counterRoot,
+      key: Key.counterRoot,              // And give the view a unique key.
       initialState: CounterState(),
       props: NullProps.null)
-    .withLayoutSpec { spec in
+    .withLayoutSpec { spec in            // View configuration.
       ctx.set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
       ctx.set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)
       ctx.set(spec, keyPath: \UIView.cornerRadius, value: 5)
     }.withChildren([
-      ctx.makeNode(type: UIButton.self)
-        .withViewInit { _ in
+      ctx.makeNode(type: UIButton.self) // UIButton.
+        .withViewInit { _ in            // Custom view initialization.
           let button = UIButton()
           button.addTarget(
             controllerProvider?.controller,
             action: #selector(CounterController.incrementCounter),
             for: .touchUpInside)
           return button
-        }.withReuseIdentifier("button")
-        .withLayoutSpec { spec in
+        }.withReuseIdentifier("button") .// Re-use identifier for this view (mandatory when the view has a custom initialization.
+        .withLayoutSpec { spec in        // View configuration.
           let count = controllerProvider?.controller.state.count ?? 0
           spec.view?.setTitle("Count: \(count)", for: .normal)
-        }.build(),
+        }.build(),                       
   ]).build()
 }
 ```
