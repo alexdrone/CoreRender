@@ -37,7 +37,7 @@
 		FR_794AB5E2302DF1B390EF342EE60390B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FR_7CD99E1EE63BA8517FCDD15C42E8C705 /* CounterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterController.swift; sourceTree = "<group>"; };
 		FR_A1745789103EA06A7B245D5A42504562 /* CounterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterNode.swift; sourceTree = "<group>"; };
-		FR_AF72FD5FB3E5DF535E22D9C35D87F672 /* CoreRenderDemo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CoreRenderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FR_AF72FD5FB3E5DF535E22D9C35D87F672 /* CoreRenderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreRenderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FR_C9FFB3A3CFAE1CECBF3C778CC9B66352 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FR_D2D3DCBC78E24F09505DCAECFCAC2F44 /* CoreRender.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreRender.framework; path = ../bin/CoreRender.framework; sourceTree = "<group>"; };
 		FR_FC15CF6B99E19D210E96746020928F77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -130,12 +130,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1000;
+				TargetAttributes = {
+					NT_A78CD6D98A564C92B30F8C95B0144023 = {
+						LastSwiftMigration = 1020;
+					};
+				};
 			};
 			buildConfigurationList = CL_22F05AB31ED5217B38B850AA8B8FCDB5 /* Build configuration list for PBXProject "CoreRenderDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				en,
 				Base,
 			);
 			mainGroup = G_286405CDCD160F6013EEEF24627E00BA;
@@ -209,6 +215,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.alexdrone.CoreRenderDemo.CoreRenderDemo;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -280,6 +287,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.alexdrone.CoreRenderDemo.CoreRenderDemo;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

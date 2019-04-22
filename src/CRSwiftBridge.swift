@@ -21,7 +21,7 @@ extension State: AnyState { }
 
 public extension AnyNode {
   /// Adds the nodes as children of this node.
-  @discardableResult public func append(children: [AnyNode]) -> ConcreteNode<UIView> {
+  @discardableResult func append(children: [AnyNode]) -> ConcreteNode<UIView> {
     let node = self as! ConcreteNode<UIView>
     let children = children.compactMap { $0 as? ConcreteNode<UIView> }
     node.appendChildren(children)
@@ -51,7 +51,7 @@ public extension AnyNode {
 ///   spec.view.backgroundColor = .green
 ///   spec.view.setTitle("FOO", for: .normal)
 /// ```
-@inline(__always) public func Node<V: UIView, P: Props, S: State> (
+public func Node<V: UIView, P: Props, S: State> (
   type: V.Type,
   controllerType: Controller<P, S>.Type? = nil,
   props: P? = nil,
@@ -93,14 +93,14 @@ public extension AnyNode {
 ///   spec.view.backgroundColor = .green
 ///   spec.view.setTitle("FOO", for: .normal)
 /// ```
-@inline(__always) public func Node<V: UIView, P: Props, S: State, C: Controller<P, S>> (
+public func Node<V: UIView, P: Props, S: State, C: Controller<P, S>> (
   type: V.Type,
   controller: C,
   props: P? = nil,
   reuseIdentifier: String? = nil,
   viewInit: (() -> V)? = nil,
   layoutSpec: @escaping (LayoutSpec<V>) -> Void
-  ) -> ConcreteNode<V> {
+) -> ConcreteNode<V> {
   let node = ConcreteNode<V>(
     type: V.self,
     reuseIdentifier: reuseIdentifier,
@@ -112,7 +112,7 @@ public extension AnyNode {
 }
 
 /// Retrieves a controller from the context.
-@inline(__always) public func ControllerProvider<C: AnyController> (
+public func ControllerProvider<C: AnyController> (
   _ ctx: Context,
   type: C.Type,
   key: String? = nil
@@ -124,35 +124,45 @@ public extension AnyNode {
   }
 }
 
-/// Swift generic wrapper around NodeBuilder.
-@inline(__always) public func makeNode<V: UIView>(type: V.Type) -> NodeBuilder<V> {
-  return NodeBuilder<V>(type: V.self)
-}
-
-/// Sets the value of a desired keypath using typesafe writable reference keypaths.
-/// - parameter spec: The *LayoutSpec* object that is currently handling the view configuration.
-/// - parameter keyPath: The target keypath.
-/// - parameter value: The new desired value.
-/// - parameter animator: Optional property animator for this change.
-@inline(__always) public func set<V: UIView, T>(
-  _ spec: LayoutSpec<V>,
-  keyPath: ReferenceWritableKeyPath<V, T>,
-  value: T,
-  animator: UIViewPropertyAnimator? = nil
-) -> Void {
-  guard let kvc = keyPath._kvcKeyPathString else {
-    print("\(keyPath) is not a KVC property.")
-    return
+public extension Context {
+  /// Swift generic wrapper around NodeBuilder.
+  func makeNode<V: UIView>(type: V.Type) -> NodeBuilder<V> {
+    return NodeBuilder<V>(type: V.self)
   }
-  spec.set(kvc, value: value, animator: animator);
-}
 
-@inline(__always) public func subtreeController<C: AnyController, V: UIView>(
-  _ spec: LayoutSpec<V>,
-  type: C.Type
-) -> C? {
-  return spec.controller(ofType: C.self) as? C
-}
+  /// Sets the value of a desired keypath using typesafe writable reference keypaths.
+  /// - parameter spec: The *LayoutSpec* object that is currently handling the view configuration.
+  /// - parameter keyPath: The target keypath.
+  /// - parameter value: The new desired value.
+  /// - parameter animator: Optional property animator for this change.
+  func set<V: UIView, T>(
+    _ spec: LayoutSpec<V>,
+    keyPath: ReferenceWritableKeyPath<V, T>,
+    value: T,
+    animator: UIViewPropertyAnimator? = nil
+  ) -> Void {
+    guard let kvc = keyPath._kvcKeyPathString else {
+      print("\(keyPath) is not a KVC property.")
+      return
+    }
+    spec.set(kvc, value: value, animator: animator);
+  }
 
+  /// Returns the subtree controller of the given type.
+  func controller<C: AnyController, V: UIView>(
+    _ spec: LayoutSpec<V>,
+    type: C.Type
+  ) -> C? {
+    return spec.controller(ofType: C.self) as? C
+  }
+
+  /// Returns the controller provider for the given key.
+  func controllerProvider<C: AnyController & NSObject> (
+    type: C.Type,
+    key: String? = nil
+  ) -> ControllerProvider<C>? {
+    return ControllerProvider(self, type: type, key: key)
+  }
+}
 public typealias LayoutOptions = CRNodeLayoutOptions
 

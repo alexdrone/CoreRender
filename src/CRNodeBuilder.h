@@ -23,7 +23,7 @@ NS_SWIFT_NAME(NodeBuilder)
                       initialState:(CRState *)state
                              props:(CRProps *)props;
 /// Custom view initialization code.
-- (instancetype)withViewInit:(UIView * (^)(void))viewInit;
+- (instancetype)withViewInit:(UIView * (^)(NSString *))viewInit;
 /// Defines the node configuration and layout.
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<V> *))layoutSpec;
 /// Assign the node children.
@@ -35,4 +35,5 @@ NS_SWIFT_NAME(NodeBuilder)
 /// Build the concrete node.
 - (CRNode<V> *)build;
 @end
+
 NS_ASSUME_NONNULL_END

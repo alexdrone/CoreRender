@@ -11,11 +11,11 @@ class BarProps: Props { }
 
 class CRSwiftInteropTests: XCTestCase {
 
-  func buildLabelNode() -> ConcreteNode<UILabel> {
+  func buildLabelNode(ctx: Context) -> ConcreteNode<UILabel> {
     let _ = LayoutOptions.none
     return Node(type: UILabel.self, layoutSpec: { spec in
-      set(spec, keyPath: \.text, value: "Hello")
-      set(spec, keyPath: \.yoga.margin, value: 5)
+      ctx.set(spec, keyPath: \.text, value: "Hello")
+      ctx.set(spec, keyPath: \.yoga.margin, value: 5)
     })
   }
 

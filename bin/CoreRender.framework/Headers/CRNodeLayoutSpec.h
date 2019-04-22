@@ -37,7 +37,7 @@ NS_SWIFT_NAME(LayoutSpec)
 - (void)resetAllTargets;
 
 /// Returns the the first controller of type @c controllerType in the current subtree.
-- (nullable id)controllerOfType:(Class)controllerType;
+- (nullable __kindof CRController *)controllerOfType:(Class)controllerType;
 
 @end
 

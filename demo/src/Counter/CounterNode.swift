@@ -4,27 +4,37 @@ import CoreRender
 // MARK: - CoreRender.Node
 
 func counterNode(ctx: Context) -> ConcreteNode<UIView> {
-  return makeNode(type: UIView.self)
+  struct Key {
+    static let counterRoot = "counterRoot"
+  }
+  // Retrieve the root node controller.
+  let controllerProvider = ctx.controllerProvider(
+    type: CounterController.self,
+    key: Key.counterRoot)
+  // Returns the node hiearchy.
+  return ctx.makeNode(type: UIView.self)
     .withControllerType(
       CounterController.self,
-      key: "counter_root",
+      key: Key.counterRoot,
       initialState: CounterState(),
       props: NullProps.null)
     .withLayoutSpec { spec in
-      set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
-      set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)
-      set(spec, keyPath: \UIView.cornerRadius, value: 5)
+      ctx.set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
+      ctx.set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)
+      ctx.set(spec, keyPath: \UIView.cornerRadius, value: 5)
     }.withChildren([
-      makeNode(type: UIButton.self)
-        .withReuseIdentifier("button")
-        .withLayoutSpec { spec in
-          let controller = subtreeController(spec, type: CounterController.self)!
-          spec.view?.cr_resetAllTargets()
-          spec.view?.addTarget(
-            controller,
+      ctx.makeNode(type: UIButton.self)
+        .withViewInit { _ in
+          let button = UIButton()
+          button.addTarget(
+            controllerProvider?.controller,
             action: #selector(CounterController.incrementCounter),
             for: .touchUpInside)
-          spec.view?.setTitle("Count: \(controller.state.count)", for: .normal)
+          return button
+        }.withReuseIdentifier("button")
+        .withLayoutSpec { spec in
+          let count = controllerProvider?.controller.state.count ?? 0
+          spec.view?.setTitle("Count: \(count)", for: .normal)
         }.build(),
   ]).build()
 }

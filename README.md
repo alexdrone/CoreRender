@@ -1,4 +1,4 @@
-# CoreRender [![Swift](https://img.shields.io/badge/swift-4.*-orange.svg?style=flat)](#) [![ObjC++](https://img.shields.io/badge/ObjC++-blue.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
+# CoreRender [![Swift](https://img.shields.io/badge/swift-5-orange.svg?style=flat)](#) [![ObjC++](https://img.shields.io/badge/ObjC++-blue.svg?style=flat)](#) [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 <img src="docs/assets/logo_new.png" width=150 alt="Render" align=right />
 
@@ -27,4 +27,86 @@ targets:
     ...
     dependencies:
       - framework: PATH/TO/YOUR/DEPS/CoreRender.framework
+```
+
+### TL;DR
+
+Let's build the classic *Counter-Example*.
+
+The following is the node hierarchy definition. 
+
+```swift
+func counterNode(ctx: Context) -> ConcreteNode<UIView> {
+  struct Key {
+    static let counterRoot = "counterRoot"
+  }
+  // Retrieve the root node controller.
+  let controllerProvider = ctx.controllerProvider(
+    type: CounterController.self,
+    key: Key.counterRoot)
+  // Returns the node hiearchy.
+  return ctx.makeNode(type: UIView.self)
+    .withControllerType(
+      CounterController.self,
+      key: Key.counterRoot,
+      initialState: CounterState(),
+      props: NullProps.null)
+    .withLayoutSpec { spec in
+      ctx.set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
+      ctx.set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)
+      ctx.set(spec, keyPath: \UIView.cornerRadius, value: 5)
+    }.withChildren([
+      ctx.makeNode(type: UIButton.self)
+        .withViewInit { _ in
+          let button = UIButton()
+          button.addTarget(
+            controllerProvider?.controller,
+            action: #selector(CounterController.incrementCounter),
+            for: .touchUpInside)
+          return button
+        }.withReuseIdentifier("button")
+        .withLayoutSpec { spec in
+          let count = controllerProvider?.controller.state.count ?? 0
+          spec.view?.setTitle("Count: \(count)", for: .normal)
+        }.build(),
+  ]).build()
+}
+```
+
+*Controllers* are similar to Components in React/Render/Litho and manage the UI updates. 
+
+```swift
+class CounterController: Controller<NullProps, CounterState> {
+  
+  func incrementCounter() {
+    self.state.count += 1
+    print("count: \(self.state.count)")
+    nodeHierarchy?.setNeedsReconcile()
+  }
+}
+
+class CounterState: State {
+  var count = 0;
+}
+```
+
+Finally let's create *CoreRender* node hiararchy in our ViewController.
+
+```swift
+class CounterViewController: UIViewController {
+  private var nodeHierarchy: NodeHierarchy?
+  private let context = Context()
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    nodeHierarchy = NodeHierarchy(context: context) { ctx in
+      counterNode(ctx: ctx)
+    }
+    nodeHierarchy?.build(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
+  }
+
+  override func viewDidLayoutSubviews() {
+    nodeHierarchy?.setNeedsLayout()
+  }
+}
 ```
