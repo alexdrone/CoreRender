@@ -23,7 +23,7 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
 @interface YGLayout : NSObject
 
 /**
-  The property that decides if we should include this view when calculating layout. Defaults to YES.
+  The property that decides if we should include this view when calculating layout. Defaults totrue.
  */
 @property(nonatomic, readwrite, assign, setter=setIncludedInLayout:) BOOL isIncludedInLayout;
 
@@ -147,9 +147,8 @@ typedef NS_OPTIONS(NSInteger, YGDimensionFlexibility) {
 @end
 
 @interface YGLayout ()
-
-@property(nonatomic, assign, readonly) YGNodeRef node;
-
+/** Reference to the yoga node. */
+@property(nonatomic, assign, nonnull, readonly) YGNodeRef node;
 /** Constructs a new layout object associated to the view passed as argument. */
 - (instancetype)initWithView:(UIView *)view;
 @end
@@ -161,16 +160,10 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^YGLayoutConfigurationBlock)(YGLayout *);
 
 @interface UIView (Yoga)
-
-/**
- The YGLayout that is attached to this view. It is lazily created.
- */
+/** The YGLayout that is attached to this view. It is lazily created. */
 @property(nonatomic, readonly, strong) YGLayout *yoga;
-/**
- Indicates whether or not Yoga is enabled
- */
+/** Indicates whether or not Yoga is enabled */
 @property(nonatomic, readonly, assign) BOOL isYogaEnabled;
-
 /**
  In ObjC land, every time you access `view.yoga.*` you are adding another `objc_msgSend`
  to your code. If you plan on making multiple changes to YGLayout, it's more performant
@@ -178,7 +171,6 @@ typedef void (^YGLayoutConfigurationBlock)(YGLayout *);
  */
 - (void)configureLayoutWithBlock:(YGLayoutConfigurationBlock)block
     NS_SWIFT_NAME(configureLayout(block:));
-
 @end
 
 #pragma mark - Categories
@@ -234,9 +226,11 @@ typedef void (^YGLayoutConfigurationBlock)(YGLayout *);
 @end
 
 @interface UIViewController (YGAdditions)
+/** Whether the controller is being modally presented or not. */
 - (BOOL)isModal;
 @end
 
+/** Returns the top-most view controller in the hierarchy. */
 extern UIViewController *UIGetTopmostViewController(void);
 
 NS_ASSUME_NONNULL_END

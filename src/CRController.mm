@@ -24,7 +24,7 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 // By default controllers are *stateful*.
 // Override @c CRStatelessController for a *stateless* controller.
 + (BOOL)isStateless {
-  return NO;
+  return false;
 }
 
 // Private constructor.

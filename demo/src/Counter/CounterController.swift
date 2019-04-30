@@ -9,8 +9,9 @@ class CounterViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.view.backgroundColor = .white
     nodeHierarchy = NodeHierarchy(context: context) { ctx in
-      counterNode(ctx: ctx)
+      return mainNode(ctx: ctx)
     }
     nodeHierarchy?.build(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
   }

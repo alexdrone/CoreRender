@@ -33,7 +33,7 @@
 }
 
 - (__kindof CRController *)controllerOfType:(Class)controllerType {
-  if (![controllerType isSubclassOfClass:CRController.class]) return nil;
+  if (![controllerType isSubclassOfClass:CRController.class]) return nullptr;
 
   auto controller = (CRController *)nil;
   auto node = self.node;

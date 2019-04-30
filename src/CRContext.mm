@@ -62,7 +62,7 @@ void CRControllerProviderException(NSString *reason) {
 
 - (__kindof CRController *)controllerOfType:(Class)type withKey:(NSString *)key {
   CR_ASSERT_ON_MAIN_THREAD();
-  if (![type isSubclassOfClass:CRController.self]) return nil;
+  if (![type isSubclassOfClass:CRController.self]) return nullptr;
   const auto container = [self _containerForType:type];
   if (const auto controller = container[key]) return controller;
   const auto controller = CR_DYNAMIC_CAST(CRController, [[type alloc] initWithKey:key]);
@@ -73,7 +73,7 @@ void CRControllerProviderException(NSString *reason) {
 
 - (__kindof CRStatelessController *)controllerOfType:(Class)type {
   CR_ASSERT_ON_MAIN_THREAD();
-  if (![type isStateless]) return nil;
+  if (![type isStateless]) return nullptr;
   return [self controllerOfType:type withKey:CRControllerStatelessKey];
 }
 

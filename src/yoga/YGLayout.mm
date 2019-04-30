@@ -98,8 +98,8 @@ static YGConfigRef globalConfig;
     _view = view;
     _node = YGNodeNewWithConfig(globalConfig);
     YGNodeSetContext(_node, (__bridge void *)view);
-    _isEnabled = NO;
-    _isIncludedInLayout = YES;
+    _isEnabled = false;
+    _isIncludedInLayout = true;
   }
   return self;
 }
@@ -125,7 +125,7 @@ static YGConfigRef globalConfig;
   // the measure function. Since we already know that this is a leaf,
   // this *should* be fine. Forgive me Hack Gods.
   const YGNodeRef node = self.node;
-  if (YGNodeGetMeasureFunc(node) == NULL) {
+  if (YGNodeGetMeasureFunc(node) == nullptr) {
     YGNodeSetMeasureFunc(node, YGMeasureView);
   }
   YGNodeMarkDirty(node);
@@ -141,11 +141,11 @@ static YGConfigRef globalConfig;
     for (UIView *subview in self.view.subviews) {
       YGLayout *const yoga = subview.yoga;
       if (yoga.isEnabled && yoga.isIncludedInLayout) {
-        return NO;
+        return false;
       }
     }
   }
-  return YES;
+  return true;
 }
 
 #pragma mark - Style
@@ -280,14 +280,14 @@ static CGFloat YGSanitizeMeasurement(CGFloat constrainedSize, CGFloat measuredSi
 
 static BOOL YGNodeHasExactSameChildren(const YGNodeRef node, NSArray<UIView *> *subviews) {
   if (YGNodeGetChildCount(node) != subviews.count) {
-    return NO;
+    return false;
   }
   for (int i = 0; i < subviews.count; i++) {
     if (YGNodeGetChild(node, i) != subviews[i].yoga.node) {
-      return NO;
+      return false;
     }
   }
-  return YES;
+  return true;
 }
 
 static void YGAttachNodesFromViewHierachy(UIView *const view) {
@@ -298,7 +298,7 @@ static void YGAttachNodesFromViewHierachy(UIView *const view) {
     YGRemoveAllChildren(node);
     YGNodeSetMeasureFunc(node, YGMeasureView);
   } else {
-    YGNodeSetMeasureFunc(node, NULL);
+    YGNodeSetMeasureFunc(node, nullptr);
     NSMutableArray<UIView *> *subviewsToInclude =
         [[NSMutableArray alloc] initWithCapacity:view.subviews.count];
     for (UIView *subview in view.subviews) {
@@ -319,7 +319,7 @@ static void YGAttachNodesFromViewHierachy(UIView *const view) {
 }
 
 static void YGRemoveAllChildren(const YGNodeRef node) {
-  if (node == NULL) {
+  if (node == nullptr) {
     return;
   }
   while (YGNodeGetChildCount(node) > 0) {
@@ -391,11 +391,11 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 }
 
 - (BOOL)isYogaEnabled {
-  return objc_getAssociatedObject(self, kYGYogaAssociatedKey) != nil;
+  return objc_getAssociatedObject(self, kYGYogaAssociatedKey) != nullptr;
 }
 
 - (void)configureLayoutWithBlock:(YGLayoutConfigurationBlock)block {
-  if (block != nil) {
+  if (block != nullptr) {
     block(self.yoga);
   }
 }
@@ -411,7 +411,7 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
-  self.clipsToBounds = YES;
+  self.clipsToBounds = true;
   self.layer.cornerRadius = cornerRadius;
 }
 
@@ -534,7 +534,7 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 }
 
 - (UIColor *)backgroundColorImage {
-  return nil;
+  return nullptr;
 }
 
 - (void)setBackgroundColorImage:(UIColor *)backgroundColor {
@@ -646,13 +646,13 @@ static const void *kYGYogaAssociatedKey = &kYGYogaAssociatedKey;
 @implementation UIViewController (YGAdditions)
 
 - (BOOL)isModal {
-  if ([self presentingViewController]) return YES;
+  if ([self presentingViewController]) return true;
   if ([[[self navigationController] presentingViewController] presentedViewController] ==
       [self navigationController])
-    return YES;
+    return true;
   if ([[[self tabBarController] presentingViewController] isKindOfClass:[UITabBarController class]])
-    return YES;
-  return NO;
+    return true;
+  return false;
 }
 
 @end

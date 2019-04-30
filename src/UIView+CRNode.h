@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)cr_normalizeFrame;
 
+- (void)cr_adjustContentSizePostLayoutRecursivelyIfNeeded;
+
 @end
 
 @interface UIScrollView (CRNode)

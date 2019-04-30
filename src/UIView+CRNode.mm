@@ -9,7 +9,7 @@
 @dynamic cr_nodeBridge;
 
 - (BOOL)cr_hasNode {
-  return self.cr_nodeBridge.node != nil;
+  return self.cr_nodeBridge.node != nullptr;
 }
 
 - (void)setCr_nodeBridge:(CRNodeBridge *)obj {
@@ -40,6 +40,17 @@
   rect.size.height = CR_NORMALIZE(rect.size.height);
   self.frame = rect;
 }
+
+- (void)cr_adjustContentSizePostLayoutRecursivelyIfNeeded {
+  if (!self.cr_hasNode) return;
+  if ([self isKindOfClass:UIScrollView.class]) {
+    [(UIScrollView *)self cr_adjustContentSizePostLayout];
+  }
+  CR_FOREACH(subview, self.subviews) {
+    [subview cr_adjustContentSizePostLayoutRecursivelyIfNeeded];
+  }
+}
+
 @end
 
 @implementation UIScrollView (CRNode)
@@ -61,7 +72,7 @@
     } else {
       self.contentSize = CGSizeMake(x, self.contentSize.height);
     }
-    self.scrollEnabled = YES;
+    self.scrollEnabled = true;
   });
 }
 

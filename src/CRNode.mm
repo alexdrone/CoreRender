@@ -106,10 +106,10 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 - (__kindof CRController *)controller {
   const auto context = self.context;
-  if (!context) return nil;
+  if (!context) return nullptr;
   if (!_controllerType) return _parent.controller;
-  return _key != nil ? [context controllerOfType:_controllerType withKey:_key]
-                     : [context controllerOfType:_controllerType];
+  return _key != nullptr ? [context controllerOfType:_controllerType withKey:_key]
+                         : [context controllerOfType:_controllerType];
 }
 
 - (CRNodeHierarchy *)nodeHierarchy {
@@ -128,7 +128,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 #pragma mark - Children
 
 - (BOOL)isNullNode {
-  return NO;
+  return false;
 }
 
 - (NSArray<CRNode *> *)children {
@@ -178,7 +178,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
   CR_FOREACH(child, _mutableChildren) {
     if (const auto view = [child viewWithKey:key]) return view;
   }
-  return nil;
+  return nullptr;
 }
 
 - (NSArray<UIView *> *)viewsWithReuseIdentifier:(NSString *)reuseIdentifier {
@@ -201,7 +201,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 - (void)_constructViewWithReusableView:(nullable UIView *)reusableView {
   CR_ASSERT_ON_MAIN_THREAD();
-  if (_renderedView != nil) return;
+  if (_renderedView != nullptr) return;
 
   if ([reusableView isKindOfClass:self.viewType]) {
     _renderedView = reusableView;
@@ -212,10 +212,10 @@ void CRIllegalControllerTypeException(NSString *reason) {
     } else {
       _renderedView = [[self.viewType alloc] initWithFrame:CGRectZero];
     }
-    _renderedView.yoga.isEnabled = YES;
+    _renderedView.yoga.isEnabled = true;
     _renderedView.tag = _reuseIdentifier.hash;
     _renderedView.cr_nodeBridge.node = self;
-    _flags.shouldInvokeDidMount = YES;
+    _flags.shouldInvokeDidMount = true;
   }
 }
 
@@ -271,7 +271,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
 - (void)layoutConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options {
   CR_ASSERT_ON_MAIN_THREAD();
-  if (_parent != nil) return [_parent layoutConstrainedToSize:size withOptions:options];
+  if (_parent != nullptr) return [_parent layoutConstrainedToSize:size withOptions:options];
 
   _size = size;
   auto safeAreaOffset = CGPointZero;
@@ -307,9 +307,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
     rect.origin = superview.frame.origin;
     superview.frame = rect;
   }
-  if ([_renderedView isKindOfClass:UIScrollView.class]) {
-    [(UIScrollView *)_renderedView cr_adjustContentSizePostLayout];
-  }
+  [_renderedView cr_adjustContentSizePostLayoutRecursivelyIfNeeded];
 }
 
 - (void)_reconcileNode:(CRNode *)node
@@ -320,12 +318,12 @@ void CRIllegalControllerTypeException(NSString *reason) {
   if ([candidateView isKindOfClass:node.viewType] && candidateView.cr_hasNode &&
       candidateView.tag == node.reuseIdentifier.hash) {
     [node _constructViewWithReusableView:candidateView];
-    candidateView.cr_nodeBridge.isNewlyCreated = NO;
+    candidateView.cr_nodeBridge.isNewlyCreated = false;
     // The view for this node needs to be created.
   } else {
     [candidateView removeFromSuperview];
     [node _constructViewWithReusableView:nil];
-    node.renderedView.cr_nodeBridge.isNewlyCreated = YES;
+    node.renderedView.cr_nodeBridge.isNewlyCreated = true;
     [parentView insertSubview:node.renderedView atIndex:node.index];
   }
   const auto view = node.renderedView;
@@ -337,7 +335,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
   }
   // Iterate children.
   CR_FOREACH(child, node.children) {
-    UIView *candidateView = nil;
+    UIView *candidateView = nullptr;
     auto index = 0;
     CR_FOREACH(subview, subviews) {
       if ([subview isKindOfClass:child.viewType] && subview.tag == child.reuseIdentifier.hash) {
@@ -347,7 +345,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
       index++;
     }
     // Pops the candidate view from the collection.
-    if (candidateView != nil) [subviews removeObjectAtIndex:index];
+    if (candidateView != nullptr) [subviews removeObjectAtIndex:index];
     // Recursively reconcile the subnode.
     [node _reconcileNode:child
                    inView:candidateView
@@ -362,7 +360,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
       constrainedToSize:(CGSize)size
             withOptions:(CRNodeLayoutOptions)options {
   CR_ASSERT_ON_MAIN_THREAD();
-  if (_parent != nil)
+  if (_parent != nullptr)
     return [_parent reconcileInView:view constrainedToSize:size withOptions:options];
 
   _size = size;
@@ -377,7 +375,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 
   if (_flags.shouldInvokeDidMount &&
       [self.delegate respondsToSelector:@selector(rootNodeDidMount:)]) {
-    _flags.shouldInvokeDidMount = NO;
+    _flags.shouldInvokeDidMount = false;
     [self.delegate rootNodeDidMount:self];
   }
 }
@@ -394,7 +392,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 @implementation CRNullNode
 
 + (instancetype)nullNode {
-  static CRNullNode *sharedInstance = nil;
+  static CRNullNode *sharedInstance = nullptr;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[self alloc] init];
@@ -403,7 +401,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (BOOL)isNullNode {
-  return YES;
+  return true;
 }
 
 @end
