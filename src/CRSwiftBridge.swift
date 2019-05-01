@@ -6,6 +6,16 @@ import UIKit
 @objc public protocol AnyProps: class {}
 @objc public protocol AnyState: class {}
 
+public protocol WritableKeyPathBoxableEnum {
+  var rawValue: Int32 { get }
+}
+extension YGJustify: WritableKeyPathBoxableEnum {}
+extension YGAlign: WritableKeyPathBoxableEnum {}
+extension YGEdge: WritableKeyPathBoxableEnum {}
+extension YGWrap: WritableKeyPathBoxableEnum {}
+extension YGDisplay: WritableKeyPathBoxableEnum {}
+extension YGOverflow: WritableKeyPathBoxableEnum {}
+
 /// Swift-only compliance protocol.
 public protocol ControllerProtocol: AnyController {
   /// The type of the props that will be passed down to this controller.
@@ -146,6 +156,20 @@ public extension Context {
       return
     }
     spec.set(kvc, value: value, animator: animator);
+  }
+
+  func set<V: UIView, T: WritableKeyPathBoxableEnum>(
+    _ spec: LayoutSpec<V>,
+    keyPath: ReferenceWritableKeyPath<V, T>,
+    value: T,
+    animator: UIViewPropertyAnimator? = nil
+  ) -> Void {
+    guard let kvc = keyPath._kvcKeyPathString else {
+      print("\(keyPath) is not a KVC property.")
+      return
+    }
+    let nsValue = NSNumber(value: value.rawValue)
+    spec.set(kvc, value: nsValue, animator: animator)
   }
 
   /// Returns the subtree controller of the given type.

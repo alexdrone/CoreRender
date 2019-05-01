@@ -69,9 +69,7 @@ void CRNodeBuilderException(NSString *reason) {
 - (instancetype)withViewInit:(UIView * (^)(NSString *))viewInit {
   CR_ASSERT_ON_MAIN_THREAD();
   NSString *key = _key;
-  _viewInit = ^UIView *(void){
-    return viewInit(key);
-  };
+  _viewInit = ^UIView *(void) { return viewInit(key); };
   return self;
 }
 

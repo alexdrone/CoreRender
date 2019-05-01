@@ -4,7 +4,7 @@ public typealias Offset = UIOffset
 
 // MARK: - Depth
 
-public enum DepthPreset: Int {
+@objc public enum DepthPreset: Int32 {
   case none
   case depth1
   case depth2
@@ -35,17 +35,17 @@ extension UIView {
   /// A property that manages the overall shape for the object. If either the
   /// width or height property is set, the other will be automatically adjusted
   /// to maintain the shape of the object.
-  public var shapePreset: ShapePreset {
+  @objc public dynamic var shapePreset: ShapePreset {
     get { return layer.shapePreset }
     set(value) { layer.shapePreset = value }
   }
   /// A preset value for Depth.
-  public var depthPreset: DepthPreset {
+  @objc public dynamic var depthPreset: DepthPreset {
     get { return layer.depthPreset }
     set(value) { layer.depthPreset = value }
   }
   /// Depth reference.
-  public var depth: Depth {
+  public dynamic var depth: Depth {
     get { return layer.depth }
     set(value) { layer.depth = value }
   }
@@ -108,7 +108,7 @@ extension Offset {
   }
 }
 
-public enum ShapePreset: Int {
+@objc public enum ShapePreset: Int32 {
   case none
   case square
   case circle

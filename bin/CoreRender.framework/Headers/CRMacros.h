@@ -53,7 +53,7 @@ static inline id CRDynamicCast(__unsafe_unretained id obj, Class type, BOOL asse
 }
 #define CR_DYNAMIC_CAST(TYPE, VALUE) ((TYPE * _Nullable) CRDynamicCast(VALUE, TYPE.class, NO))
 #define CR_DYNAMIC_CAST_OR_ASSERT(TYPE, VALUE) \
-  ((TYPE * _Nonnull) CRDynamicCast(VALUE, TYPE.class,true))
+  ((TYPE * _Nonnull) CRDynamicCast(VALUE, TYPE.class, true))
 #endif
 
 #pragma mark - Weakify

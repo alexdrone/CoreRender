@@ -15,6 +15,17 @@
 
 - (void)set:(NSString *)keyPath value:(id)value animator:(UIViewPropertyAnimator *)animator {
   CR_ASSERT_ON_MAIN_THREAD();
+  static Class swiftValueClass;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^() {
+    swiftValueClass = NSClassFromString(@"__SwiftValue");
+  });
+  if ([value isKindOfClass:swiftValueClass]) {
+    CR_LOG(@"__SwiftValue passed for key %@. Make sure your enum conforms to "
+           @"WritableKeyPathBoxableEnum. ",
+           keyPath);
+    return;
+  }
   const auto property = [[CRNodeLayoutSpecProperty alloc] initWithKeyPath:keyPath
                                                                     value:value
                                                                  animator:animator];

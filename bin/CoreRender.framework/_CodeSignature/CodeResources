@@ -22,7 +22,7 @@
 		</data>
 		<key>Headers/CRMacros.h</key>
 		<data>
-		nv/PJ+o3auHeziAtWcQfVyYboIw=
+		gDKCfqma7K4tYhRAu/kcEtB23bc=
 		</data>
 		<key>Headers/CRNode.h</key>
 		<data>
@@ -46,7 +46,7 @@
 		</data>
 		<key>Headers/CRUmbrellaHeader.h</key>
 		<data>
-		6Pg3suYZnal5ZvQutyyjU2C2gbY=
+		GnzX2ZW4IpEYwQnWRRY0c55Gyes=
 		</data>
 		<key>Headers/CoreRender-Swift.h</key>
 		<data>
@@ -78,7 +78,7 @@
 		</data>
 		<key>Modules/CoreRender.swiftmodule/i386.swiftmodule</key>
 		<data>
-		uzTUCI+m5fGUNZCPc5OpWEFUTPM=
+		Hdrz4nQJKZj+C0ICWWQP3qEwGQc=
 		</data>
 		<key>Modules/CoreRender.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -86,7 +86,7 @@
 		</data>
 		<key>Modules/CoreRender.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		2NXxT6KVGsK2VxaddVlJTK1gT+Y=
+		U6OY8b5cW+sDP+Z/5+qW34ZxNnI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -143,11 +143,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			nv/PJ+o3auHeziAtWcQfVyYboIw=
+			gDKCfqma7K4tYhRAu/kcEtB23bc=
 			</data>
 			<key>hash2</key>
 			<data>
-			jrHbJAkTRsoc6YqyWv1H2zUWvnQUtSch062QF5Ll4ow=
+			n97sXbBbe0HNe/sdu0mTJS4qdtvowAqGFK+Pw1exryo=
 			</data>
 		</dict>
 		<key>Headers/CRNode.h</key>
@@ -209,11 +209,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6Pg3suYZnal5ZvQutyyjU2C2gbY=
+			GnzX2ZW4IpEYwQnWRRY0c55Gyes=
 			</data>
 			<key>hash2</key>
 			<data>
-			WokM3ggnUTZC2GpVlMJ9BgUznGnDTJ4EdCH5+PdFC9w=
+			nKmI7Kneh2YlGl2mO46sa2OJe9/ndfCgOuTSi84802s=
 			</data>
 		</dict>
 		<key>Headers/CoreRender-Swift.h</key>
@@ -286,11 +286,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uzTUCI+m5fGUNZCPc5OpWEFUTPM=
+			Hdrz4nQJKZj+C0ICWWQP3qEwGQc=
 			</data>
 			<key>hash2</key>
 			<data>
-			q7yvgmxtKM5AU968yjdnxNPNd0Eiccm9WME4lRVnXK8=
+			I39OpSNTjkHLEBv7+fGo+fMlMTfx0DJE7kFJZN9t8Hg=
 			</data>
 		</dict>
 		<key>Modules/CoreRender.swiftmodule/x86_64.swiftdoc</key>
@@ -308,11 +308,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2NXxT6KVGsK2VxaddVlJTK1gT+Y=
+			U6OY8b5cW+sDP+Z/5+qW34ZxNnI=
 			</data>
 			<key>hash2</key>
 			<data>
-			VzPxcvSHemTy9dEHeuFE6mCuFkVpZf0eFK7NbphiUa0=
+			dnjYnkKAKFonAiEnGIpDaKC7ucn4Wkf9kiXHo1kIV/w=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

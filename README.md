@@ -33,7 +33,7 @@ targets:
 
 Let's build the classic *Counter-Example*.
 
-The following is the node hierarchy definition. 
+The following is the node hierarchy definition.
 
 ```swift
 func counterNode(ctx: Context) -> ConcreteNode<UIView> {
@@ -52,9 +52,9 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
       initialState: CounterState(),
       props: NullProps.null)
     .withLayoutSpec { spec in            // View configuration.
-      ctx.set(spec, keyPath: \UIView.yoga.width, value: spec.size.width)
-      ctx.set(spec, keyPath: \UIView.backgroundColor, value: .lightGray)
-      ctx.set(spec, keyPath: \UIView.cornerRadius, value: 5)
+      ctx.set(spec, keyPath: \.yoga.width, value: spec.size.width)
+      ctx.set(spec, keyPath: \.backgroundColor, value: .lightGray)
+      ctx.set(spec, keyPath: \.cornerRadius, value: 5)
     }.withChildren([
       ctx.makeNode(type: UIButton.self) // UIButton.
         .withViewInit { _ in            // Custom view initialization.
@@ -73,11 +73,11 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
 }
 ```
 
-*Controllers* are similar to Components in React/Render/Litho and manage the UI updates. 
+*Controllers* are similar to Components in React/Render/Litho and manage the UI updates.
 
 ```swift
 class CounterController: Controller<NullProps, CounterState> {
-  
+
   func incrementCounter() {
     self.state.count += 1 .              // Update the state.
     print("count: \(self.state.count)")
