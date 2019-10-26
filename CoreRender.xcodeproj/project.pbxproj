@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,7 +23,7 @@
 		604C8EA8DA5B11DBB55ADD34BDE1A606 /* CRNodeBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 912C4D4E4428FFB1EEEA9C92B651D1EE /* CRNodeBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		66BABAE4D6CFB18AEA05008B5171AB2F /* CRNodeBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = A3F486A18C02EE38965AEC8A9A2A7C3D /* CRNodeBridge.mm */; };
 		793609FA2919DC0566220E3ECE455767 /* CoreRender.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB006035FFB0A74A5C6A613C3872777 /* CoreRender.framework */; };
-		7BCF2A77745E81D8FCA8A98C3D90BD25 /* CRSwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23716FF81E2C1BE282111420AF51843E /* CRSwiftBridge.swift */; };
+		7BCF2A77745E81D8FCA8A98C3D90BD25 /* SwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23716FF81E2C1BE282111420AF51843E /* SwiftBridge.swift */; };
 		7FE67CD81B5F964A116C7CF0DAA14A96 /* CRNodeLayoutSpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A109BD528D429F1521DE0F4DE7BDFF /* CRNodeLayoutSpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		87B81790259F2C6A37DAF8883BE40ABA /* Yoga.c in Sources */ = {isa = PBXBuildFile; fileRef = 5431AB3FE2BDD110F7FC691D3E113579 /* Yoga.c */; };
 		88FFB88D3B218D1B968E36923999D502 /* CRNodeHierarchy.h in Headers */ = {isa = PBXBuildFile; fileRef = 43335E37249F2E37259F9447B82FDF53 /* CRNodeHierarchy.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,29 +67,29 @@
 		02CF35DD85EEFEB22EE44507BEE8DFD1 /* UIView+CRNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+CRNode.h"; sourceTree = "<group>"; };
 		099ACCC7A86C415251B77B8F115DBD5D /* CRNodeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNodeTests.m; sourceTree = "<group>"; };
 		0E046A09B43CA71E3EEF0E07AB53929C /* CRController+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CRController+Private.h"; sourceTree = "<group>"; };
-		23716FF81E2C1BE282111420AF51843E /* CRSwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRSwiftBridge.swift; sourceTree = "<group>"; };
-		397F2A5519C8DDC026DB18EB70362575 /* CRController.mm */ = {isa = PBXFileReference; path = CRController.mm; sourceTree = "<group>"; };
+		23716FF81E2C1BE282111420AF51843E /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
+		397F2A5519C8DDC026DB18EB70362575 /* CRController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRController.mm; sourceTree = "<group>"; };
 		39D9FF8B18EFCAD2A0019AB524CF3965 /* CRNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNode.h; sourceTree = "<group>"; };
 		43335E37249F2E37259F9447B82FDF53 /* CRNodeHierarchy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNodeHierarchy.h; sourceTree = "<group>"; };
-		4472E4802AA57E6E53AF738355C9141D /* CRNode.mm */ = {isa = PBXFileReference; path = CRNode.mm; sourceTree = "<group>"; };
-		4FBB2C70798441E786DDB229A688936B /* CRNodeLayoutSpec.mm */ = {isa = PBXFileReference; path = CRNodeLayoutSpec.mm; sourceTree = "<group>"; };
+		4472E4802AA57E6E53AF738355C9141D /* CRNode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNode.mm; sourceTree = "<group>"; };
+		4FBB2C70798441E786DDB229A688936B /* CRNodeLayoutSpec.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeLayoutSpec.mm; sourceTree = "<group>"; };
 		51DD210721A00E609A0085C3C04D7E1A /* CRMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMacros.h; sourceTree = "<group>"; };
 		52A109BD528D429F1521DE0F4DE7BDFF /* CRNodeLayoutSpec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNodeLayoutSpec.h; sourceTree = "<group>"; };
-		5431AB3FE2BDD110F7FC691D3E113579 /* Yoga.c */ = {isa = PBXFileReference; path = Yoga.c; sourceTree = "<group>"; };
-		582DCFB8146E78BACA8190A766091756 /* CRNodeHierarchy.mm */ = {isa = PBXFileReference; path = CRNodeHierarchy.mm; sourceTree = "<group>"; };
+		5431AB3FE2BDD110F7FC691D3E113579 /* Yoga.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Yoga.c; sourceTree = "<group>"; };
+		582DCFB8146E78BACA8190A766091756 /* CRNodeHierarchy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeHierarchy.mm; sourceTree = "<group>"; };
 		614E19A76877B3E045DFDCE137CBB259 /* CRUmbrellaHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRUmbrellaHeader.h; sourceTree = "<group>"; };
-		6E4D44CFE1EE0831BDC3CC2A3BC4A695 /* CRNodeBuilder.mm */ = {isa = PBXFileReference; path = CRNodeBuilder.mm; sourceTree = "<group>"; };
+		6E4D44CFE1EE0831BDC3CC2A3BC4A695 /* CRNodeBuilder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeBuilder.mm; sourceTree = "<group>"; };
 		75DE0C6EF56532EF0AD94589DBBD42BB /* CoreRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreRender.h; sourceTree = "<group>"; };
 		7666C16CEA8C351CC2DFCFF586D96098 /* CRContext+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CRContext+Private.h"; sourceTree = "<group>"; };
 		7F9578A9B14F087790DEE4832BB4E11E /* CRNodeBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNodeBridge.h; sourceTree = "<group>"; };
-		7FCC868261A5AC242580F324B5130599 /* UIView+CRNode.mm */ = {isa = PBXFileReference; path = "UIView+CRNode.mm"; sourceTree = "<group>"; };
+		7FCC868261A5AC242580F324B5130599 /* UIView+CRNode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIView+CRNode.mm"; sourceTree = "<group>"; };
 		81E2879FD4F5F47541D571AC56BC03D2 /* YGLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YGLayout.h; sourceTree = "<group>"; };
 		89E491FBBE935AE280AB1CBED55A48ED /* Test.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		912C4D4E4428FFB1EEEA9C92B651D1EE /* CRNodeBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNodeBuilder.h; sourceTree = "<group>"; };
-		A0E31AEB67433964AE449F7EC21972E4 /* YGLayout.mm */ = {isa = PBXFileReference; path = YGLayout.mm; sourceTree = "<group>"; };
+		A0E31AEB67433964AE449F7EC21972E4 /* YGLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = YGLayout.mm; sourceTree = "<group>"; };
 		A2878F071F1B4B979F23FCF5A7A1020F /* CRSwiftInteropTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRSwiftInteropTests.swift; sourceTree = "<group>"; };
-		A3F486A18C02EE38965AEC8A9A2A7C3D /* CRNodeBridge.mm */ = {isa = PBXFileReference; path = CRNodeBridge.mm; sourceTree = "<group>"; };
-		A42F585757BD46183C7BC8D9B52896BC /* CRContext.mm */ = {isa = PBXFileReference; path = CRContext.mm; sourceTree = "<group>"; };
+		A3F486A18C02EE38965AEC8A9A2A7C3D /* CRNodeBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRNodeBridge.mm; sourceTree = "<group>"; };
+		A42F585757BD46183C7BC8D9B52896BC /* CRContext.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CRContext.mm; sourceTree = "<group>"; };
 		A4ECC522F9EC45F78CB6D94B2C43E87E /* CRContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRContext.h; sourceTree = "<group>"; };
 		A6E9BFC34F741108474251D5308793F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE12243D362CA5EFA71FE12F87707951 /* CRController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRController.h; sourceTree = "<group>"; };
@@ -170,11 +170,11 @@
 				582DCFB8146E78BACA8190A766091756 /* CRNodeHierarchy.mm */,
 				52A109BD528D429F1521DE0F4DE7BDFF /* CRNodeLayoutSpec.h */,
 				4FBB2C70798441E786DDB229A688936B /* CRNodeLayoutSpec.mm */,
-				23716FF81E2C1BE282111420AF51843E /* CRSwiftBridge.swift */,
 				614E19A76877B3E045DFDCE137CBB259 /* CRUmbrellaHeader.h */,
 				A6E9BFC34F741108474251D5308793F1 /* Info.plist */,
 				02CF35DD85EEFEB22EE44507BEE8DFD1 /* UIView+CRNode.h */,
 				7FCC868261A5AC242580F324B5130599 /* UIView+CRNode.mm */,
+				23716FF81E2C1BE282111420AF51843E /* SwiftBridge.swift */,
 				7A5EDA05D6FCF57801677D5B2F57EBCC /* yoga */,
 			);
 			path = src;
@@ -310,7 +310,7 @@
 				AD2DFBC5A064D8D45D6939510F34B63E /* CRNodeBuilder.mm in Sources */,
 				AB64297AC87FB270173BA2F0AD25FE8C /* CRNodeHierarchy.mm in Sources */,
 				02BDC4B175351787B8D4F78039207CC4 /* CRNodeLayoutSpec.mm in Sources */,
-				7BCF2A77745E81D8FCA8A98C3D90BD25 /* CRSwiftBridge.swift in Sources */,
+				7BCF2A77745E81D8FCA8A98C3D90BD25 /* SwiftBridge.swift in Sources */,
 				26802FC43B3836DED386A908A0FB62E6 /* UIView+CRNode.mm in Sources */,
 				AC27ED358C9F89D8C4368B243890EEA0 /* YGLayout.mm in Sources */,
 				87B81790259F2C6A37DAF8883BE40ABA /* Yoga.c in Sources */,
@@ -392,7 +392,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -412,7 +416,10 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				INFOPLIST_FILE = src/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PLATFORM = "platform $platform";
 				PRODUCT_BUNDLE_IDENTIFIER = io.alexdrone.corerender;
@@ -439,7 +446,10 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				INFOPLIST_FILE = src/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PLATFORM = "platform $platform";
 				PRODUCT_BUNDLE_IDENTIFIER = io.alexdrone.corerender;
@@ -456,7 +466,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

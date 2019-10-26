@@ -41,35 +41,28 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
     static let counterRoot = "counterRoot"
   }
   // Retrieves the root node controller.
-  let controllerProvider = ctx.controllerProvider(
-    type: CounterController.self,
-    key: Key.counterRoot)
+  let controllerProvider = ctx.controllerProvider(type: CounterController.self, key: Key.counterRoot)
+
   // Returns the node hiearchy.
-  return ctx.makeNode(type: UIView.self) // UIView container view.
-    .withControllerType(                 // Binds a controller to the view.
-      CounterController.self,
-      key: Key.counterRoot,              // And give the view a unique key.
-      initialState: CounterState(),
-      props: NullProps.null)
-    .withLayoutSpec { spec in            // View configuration.
+  return Node(UIView.self) {
+    // A child.
+    Node(UILabel).withLayoutSpec { spec
+      Property(in: spec, keyPath: \.text, value: "Hello!")
+    }
+    // Another child.
+    Node(UILabel.self).withLayoutSpec { spec in
+      let count = controllerProvider?.controller.state.count ?? 0
+      Property(in: spec, keyPath: \.text, value: "count: \(count)")
+    }
+  }
+  // Binds a controller with a unique key.
+  .withControllerType(CounterController.self, key: Key.counterRoot, initialState: CounterState(), props: NullProps.null)
+  // Container view configuration.
+  .withLayoutSpec { spec in
       ctx.set(spec, keyPath: \.yoga.width, value: spec.size.width)
       ctx.set(spec, keyPath: \.backgroundColor, value: .lightGray)
       ctx.set(spec, keyPath: \.cornerRadius, value: 5)
-    }.withChildren([
-      ctx.makeNode(type: UIButton.self) // UIButton.
-        .withViewInit { _ in            // Custom view initialization.
-          let button = UIButton()
-          button.addTarget(
-            controllerProvider?.controller,
-            action: #selector(CounterController.incrementCounter),
-            for: .touchUpInside)
-          return button
-        }.withReuseIdentifier("button")  // Re-use identifier for this view (mandatory when the view has a custom initialization).
-        .withLayoutSpec { spec in        // View configuration.
-          let count = controllerProvider?.controller.state.count ?? 0
-          spec.view?.setTitle("Count: \(count)", for: .normal)
-        }.build(),                       
-  ]).build()
+  }.build()
 }
 ```
 
