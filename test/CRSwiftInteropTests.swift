@@ -25,11 +25,18 @@ class CRSwiftInteropTests: XCTestCase {
   }
 
   func makeCounterNode(ctx: Context) -> ConcreteNode<UIView> {
-    return Node(UIView.self) {
+    Node(UIView.self) {
       Node(UILabel.self).withLayoutSpec { spec in
-        Property(in: spec, keyPath: \.text, value: "Test")
+        withProperty(in: spec, keyPath: \.text, value: "Test")
       }.build()
       Node(UIButton.self).build()
+    }.build()
+  }
+
+  func makeCounterNode2(ctx: Context) -> ConcreteNode<UIView> {
+    UIKit.VStack {
+      UIKit.Label(text: "Hello").build()
+      UIKit.Button(key: "counter", title: "Increment").build()
     }.build()
   }
 }

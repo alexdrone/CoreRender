@@ -75,7 +75,16 @@ void CRNodeBuilderException(NSString *reason) {
 
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec *))layoutSpec {
   CR_ASSERT_ON_MAIN_THREAD();
-  _layoutSpec = layoutSpec;
+  if (_layoutSpec == nullptr) layoutSpec = layoutSpec;
+  else {
+    __block const auto oldBlock = _layoutSpec;
+    __block const auto newBlock = layoutSpec;
+    _layoutSpec = ^(CRNodeLayoutSpec *spec) {
+      oldBlock(spec);
+      if (newBlock == nullptr) return;
+      newBlock(spec);
+    };
+  }
   return self;
 }
 
