@@ -51,9 +51,8 @@ The `withLayoutSpec` modifier allows to specify a custom configuration closure f
 class CounterController: Controller<NullProps, CounterState> {
 
   func incrementCounter() {
-    self.state.count += 1 .              // Update the state.
-    print("count: \(self.state.count)")
-    nodeHierarchy?.setNeedsReconcile()   // Trigger the reconciliation algorithm on the view hiearchy associated to this 
+    self.state.count += 1                // Update the state.
+    body?.setNeedsReconcile()            // Trigger the reconciliation algorithm on the view hiearchy associated to this controller.
   }
 }
 

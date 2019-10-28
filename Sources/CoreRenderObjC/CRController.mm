@@ -17,7 +17,7 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 
 @implementation CRController
 
-- (CRNodeHierarchy *)nodeHierarchy {
+- (CRNodeHierarchy *)body {
   return _node.nodeHierarchy;
 }
 

@@ -38,7 +38,7 @@ NS_SWIFT_NAME(Controller)
 /// The current controller state.
 @property(nonatomic, readwrite) S state;
 /// The UI node assigned to this controller.
-@property(nonatomic, readonly, nullable, weak) CRNodeHierarchy *nodeHierarchy;
+@property(nonatomic, readonly, nullable, weak) CRNodeHierarchy *body;
 /// The UI node assigned to this controller.
 @property(nonatomic, readonly, nullable, weak) CRNode *node;
 
