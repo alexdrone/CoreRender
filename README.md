@@ -47,7 +47,7 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
 }
 ```
 
-*Controllers* are similar to Components in React/Render/Litho and manage the UI updates.
+*Controllers* are similar to Components in React/Render/Litho and Coordinators in SwiftUI.
 
 ```swift
 class CounterController: Controller<NullProps, CounterState> {
