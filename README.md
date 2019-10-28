@@ -66,22 +66,22 @@ Finally let's create *CoreRender* node hiararchy in our ViewController.
 
 ```swift
 class CounterViewController: UIViewController {
-  private var nodeHierarchy: NodeHierarchy?
   private let context = Context()
-  private let controller: CounterController {
-    return ctx.controller(ofType: CounterController.self, withKey: "counter")
+  private var hostingView: HostingView {
+    view as! HostingView
   }
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    nodeHierarchy = NodeHierarchy(context: context, controller: controller) { ctx in
+  private let controller: CounterController {
+    context.controller(ofType: CounterController.self, withKey: "counter")
+  }
+  
+  func loadView() {
+    view = HostingView(context: context, options: [.useSafeAreaInsets]) { ctx in
       makeCounter(ctx: ctx)
     }
-    nodeHierarchy?.build(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
   }
-
+  
   override func viewDidLayoutSubviews() {
-    nodeHierarchy?.setNeedsLayout()
+    hostingView.setNeedsLayout()
   }
 }
 ```

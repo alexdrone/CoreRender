@@ -109,7 +109,7 @@ void CRIllegalControllerTypeException(NSString *reason) {
   if (!context) return nil;
   if (!_controllerType) return _parent.controller;
   return _key != nil ? [context controllerOfType:_controllerType withKey:_key]
-                         : [context controllerOfType:_controllerType];
+                     : [context controllerOfType:_controllerType];
 }
 
 - (CRNodeHierarchy *)nodeHierarchy {

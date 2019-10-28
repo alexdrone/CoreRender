@@ -7,9 +7,9 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#include <string.h>
-
 #include "Yoga.h"
+
+#include <string.h>
 
 #ifdef _MSC_VER
 #include <float.h>

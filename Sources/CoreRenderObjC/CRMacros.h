@@ -84,8 +84,7 @@ static inline id CRDynamicCast(__unsafe_unretained id obj, Class type, BOOL asse
 #define CR_NOESCAPE __attribute__((noescape))
 
 // Ensure the caller method is being invoked on the main thread.
-#define CR_ASSERT_ON_MAIN_THREAD() \
-  NSAssert(NSThread.isMainThread, @"called off the main thread.")
+#define CR_ASSERT_ON_MAIN_THREAD() NSAssert(NSThread.isMainThread, @"called off the main thread.")
 
 #pragma mark - Geometry
 
