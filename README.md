@@ -18,11 +18,8 @@ The following is the node hierarchy definition.
 
 ```swift
 func counterNode(ctx: Context) -> ConcreteNode<UIView> {
-  struct Key {
-    static let counterRoot = "counterRoot"
-  }
-  // Retrieves the root node controller.
-  let controllerProvider = ctx.controllerProvider(type: CounterController.self, key: Key.counterRoot)
+  let key = "counter"
+  let controller = ctx.controllerProvider(type: CounterController.self, key: key)
 
   return UIKit.VStack {
     UIKit.Label(text: "Hello World!").build()
@@ -31,7 +28,7 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
     }.build()
   }
   // Binds a controller with a unique key.
-  .withControllerType(CounterController.self, key: Key.counterRoot, initialState: CounterState(), props: NullProps.null)
+  .withControllerType(CounterController.self, key: key, initialState: CounterState(), props: NullProps.null)
   .build()
 }
 ```
