@@ -24,26 +24,15 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
   // Retrieves the root node controller.
   let controllerProvider = ctx.controllerProvider(type: CounterController.self, key: Key.counterRoot)
 
-  // Returns the node hiearchy.
-  return Node(UIView.self) {
-    // A child.
-    Node(UILabel).withLayoutSpec { spec
-      Property(in: spec, keyPath: \.text, value: "Hello!")
-    }
-    // Another child.
-    Node(UILabel.self).withLayoutSpec { spec in
-      let count = controllerProvider?.controller.state.count ?? 0
-      Property(in: spec, keyPath: \.text, value: "count: \(count)")
-    }
+  return UIKit.VStack {
+    UIKit.Label(text: "Hello World!").build()
+    UIKit.Button(target: controllerProvider?.controller, action:#selector(increaseCounter:).withLayoutSpec { spec in
+      withProperty(in: spec, keyPath: \.text, value: "count: \(count)")
+    }.build()
   }
   // Binds a controller with a unique key.
   .withControllerType(CounterController.self, key: Key.counterRoot, initialState: CounterState(), props: NullProps.null)
-  // Container view configuration.
-  .withLayoutSpec { spec in
-      ctx.set(spec, keyPath: \.yoga.width, value: spec.size.width)
-      ctx.set(spec, keyPath: \.backgroundColor, value: .lightGray)
-      ctx.set(spec, keyPath: \.cornerRadius, value: 5)
-  }.build()
+  .build()
 }
 ```
 
