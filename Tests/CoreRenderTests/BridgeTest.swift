@@ -67,10 +67,5 @@ class CRSwiftInteropTests: XCTestCase {
     .withController(controller, initialState: FooState(), props: NullProps.null)
     .build()
   }
-  
-  func makeController(ctx: Context) -> FooController {
-    ctx.controller(ofType: FooController.self, withKey: "counter")
-    
-  }
 }
 
