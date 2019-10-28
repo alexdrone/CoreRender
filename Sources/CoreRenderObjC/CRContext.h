@@ -37,6 +37,10 @@ NS_SWIFT_NAME(Context)
 /// controller).
 - (CRControllerProvider *)controllerProviderOfType:(Class)type withKey:(NSString *)key;
 
+/// Returns the controller (or instantiate a new one) of type @c type for the unique identifier
+/// passed as argument.
+- (__kindof CRController *)controllerOfType:(Class)type withKey:(NSString *)key;
+
 /// Returns the controller (or instantiate a new one) of type @c type.
 /// @note: Returns @c nil if @c type is not a subclass of @c CRStatelessController.
 - (CRControllerProvider *)controllerProviderOfType:(Class)type;

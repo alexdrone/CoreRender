@@ -58,14 +58,19 @@ class CRSwiftInteropTests: XCTestCase {
   }
   
   func makeCounterNodeWithHelpers(ctx: Context, controller: FooController) -> ConcreteNode<UIView> {
-    return UIKit.VStack {
+    UIKit.VStack {
       UIKit.Label(text: "count \(controller.state.count)").build()
       UIKit.Button(title: "Increse", action: {
         controller.increase()
       }).build()
     }
-    .withController(controller, initialState: FooState(), props: FooProps)
+    .withController(controller, initialState: FooState(), props: NullProps.null)
     .build()
+  }
+  
+  func makeController(ctx: Context) -> FooController {
+    ctx.controller(ofType: FooController.self, withKey: "counter")
+    
   }
 }
 

@@ -19,18 +19,14 @@ Let's build the classic *Counter-Example*.
 The following is the node hierarchy definition.
 
 ```swift
-func makeCounter(ctx: Context) -> ConcreteNode<UIView> {
-  let key = "counter"
-  let provider = ctx.controllerProvider(type: CounterState.self, key: key)
-  
-  return UIKit.VStack {
-    UIKit.Label(text: "count").build()
+func makeCounter(ctx: Context, controller: CounterController) -> ConcreteNode<UIView> {
+  UIKit.VStack {
+    UIKit.Label(text: "count \(controller.state.count)").build()
     UIKit.Button(title: "Increse", action: {
-      guard let controller = provider?.controller else { return }
       controller.increase()
     }).build()
   }
-  .withControllerType(CounterController.self, key: key, initialState: CounterState(), props: NullProps.null)
+  .withController(controller, initialState: CounterState(), props: FooProps)
   .build()
 }
 ```
@@ -74,10 +70,13 @@ Finally let's create *CoreRender* node hiararchy in our ViewController.
 class CounterViewController: UIViewController {
   private var nodeHierarchy: NodeHierarchy?
   private let context = Context()
+  private let controller: CounterController {
+    return ctx.controller(ofType: CounterController.self, withKey: "counter")
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    nodeHierarchy = NodeHierarchy(context: context) { ctx in
+    nodeHierarchy = NodeHierarchy(context: context, controller: controller) { ctx in
       makeCounter(ctx: ctx)
     }
     nodeHierarchy?.build(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
