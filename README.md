@@ -34,7 +34,7 @@ func makeCounter(ctx: Context) -> ConcreteNode<UIView> {
 ```
 
 `UIKit.Label` and `UIKit.Button` are just specialized versions of the `Node<V: UIView>` pure function.
-That means you could wrap any view in a vdom node. e.g.
+That means you could wrap any UIView subclass in a vdom node. e.g.
 ```swift
 
 Node(type: UIScrollView.self) {
@@ -45,7 +45,7 @@ Node(type: UIScrollView.self) {
 }
 
 ```
-
+The `withLayoutSpec` modifier allows to specify a custom configuration closure for your view.
 
 
 
