@@ -1,6 +1,6 @@
 # CoreRender [![Swift](https://img.shields.io/badge/swift-5.1-orange.svg?style=flat)](#) [![ObjC++](https://img.shields.io/badge/ObjC++-blue.svg?style=flat)](#) [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-<img src="docs/assets/logo_new.png" width=150 alt="Render" align=right />
+<img src="docs/assets/logo_new.png" width=150 alt="CoreRender" align=right />
 
 CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 11+ and ObjC).
 
@@ -9,6 +9,8 @@ CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 11+ 
 * **Declarative:** CoreRender uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest (*diff* and *reconciliation* from virtual view hierarchy to the actual one under the hood).
 * **Flexbox layout:** CoreRender includes the robust and battle-tested Facebook's [Yoga](https://facebook.github.io/yoga/) as default layout engine.
 * **Fine-grained recycling:** Any component such as a text or image can be recycled and reused anywhere in the UI.
+
+<img src="docs/assets/snippet.png" width=500 alt="Render"/>
 
 ### TL;DR
 
@@ -19,15 +21,15 @@ The following is the node hierarchy definition.
 ```swift
 func makeCounter(ctx: Context) -> ConcreteNode<UIView> {
   let key = "counter"
-  let controller = ctx.controllerProvider(type: CounterController.self, key: key)
-
+  let provider = ctx.controllerProvider(type: CounterState.self, key: key)
+  
   return UIKit.VStack {
-    UIKit.Label(text: "Hello World!").build()
-    UIKit.Button(target: controllerProvider?.controller, action:#selector(increaseCounter:).withLayoutSpec { spec in
-      withProperty(in: spec, keyPath: \.text, value: "count: \(count)")
-    }.build()
+    UIKit.Label(text: "count").build()
+    UIKit.Button(title: "Increse", action: {
+      guard let controller = provider?.controller else { return }
+      controller.increase()
+    }).build()
   }
-  // Binds a controller with a unique key.
   .withControllerType(CounterController.self, key: key, initialState: CounterState(), props: NullProps.null)
   .build()
 }
