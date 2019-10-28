@@ -17,7 +17,7 @@ Let's build the classic *Counter-Example*.
 The following is the node hierarchy definition.
 
 ```swift
-func counterNode(ctx: Context) -> ConcreteNode<UIView> {
+func makeCounter(ctx: Context) -> ConcreteNode<UIView> {
   let key = "counter"
   let controller = ctx.controllerProvider(type: CounterController.self, key: key)
 
@@ -33,6 +33,22 @@ func counterNode(ctx: Context) -> ConcreteNode<UIView> {
 }
 ```
 
+`UIKit.Label` and `UIKit.Button` are just specialized versions of the `Node<V: UIView>` pure function.
+That means you could wrap any view in a vdom node. e.g.
+```swift
+
+Node(type: UIScrollView.self) {
+  Node(type: UILabel.self).withLayoutSpec { spec in 
+    // This is where you can have all sort of custom view configuration.
+  }.build()
+  Node(type: UISwitch.self).build()
+}
+
+```
+
+
+
+
 *Controllers* are similar to Components in React/Render/Litho and Coordinators in SwiftUI.
 
 ```swift
@@ -41,7 +57,7 @@ class CounterController: Controller<NullProps, CounterState> {
   func incrementCounter() {
     self.state.count += 1 .              // Update the state.
     print("count: \(self.state.count)")
-    nodeHierarchy?.setNeedsReconcile()   // Trigger the reconciliation algorithm on the view hiearchy associated to this controller.
+    nodeHierarchy?.setNeedsReconcile()   // Trigger the reconciliation algorithm on the view hiearchy associated to this 
   }
 }
 
@@ -60,7 +76,7 @@ class CounterViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     nodeHierarchy = NodeHierarchy(context: context) { ctx in
-      counterNode(ctx: ctx)
+      makeCounter(ctx: ctx)
     }
     nodeHierarchy?.build(in: view, constrainedTo: view.bounds.size, with: [.useSafeAreaInsets])
   }
