@@ -2,10 +2,16 @@ import XCTest
 import CoreRenderObjC
 import CoreRender
 
-class FooController: StatelessController<FooProps>, ControllerProtocol {
-  typealias StateType = NullState
+class FooController: Controller<FooProps, FooState>, ControllerProtocol {
+  typealias StateType = FooState
   typealias PropsType = FooProps
+  func increase() { state.count += 1 }
 }
+
+class FooState: State {
+  var count = 0
+}
+
 class FooProps: Props { }
 class BarProps: Props { }
 
@@ -34,9 +40,32 @@ class CRSwiftInteropTests: XCTestCase {
   }
 
   func makeCounterNodeWithHelpers(ctx: Context) -> ConcreteNode<UIView> {
-    UIKit.VStack {
-      UIKit.Label(text: "Hello").build()
-      UIKit.Button(key: "counter", title: "Increment").build()
-    }.build()
+    let key = "counter"
+    let provider = ctx.controllerProvider(type: FooController.self, key: key)
+    
+    return UIKit.VStack {
+      UIKit.Label(text: "count").build()
+      UIKit.Button(title: "Increse", action: {
+        guard let controller = provider?.controller else { return }
+        controller.increase()
+      }).build()
+    }
+    .withControllerType(
+      FooController.self,
+      key: key, initialState: FooState(),
+      props: NullProps.null)
+    .build()
+  }
+  
+  func makeCounterNodeWithHelpers(ctx: Context, controller: FooController) -> ConcreteNode<UIView> {
+    return UIKit.VStack {
+      UIKit.Label(text: "count \(controller.state.count)").build()
+      UIKit.Button(title: "Increse", action: {
+        controller.increase()
+      }).build()
+    }
+    .withController(controller, initialState: FooState(), props: FooProps)
+    .build()
   }
 }
+
