@@ -1,5 +1,6 @@
 #import "../CRContext.h"
 #import "../CRController.h"
+#import "../CRHostingView.h"
 #import "../CRMacros.h"
 #import "../CRNode.h"
 #import "../CRNodeBridge.h"
