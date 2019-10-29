@@ -67,5 +67,12 @@ class CRSwiftInteropTests: XCTestCase {
     .withController(controller, initialState: FooState(), props: NullProps.null)
     .build()
   }
+  
+  func makeCounterNodeWithHelpers2(ctx: Context, controller: FooController) -> ConcreteNode<UIView> {
+    UIKit.VStack {
+      UIKit.Label(text: "Hello")
+    }
+    .build()
+  }
 }
 
