@@ -4,6 +4,10 @@
 
 CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 10+ and ObjC).
 
+
+<img src="docs/assets/screen_1.png" width=320 alt="screen" />
+<img src="docs/assets/carbon_1.png" width=640 alt="screen_code" />
+
 ### Introduction
 
 * **Declarative:** CoreRender uses a declarative API to define UI components. You simply describe the layout for your UI based on a set of inputs and the framework takes care of the rest (*diff* and *reconciliation* from virtual view hierarchy to the actual one under the hood).
