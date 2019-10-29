@@ -5,6 +5,7 @@
 #import "../CRNode.h"
 #import "../CRNodeBridge.h"
 #import "../CRNodeBuilder.h"
+#import "../CRNodeBuilder+Modifiers.h"
 #import "../CRNodeHierarchy.h"
 #import "../CRNodeLayoutSpec.h"
 #import "../UIView+CRNode.h"
