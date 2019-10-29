@@ -6,16 +6,28 @@
 
 @implementation CRNodeBuilder (Modifiers)
 
-- (instancetype)padding:(UIEdgeInsets)padding {
+- (instancetype)padding:(CGFloat)padding {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    [spec set:CR_KEYPATH(spec.view, yoga.padding) value:@(padding)];
+  }];
+}
+
+- (instancetype)paddingInsets:(UIEdgeInsets)padding {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
     [spec set:CR_KEYPATH(spec.view, yoga.paddingTop) value:@(padding.top)];
     [spec set:CR_KEYPATH(spec.view, yoga.paddingBottom) value:@(padding.bottom)];
     [spec set:CR_KEYPATH(spec.view, yoga.paddingLeft) value:@(padding.left)];
-    [spec set:CR_KEYPATH(spec.view, yoga.paddingRight) value:@(padding.bottom)];
+    [spec set:CR_KEYPATH(spec.view, yoga.paddingRight) value:@(padding.right)];
   }];
 }
 
-- (instancetype)margin:(UIEdgeInsets)margin {
+- (instancetype)margin:(CGFloat)margin {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    [spec set:CR_KEYPATH(spec.view, yoga.margin) value:@(margin)];
+  }];
+}
+
+- (instancetype)marginInsets:(UIEdgeInsets)margin {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
     [spec set:CR_KEYPATH(spec.view, yoga.marginTop) value:@(margin.top)];
     [spec set:CR_KEYPATH(spec.view, yoga.marginBottom) value:@(margin.bottom)];

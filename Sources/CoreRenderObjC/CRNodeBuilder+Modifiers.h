@@ -7,11 +7,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CRNodeBuilder (Modifiers)
+
 /// Pads the view using the specified edge insets.
-- (instancetype)padding:(UIEdgeInsets)padding;
+- (instancetype)padding:(CGFloat)padding;
+
+/// Pads the view using the specified edge insets.
+- (instancetype)paddingInsets:(UIEdgeInsets)padding;
+
+/// Pads the view using the specified edge insets.
+- (instancetype)margin:(CGFloat)padding;
 
 /// Margins for the view using the specified edge insets.
-- (instancetype)margin:(UIEdgeInsets)padding;
+- (instancetype)marginInsets:(UIEdgeInsets)padding;
 
 /// Borders for the view using the specified edge insets.
 - (instancetype)border:(UIEdgeInsets)border;
