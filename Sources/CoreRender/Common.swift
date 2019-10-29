@@ -17,6 +17,8 @@ public struct UIKit {
     Node(UIView.self, builder: builder).withLayoutSpec { spec in
       guard let yoga = spec.view?.yoga else { return }
       yoga.flexDirection = .row
+      yoga.justifyContent = .flexStart
+      yoga.alignItems = .flexStart
       yoga.flex()
     }
   }
@@ -27,6 +29,8 @@ public struct UIKit {
     Node(UIView.self, builder: builder).withLayoutSpec { spec in
       guard let yoga = spec.view?.yoga else { return }
       yoga.flexDirection = .column
+      yoga.justifyContent = .flexStart
+      yoga.alignItems = .flexStart
       yoga.flex()
     }
   }

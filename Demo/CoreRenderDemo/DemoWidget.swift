@@ -10,6 +10,7 @@ func makeDemoWidget(ctx: Context) -> ConcreteNode<UIView> {
       .cornerRadius(Const.size/2)
       .background(.systemOrange)
       .margin(Const.margin)
+      .alignSelf(.center)
       .build()
     UIKit.VStack {
       UIKit.Label(text: "Hello World", font: UIFont.boldSystemFont(ofSize: 14))
@@ -18,24 +19,20 @@ func makeDemoWidget(ctx: Context) -> ConcreteNode<UIView> {
       UIKit.Label(text: "The count is: 0")
         .margin(Const.margin)
         .build()
-      UIKit.View()
-        .cornerRadius(Const.cornerRadius)
-        .build()
-    }.build()
+    }
+    .justifyContent(.flexStart)
+    .build()
   }
-  .alignContent(.center)
   .cornerRadius(Const.cornerRadius)
   .padding(Const.margin)
   .margin(Const.margin)
   .background(UIColor.secondarySystemBackground)
-  .matchParentWidth(withMargin: Const.screenMargin)
+  .matchParentWidth(withMargin: Const.margin)
   .build()
-  
 }
 
 struct Const {
   static let size: CGFloat = 48.0
   static let cornerRadius: CGFloat = 8.0
-  static let screenMargin: CGFloat = 8.0
-  static let margin: UIEdgeInsets = UIEdgeInsets(top: 4.0, left: 4.0, bottom: 4.0, right: 4.0)
+  static let margin: CGFloat = 4.0
 }
