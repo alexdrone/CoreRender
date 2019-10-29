@@ -13,6 +13,7 @@ void CRNodeBuilderException(NSString *reason) {
   CRController *_controller;
   Class _controllerType;
   UIView * (^_viewInit)(void);
+  NSMutableArray *_layoutSpecBlocks;
   void (^_layoutSpec)(CRNodeLayoutSpec *);
   NSMutableArray<CRNode *> *_mutableChildren;
   CRProps *_volatileProps;
@@ -23,6 +24,7 @@ void CRNodeBuilderException(NSString *reason) {
   CR_ASSERT_ON_MAIN_THREAD();
   if (self = [super init]) {
     _type = type;
+    _layoutSpecBlocks = @[].mutableCopy;
     _mutableChildren = @[].mutableCopy;
     _volatileProps = [[CRNullProps alloc] init];
     _initialState = [[CRNullState alloc] init];
@@ -74,7 +76,7 @@ void CRNodeBuilderException(NSString *reason) {
 
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec *))layoutSpec {
   CR_ASSERT_ON_MAIN_THREAD();
-  _layoutSpec = [layoutSpec copy];
+  [_layoutSpecBlocks addObject:[layoutSpec copy]];
   return self;
 }
 
@@ -119,7 +121,12 @@ void CRNodeBuilderException(NSString *reason) {
     CRNodeBuilderException(@"Stateful controller withou an initial state.");
     return CRNullNode.nullNode;
   }
-  _layoutSpec = _layoutSpec ?: ^(CRNodeLayoutSpec *) {
+  __block const auto blocks = _layoutSpecBlocks;
+  _layoutSpec = ^(CRNodeLayoutSpec *spec) {
+    for (id obj in blocks) {
+      void (^block)(CRNodeLayoutSpec *) = obj;
+      block(spec);
+    }
   };
   const auto node = [[CRNode alloc] initWithType:_type
                                  reuseIdentifier:_reuseIdentifier
