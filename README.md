@@ -2,7 +2,7 @@
 
 <img src="docs/assets/logo_new.png" width=150 alt="CoreRender" align=right />
 
-CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 11+ and ObjC).
+CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 10+ and ObjC).
 
 ### Introduction
 
