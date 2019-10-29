@@ -15,6 +15,11 @@
                     withOptions:(CRNodeLayoutOptions)options
                            body:(CRNode * (^)(CRContext *))buildBody {
   if (self = [super initWithFrame:CGRectZero]) {
+    if (@available(iOS 12, *)) {
+      self.backgroundColor = [UIColor systemBackgroundColor];
+    } else {
+      self.backgroundColor = [UIColor whiteColor];
+    }
     _context = context;
     _options = options;
     _body = [[CRNodeHierarchy alloc] initWithContext:context nodeHierarchyBuilder:buildBody];

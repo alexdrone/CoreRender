@@ -77,4 +77,10 @@ public struct UIKit {
       view.setTitle(title, for: .normal)
     }
   }
+  
+  public static func None() -> NullNode {
+    return NullNode.nullNode
+  }
 }
+
+

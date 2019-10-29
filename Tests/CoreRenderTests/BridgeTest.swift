@@ -70,9 +70,9 @@ class CRSwiftInteropTests: XCTestCase {
   
   func makeCounterNodeWithHelpers2(ctx: Context, controller: FooController) -> ConcreteNode<UIView> {
     UIKit.VStack {
-      UIKit.Label(text: "Hello")
-    }
-    .build()
+      UIKit.Label(text: "count \(controller.state.count)").build()
+      UIKit.None()
+    }.build()
   }
 }
 

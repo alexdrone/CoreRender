@@ -5,23 +5,18 @@ import CoreRenderObjC
 class ViewController: UIViewController {
   var hostingView: HostingView!
   let context = Context()
-
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    build()
+  override func loadView() {
+    hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { ctx in
+      makeDemoWidget(ctx: ctx)
+    }
+    self.view = hostingView
   }
   
   override func viewDidLayoutSubviews() {
-    build()
+    super.viewDidLayoutSubviews()
+    hostingView.setNeedsLayout()
   }
-  
-  func build() {
-    let node = makeDemoWidget(ctx: context)
-    node.registerHierarchy(in: context)
-    node.reconcile(in: self.view, constrainedTo: view.bounds.size, with: [])
-    node.layoutConstrained(to: view.bounds.size, with: [])
-    print(node)
-  }
+
   
 }

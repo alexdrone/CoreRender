@@ -29,7 +29,6 @@ extension YGOverflow: WritableKeyPathBoxableEnum { }
 // MARK: - Type Erasure
 
 // Convenience type-erased protocols.
-@objc public protocol AnyNode: class { }
 @objc public protocol AnyController: class { }
 @objc public protocol AnyProps: class { }
 @objc public protocol AnyState: class { }
@@ -42,7 +41,6 @@ public protocol ControllerProtocol: AnyController {
   associatedtype StateType: AnyState
 }
 
-extension ConcreteNode: AnyNode { }
 extension Controller: AnyController { }
 extension Props: AnyProps { }
 extension State: AnyState { }

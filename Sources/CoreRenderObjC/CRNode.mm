@@ -8,6 +8,9 @@
 #import "UIView+CRNode.h"
 #import "YGLayout.h"
 
+@implementation CRAnyNode
+@end
+
 @interface CRNode ()
 @property(nonatomic, readwrite) __kindof CRController *controller;
 @property(nonatomic, readwrite) NSUInteger index;

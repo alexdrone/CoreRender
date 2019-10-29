@@ -3,6 +3,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(AnyNode)
+@interface CRAnyNode : NSObject
+@end
+
 NS_SWIFT_NAME(NodeLayoutOptions)
 typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
   CRNodeLayoutOptionsNone = 1 << 0,
@@ -31,7 +35,7 @@ NS_SWIFT_NAME(NodeDelegate)
 @end
 
 NS_SWIFT_NAME(ConcreteNode)
-@interface CRNode<__covariant V : UIView *> : NSObject
+@interface CRNode<__covariant V : UIView *> : CRAnyNode
 /// The context associated with this node hierarchy.
 @property(nonatomic, readonly, nullable, weak) CRContext *context;
 /// The node hierarchy this node belongs to (if applicable).
@@ -123,6 +127,7 @@ NS_SWIFT_NAME(ConcreteNode)
 
 @end
 
+NS_SWIFT_NAME(NullNode)
 @interface CRNullNode : CRNode
 
 /// The default nil node instance.

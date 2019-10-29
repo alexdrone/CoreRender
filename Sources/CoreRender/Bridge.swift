@@ -41,18 +41,8 @@ public func Node<V: UIView>(
 public struct _ContentBuilder {
   /// Passes a single node written as a child view through unmodified.
   public static func buildBlock(_ nodes: AnyNode...) -> _Builder {
-    return _Builder(children: nodes)
-  }
-  /// Passes a many nodes written as a child view through unmodified.
-  public static func buildBlock(_ node: AnyNode) -> _Builder {
-    return _Builder(children: [node])
-  }
-  /// Passes an optional node.
-  public static func buildIf(_ node: AnyNode?) -> _Builder {
-    if let node = node {
-      return _Builder(children: [node])
-    }
-    return _Builder.none
+    let children = nodes.filter { $0 !== NullNode.nullNode }
+    return _Builder(children: children)
   }
 }
 
