@@ -112,6 +112,12 @@
   }];
 }
 
+- (instancetype)flex {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    [spec.view.yoga flex];
+  }];
+}
+
 - (instancetype)flexGrow:(CGFloat)value {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
     [spec set:CR_KEYPATH(spec.view, yoga.flexGrow) value:@(value)];
@@ -165,5 +171,18 @@
     [spec set:CR_KEYPATH(spec.view, yoga.maxHeight) value:@(value)];
   }];
 }
+
+- (instancetype)matchParentWidthWithMargin:(CGFloat)margin {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    [spec set:CR_KEYPATH(spec.view, yoga.width) value:@(spec.size.width - 2 * margin)];
+  }];
+}
+
+- (instancetype)matchParentHeightWithMargin:(CGFloat)margin {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    [spec set:CR_KEYPATH(spec.view, yoga.height) value:@(spec.size.height - 2 * margin)];
+  }];
+}
+
 
 @end

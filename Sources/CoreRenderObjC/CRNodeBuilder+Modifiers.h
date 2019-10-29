@@ -65,6 +65,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Controls how children are measured and displayed
 - (instancetype)overflow:(YGOverflow)value;
 
+/// Default flex appearance.
+- (instancetype)flex;
+
 /// Sets the flex grow factor of a flex item main size. It specifies how much of the remaining
 /// space in the flex container should be assigned to the item (the flex grow factor).
 /// The main size is either width or height of the item which is dependent on the @c
@@ -98,6 +101,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The view maximum height.
 - (instancetype)maxHeight:(CGFloat)value;
+
+/// Matches the parent width.
+- (instancetype)matchParentWidthWithMargin:(CGFloat)margin;
+
+/// Matches the parent height.
+- (instancetype)matchParentHeightWithMargin:(CGFloat)margin;
 
 @end
 
