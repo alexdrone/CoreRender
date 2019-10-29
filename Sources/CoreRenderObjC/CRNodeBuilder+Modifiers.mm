@@ -11,7 +11,7 @@
     [spec set:CR_KEYPATH(spec.view, yoga.paddingTop) value:@(padding.top)];
     [spec set:CR_KEYPATH(spec.view, yoga.paddingBottom) value:@(padding.bottom)];
     [spec set:CR_KEYPATH(spec.view, yoga.paddingLeft) value:@(padding.left)];
-    [spec set:CR_KEYPATH(spec.view, yoga.paddingRight) value:@(padding.right)];
+    [spec set:CR_KEYPATH(spec.view, yoga.paddingRight) value:@(padding.bottom)];
   }];
 }
 
