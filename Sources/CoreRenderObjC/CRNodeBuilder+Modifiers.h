@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)matchHostingViewWithMargin:(CGFloat)margin;
 
 /// Matches the parent height.
-- (instancetype)matchHostingViewtWithMargin:(CGFloat)margin;
+- (instancetype)matchHostingViewWithMargin:(CGFloat)margin;
 
 @end
 
