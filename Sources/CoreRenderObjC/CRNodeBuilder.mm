@@ -6,6 +6,15 @@ void CRNodeBuilderException(NSString *reason) {
   @throw [NSException exceptionWithName:@"NodeBuilderException" reason:reason userInfo:nil];
 }
 
+@implementation CRTypeErasedNodeBuilder
+
+- (CRNode *)build {
+  CR_ASSERT_ON_MAIN_THREAD();
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+@end
+
 @implementation CRNodeBuilder {
   Class _type;
   NSString *_reuseIdentifier;

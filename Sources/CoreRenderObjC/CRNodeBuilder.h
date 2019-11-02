@@ -5,8 +5,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(TypeErasedNodeBuilder)
+@interface CRTypeErasedNodeBuilder : NSObject
+/// Build the concrete node.
+- (CRNode*)build;
+@end
+
 NS_SWIFT_NAME(NodeBuilder)
-@interface CRNodeBuilder<__covariant V : UIView *> : NSObject
+@interface CRNodeBuilder<__covariant V : UIView *> : CRTypeErasedNodeBuilder
 - (instancetype)init NS_UNAVAILABLE;
 /// The view type of the desired @c CRNode.
 - (instancetype)initWithType:(Class)type;

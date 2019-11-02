@@ -8,13 +8,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRNodeBuilder (Modifiers)
 
-/// Pads the view using the specified edge insets.
+/// Padding for the view.
 - (instancetype)padding:(CGFloat)padding;
 
 /// Pads the view using the specified edge insets.
 - (instancetype)paddingInsets:(UIEdgeInsets)padding;
 
-/// Pads the view using the specified edge insets.
+/// Margins for the view.
 - (instancetype)margin:(CGFloat)padding;
 
 /// Margins for the view using the specified edge insets.
@@ -110,10 +110,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)maxHeight:(CGFloat)value;
 
 /// Matches the parent width.
-- (instancetype)matchParentWidthWithMargin:(CGFloat)margin;
+- (instancetype)matchHostingViewWithMargin:(CGFloat)margin;
 
 /// Matches the parent height.
-- (instancetype)matchParentHeightWithMargin:(CGFloat)margin;
+- (instancetype)matchHostingViewtWithMargin:(CGFloat)margin;
 
 @end
 

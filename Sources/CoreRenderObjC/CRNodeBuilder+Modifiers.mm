@@ -184,17 +184,16 @@
   }];
 }
 
-- (instancetype)matchParentWidthWithMargin:(CGFloat)margin {
+- (instancetype)matchHostingViewWidthWithMargin:(CGFloat)margin {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
     [spec set:CR_KEYPATH(spec.view, yoga.width) value:@(spec.size.width - 2 * margin)];
   }];
 }
 
-- (instancetype)matchParentHeightWithMargin:(CGFloat)margin {
+- (instancetype)matchHostingViewHeightWithMargin:(CGFloat)margin {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
     [spec set:CR_KEYPATH(spec.view, yoga.height) value:@(spec.size.height - 2 * margin)];
   }];
 }
-
 
 @end
