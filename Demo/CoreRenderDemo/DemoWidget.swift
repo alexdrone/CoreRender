@@ -27,7 +27,7 @@ func makeDemoWidget(ctx: Context) -> ConcreteNode<UIView> {
   .padding(Const.margin)
   .margin(Const.margin)
   .background(UIColor.secondarySystemBackground)
-  .matchHostingView(withMargin: <#T##CGFloat#>)
+  .matchHostingViewWidth(withMargin: Const.margin * 2)
   .build()
 }
 
