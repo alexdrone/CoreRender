@@ -2,6 +2,54 @@ import Foundation
 import UIKit
 import CoreRenderObjC
 
+// MARK: - NodeBuilder
+
+extension TypeErasedNodeBuilder {
+  public func onTap(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onTap(handler) }
+  }
+
+  public func onDoubleTap(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onDoubleTap(handler) }
+  }
+
+  public func onLongPress(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onLongPress(handler) }
+  }
+
+  public func onSwipeLeft(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onSwipeLeft(handler) }
+  }
+
+  public func onSwipeRight(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onSwipeRight(handler) }
+  }
+
+  public func onSwipeUp(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onSwipeUp(handler) }
+  }
+
+  public func onSwipeDown(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onSwipeDown(handler) }
+  }
+
+  public func onPan(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onPan(handler) }
+  }
+
+  public func onPinch(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onPinch(handler) }
+  }
+
+  public func onRotate(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onRotate(handler) }
+  }
+
+  public func onScreenEdgePan(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onScreenEdgePan(handler) }
+  }
+}
+
 // MARK: - GestureRecognizer
 
 extension UIView {

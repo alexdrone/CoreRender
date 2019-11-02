@@ -8,8 +8,12 @@ void CRNodeBuilderException(NSString *reason) {
 
 @implementation CRTypeErasedNodeBuilder
 
+/// Defines the node configuration and layout.
+- (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
 - (CRNode *)build {
-  CR_ASSERT_ON_MAIN_THREAD();
   NSAssert(NO, @"Called on abstract super class.");
 }
 

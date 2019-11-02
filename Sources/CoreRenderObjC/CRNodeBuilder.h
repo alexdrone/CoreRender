@@ -7,6 +7,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(TypeErasedNodeBuilder)
 @interface CRTypeErasedNodeBuilder : NSObject
+/// Defines the node configuration and layout.
+- (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec;
 /// Build the concrete node.
 - (CRNode *)build;
 @end
