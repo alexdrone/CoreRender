@@ -22,14 +22,14 @@ Let's build the classic *Counter-Example*.
 The following is the node hierarchy definition.
 
 ```swift
-func makeCounter(ctx: Context, controller: CounterController) -> ConcreteNode<UIView> {
+func makeCounter(ctx: Context, coordinator: CounterCoordinator) -> ConcreteNode<UIView> {
   UIKit.VStack {
-    UIKit.Label(text: "count \(controller.state.count)").build()
+    UIKit.Label(text: "count \(coordinator.state.count)").build()
     UIKit.Button(title: "Increse", action: {
-      controller.increase()
+      coordinator.increase()
     }).build()
   }
-  .withController(controller, initialState: CounterState(), props: FooProps)
+  .withCoordinator(coordinator, initialState: CounterState(), props: FooProps)
   .build()
 }
 ```
@@ -50,14 +50,14 @@ The `withLayoutSpec` modifier allows to specify a custom configuration closure f
 
 
 
-*Controllers* are similar to Components in React/Render/Litho and Coordinators in SwiftUI.
+*Coordinators* are similar to Components in React/Render/Litho and Coordinators in SwiftUI.
 
 ```swift
-class CounterController: Controller<NullProps, CounterState> {
+class CounterCoordinator: Coordinator<NullProps, CounterState> {
 
   func incrementCounter() {
     self.state.count += 1                // Update the state.
-    body?.setNeedsReconcile()            // Trigger the reconciliation algorithm on the view hiearchy associated to this controller.
+    body?.setNeedsReconcile()            // Trigger the reconciliation algorithm on the view hiearchy associated to this coordinator.
   }
 }
 
@@ -66,16 +66,16 @@ class CounterState: State {
 }
 ```
 
-Finally let's create *CoreRender* node hiararchy in our ViewController.
+Finally let's create *CoreRender* node hiararchy in our ViewCoordinator.
 
 ```swift
-class CounterViewController: UIViewController {
+class CounterViewCoordinator: UIViewController {
   private let context = Context()
   private var hostingView: HostingView {
     view as! HostingView
   }
-  private let controller: CounterController {
-    context.controller(ofType: CounterController.self, withKey: "counter")
+  private let coordinator: CounterCoordinator {
+    context.coordinator(ofType: CounterCoordinator.self, withKey: "counter")
   }
   
   func loadView() {

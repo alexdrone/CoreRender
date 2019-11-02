@@ -3,27 +3,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class CRController;
-@class CRStatelessController;
+@class CRCoordinator;
+@class CRStatelessCoordinator;
 @class CRNode;
 @class CRContext;
 @class CRContextReconciliationInfo;
 
 NS_SWIFT_NAME(ContextDelegate)
 @protocol CRContextDelegate <NSObject>
-/// One of the controller is about to invoke @c setNeedReconciliate on the root node.
+/// One of the coordinator is about to invoke @c setNeedReconciliate on the root node.
 - (void)context:(CRContext *)context willReconciliateHieararchy:(CRContextReconciliationInfo *)info;
 /// Node/View hierarchy reconciliation has just occurred.
 - (void)context:(CRContext *)context didReconciliateHieararchy:(CRContextReconciliationInfo *)info;
 @end
 
-NS_SWIFT_NAME(ControllerProvider)
-@interface CRControllerProvider<__covariant C : NSObject *> : NSObject
+NS_SWIFT_NAME(CoordinatorProvider)
+@interface CRCoordinatorProvider<__covariant C : NSObject *> : NSObject
 - (instancetype)init NS_UNAVAILABLE;
 /// The context that spawn thix
 @property(nonatomic, readonly, nullable, weak) CRContext *context;
-/// The controller associated to this provider.
-@property(nonatomic, readonly) C controller;
+/// The coordinator associated to this provider.
+@property(nonatomic, readonly) C coordinator;
 @end
 
 NS_SWIFT_NAME(Context)
@@ -31,19 +31,19 @@ NS_SWIFT_NAME(Context)
 /// Layout animator for the nodes registered to this context.
 @property(nonatomic, nullable) UIViewPropertyAnimator *layoutAnimator;
 
-/// Returns the controller (or instantiate a new one) of type @c type for the unique identifier
+/// Returns the coordinator (or instantiate a new one) of type @c type for the unique identifier
 /// passed as argument.
-/// @note: Returns @c nil if @c type is not a subclass of @c CRController (or if it's a statelss
-/// controller).
-- (CRControllerProvider *)controllerProviderOfType:(Class)type withKey:(NSString *)key;
+/// @note: Returns @c nil if @c type is not a subclass of @c CRCoordinator (or if it's a statelss
+/// coordinator).
+- (CRCoordinatorProvider *)coordinatorProviderOfType:(Class)type withKey:(NSString *)key;
 
-/// Returns the controller (or instantiate a new one) of type @c type for the unique identifier
+/// Returns the coordinator (or instantiate a new one) of type @c type for the unique identifier
 /// passed as argument.
-- (__kindof CRController *)controllerOfType:(Class)type withKey:(NSString *)key;
+- (__kindof CRCoordinator *)coordinatorOfType:(Class)type withKey:(NSString *)key;
 
-/// Returns the controller (or instantiate a new one) of type @c type.
-/// @note: Returns @c nil if @c type is not a subclass of @c CRStatelessController.
-- (CRControllerProvider *)controllerProviderOfType:(Class)type;
+/// Returns the coordinator (or instantiate a new one) of type @c type.
+/// @note: Returns @c nil if @c type is not a subclass of @c CRStatelessCoordinator.
+- (CRCoordinatorProvider *)coordinatorProviderOfType:(Class)type;
 
 /// Add the object as delegate for this context.
 - (void)addDelegate:(id<CRContextDelegate>)delegate;

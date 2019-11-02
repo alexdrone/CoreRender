@@ -5,10 +5,10 @@
 @property(nonatomic, weak) UILabel *testOutlet;
 @end
 
-@interface TestController : CRController <CRNullProps *, CRNullState *>
+@interface TestCoordinator : CRCoordinator <CRNullProps *, CRNullState *>
 @end
 
-@interface TestStatelessController : CRStatelessController <CRNullProps *>
+@interface TestStatelessCoordinator : CRStatelessCoordinator <CRNullProps *>
 @end
 
 @implementation CRNodeTests
@@ -83,14 +83,14 @@
   XCTAssert(fabs(CGRectGetMaxY(sv[1].frame) - sv[2].frame.origin.y) <= 1.0);
 }
 
-- (void)testThrowExeptionWhenIllegalControllerTypeIsPassedAsArgument {
+- (void)testThrowExeptionWhenIllegalCoordinatorTypeIsPassedAsArgument {
   BOOL test = NO;
   CRNode *node = nil;
   @try {
     node = [CRNode nodeWithType:UIView.self
                      layoutSpec:^(CRNodeLayoutSpec *spec){
                      }];
-    [node bindController:TestStatelessController.class
+    [node bindCoordinator:TestStatelessCoordinator.class
             initialState:CRNullState.null
                    props:CRNullProps.null];
     test = YES;
@@ -109,7 +109,7 @@
                        viewInit:nil
                      layoutSpec:^(CRNodeLayoutSpec *spec){
                      }];
-    [node bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
+    [node bindCoordinator:TestCoordinator.class initialState:CRNullState.null props:CRNullProps.null];
     test = YES;
   } @catch (NSException *e) {
     test = NO;
@@ -123,7 +123,7 @@
     node = [CRNode nodeWithType:UIView.self
                      layoutSpec:^(CRNodeLayoutSpec *spec){
                      }];
-    [node bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
+    [node bindCoordinator:TestCoordinator.class initialState:CRNullState.null props:CRNullProps.null];
     test = YES;
   } @catch (NSException *e) {
     test = NO;
@@ -139,7 +139,7 @@
                        viewInit:nil
                      layoutSpec:^(CRNodeLayoutSpec *spec){
                      }];
-    [node bindController:TestStatelessController.class
+    [node bindCoordinator:TestStatelessCoordinator.class
             initialState:CRNullState.null
                    props:CRNullProps.null];
     test = YES;
@@ -164,11 +164,11 @@
   XCTAssertTrue(test);
 }
 
-- (void)testThatControllerIsPassedDownToNodeSubtree {
-  __block auto expectRootNodeHasController = NO;
+- (void)testThatCoordinatorIsPassedDownToNodeSubtree {
+  __block auto expectRootNodeHasCoordinator = NO;
   __block auto expectRooNodeHasState = NO;
   __block auto expectRootNodeHasProps = NO;
-  __block auto expectLeafNodeHasController = NO;
+  __block auto expectLeafNodeHasCoordinator = NO;
   __block auto expectLeafNodeHasState = NO;
   __block auto expectLeafNodeHasProps = NO;
   const auto root =
@@ -177,20 +177,20 @@
                        key:@"foo"
                   viewInit:nil
                 layoutSpec:^(CRNodeLayoutSpec *spec) {
-                  const auto controller = [spec controllerOfType:TestController.class];
-                  expectRootNodeHasController = CR_DYNAMIC_CAST(TestController, controller);
-                  expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, controller.state);
-                  expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, controller.props);
+                  const auto coordinator = [spec coordinatorOfType:TestCoordinator.class];
+                  expectRootNodeHasCoordinator = CR_DYNAMIC_CAST(TestCoordinator, coordinator);
+                  expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.state);
+                  expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.props);
                 }];
-  [root bindController:TestController.class initialState:CRNullState.null props:CRNullProps.null];
+  [root bindCoordinator:TestCoordinator.class initialState:CRNullState.null props:CRNullProps.null];
 
   const auto leaf =
       [CRNode nodeWithType:UIView.class
                 layoutSpec:^(CRNodeLayoutSpec *spec) {
-                  const auto controller = [spec controllerOfType:TestController.class];
-                  expectLeafNodeHasController = CR_DYNAMIC_CAST(TestController, controller);
-                  expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, controller.state);
-                  expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, controller.props);
+                  const auto coordinator = [spec coordinatorOfType:TestCoordinator.class];
+                  expectLeafNodeHasCoordinator = CR_DYNAMIC_CAST(TestCoordinator, coordinator);
+                  expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.state);
+                  expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.props);
                 }];
   [root appendChildren:@[ leaf ]];
 
@@ -201,18 +201,18 @@
   [root reconcileInView:view
       constrainedToSize:CGSizeMake(320, CR_CGFLOAT_FLEXIBLE)
             withOptions:CRNodeLayoutOptionsSizeContainerViewToFit];
-  XCTAssertTrue(expectRootNodeHasController);
+  XCTAssertTrue(expectRootNodeHasCoordinator);
   XCTAssertTrue(expectRooNodeHasState);
   XCTAssertTrue(expectRootNodeHasProps);
-  XCTAssertTrue(expectLeafNodeHasController);
+  XCTAssertTrue(expectLeafNodeHasCoordinator);
   XCTAssertTrue(expectLeafNodeHasState);
   XCTAssertTrue(expectLeafNodeHasProps);
 }
 
 @end
 
-@implementation TestController
+@implementation TestCoordinator
 @end
 
-@implementation TestStatelessController
+@implementation TestStatelessCoordinator
 @end

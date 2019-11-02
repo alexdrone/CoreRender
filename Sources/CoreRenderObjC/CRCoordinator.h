@@ -7,56 +7,56 @@ NS_ASSUME_NONNULL_BEGIN
 @class CRNodeHierarchy;
 @protocol CRNodeDelegate;
 
-extern NSString *CRControllerStatelessKey;
+extern NSString *CRCoordinatorStatelessKey;
 
-/// Represents the properties that are externally injected into the controller.
+/// Represents the properties that are externally injected into the coordinator.
 /// This may contains *arguments*, *model objects*, *delegates* or *injectable services*.
 NS_SWIFT_NAME(Props)
 @interface CRProps : NSObject
 @end
 
-/// Represents the internal state of a controller.
+/// Represents the internal state of a coordinator.
 NS_SWIFT_NAME(State)
 @interface CRState : NSObject
 /// The unique key for this state.
 @property(nonatomic, readonly) NSString *key;
 @end
 
-NS_SWIFT_NAME(Controller)
-@interface CRController<__covariant P : CRProps *, __covariant S : CRState *> : NSObject
-/// The context associated with this controller.
+NS_SWIFT_NAME(Coordinator)
+@interface CRCoordinator<__covariant P : CRProps *, __covariant S : CRState *> : NSObject
+/// The context associated with this coordinator.
 @property(nonatomic, readonly, nullable, weak) CRContext *context;
-/// Whether this controller is stateful or not.
-/// Transient controllers can be reused for several UI nodes at the same time and can be disposed
+/// Whether this coordinator is stateful or not.
+/// Transient coordinators can be reused for several UI nodes at the same time and can be disposed
 /// and rebuilt at any given time.
 @property(class, nonatomic, readonly, getter=isStateless) BOOL stateless;
-/// The key for this controller.
-/// If this controller is @c transient the value of this property is @c CRControllerStatelessKey.
+/// The key for this coordinator.
+/// If this coordinator is @c transient the value of this property is @c CRCoordinatorStatelessKey.
 @property(nonatomic, readonly) NSString *key;
-/// The props currently assigned to this controller.
+/// The props currently assigned to this coordinator.
 @property(nonatomic, readwrite) P props;
-/// The current controller state.
+/// The current coordinator state.
 @property(nonatomic, readwrite) S state;
-/// The UI node assigned to this controller.
+/// The UI node assigned to this coordinator.
 @property(nonatomic, readonly, nullable, weak) CRNodeHierarchy *body;
-/// The UI node assigned to this controller.
+/// The UI node assigned to this coordinator.
 @property(nonatomic, readonly, nullable, weak) CRNode *node;
 
-/// Controllers are instantiated from @c CRContext.
+/// Coordinators are instantiated from @c CRContext.
 - (instancetype)init NS_UNAVAILABLE;
 
-/// Called whenever the controller is constructed.
+/// Called whenever the coordinator is constructed.
 - (void)onInit;
 
-/// The UI node  associated to this controller has just been added to the view hierarchy.
+/// The UI node  associated to this coordinator has just been added to the view hierarchy.
 /// @note: This is similiar to @c viewDidAppear on @c UIViewController.
 - (void)onMount;
 
 @end
 
-#pragma mark - Stateless Controllers
+#pragma mark - Stateless Coordinators
 
-/// Represents a null empty state - used to model @c CRStatelessController.
+/// Represents a null empty state - used to model @c CRStatelessCoordinator.
 NS_SWIFT_NAME(NullState)
 @interface CRNullState : CRState
 @property(class, nonatomic, readonly) CRNullState *null;
@@ -68,8 +68,8 @@ NS_SWIFT_NAME(NullProps)
 @property(class, nonatomic, readonly) CRNullProps *null;
 @end
 
-NS_SWIFT_NAME(StatelessController)
-@interface CRStatelessController<__covariant P : CRProps *> : CRController <P, CRNullState *>
+NS_SWIFT_NAME(StatelessCoordinator)
+@interface CRStatelessCoordinator<__covariant P : CRProps *> : CRCoordinator <P, CRNullState *>
 @end
 
 NS_ASSUME_NONNULL_END

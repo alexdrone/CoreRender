@@ -1,9 +1,9 @@
-#import "CRController+Private.h"
+#import "CRCoordinator+Private.h"
 #import "CRMacros.h"
 #import "CRNode.h"
 
-NSString *CRControllerStatelessKey = @"_CRControllerStatelessKey";
-NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
+NSString *CRCoordinatorStatelessKey = @"_CRCoordinatorStatelessKey";
+NSString *CRIllegalCoordinatorTypeExceptionName = @"IllegalCoordinatorType";
 
 #pragma mark - Props & State
 
@@ -13,16 +13,16 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 @implementation CRState
 @end
 
-#pragma mark - Controller
+#pragma mark - Coordinator
 
-@implementation CRController
+@implementation CRCoordinator
 
 - (CRNodeHierarchy *)body {
   return _node.nodeHierarchy;
 }
 
-// By default controllers are *stateful*.
-// Override @c CRStatelessController for a *stateless* controller.
+// By default coordinators are *stateful*.
+// Override @c CRStatelessCoordinator for a *stateless* coordinator.
 + (BOOL)isStateless {
   return false;
 }
@@ -45,7 +45,7 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 
 @end
 
-#pragma mark - StatelessController
+#pragma mark - StatelessCoordinator
 
 @implementation CRNullState
 
@@ -73,7 +73,7 @@ NSString *CRIllegalControllerTypeExceptionName = @"IllegalControllerType";
 
 @end
 
-@implementation CRStatelessController
+@implementation CRStatelessCoordinator
 
 + (BOOL)isStateless {
   return YES;

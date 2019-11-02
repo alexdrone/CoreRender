@@ -1,6 +1,6 @@
 #import "CRNode.h"
 #import "CRContext+Private.h"
-#import "CRController+Private.h"
+#import "CRCoordinator+Private.h"
 #import "CRMacros.h"
 #import "CRNodeBridge.h"
 #import "CRNodeHierarchy.h"
@@ -12,7 +12,7 @@
 @end
 
 @interface CRNode ()
-@property(nonatomic, readwrite) __kindof CRController *controller;
+@property(nonatomic, readwrite) __kindof CRCoordinator *coordinator;
 @property(nonatomic, readwrite) NSUInteger index;
 @property(nonatomic, readwrite, nullable, weak) CRNode *parent;
 @property(nonatomic, readwrite, nullable) __kindof UIView *renderedView;
@@ -22,8 +22,8 @@
 @property(nonatomic, copy, nonnull) void (^layoutSpec)(CRNodeLayoutSpec *);
 @end
 
-void CRIllegalControllerTypeException(NSString *reason) {
-  @throw [NSException exceptionWithName:@"IllegalControllerTypeException"
+void CRIllegalCoordinatorTypeException(NSString *reason) {
+  @throw [NSException exceptionWithName:@"IllegalCoordinatorTypeException"
                                  reason:reason
                                userInfo:nil];
 }
@@ -85,16 +85,16 @@ void CRIllegalControllerTypeException(NSString *reason) {
   CR_ASSERT_ON_MAIN_THREAD();
   if (!_parent) {
     _context = context;
-    [self _recursivelyConfigureControllersInNodeHierarchy];
+    [self _recursivelyConfigureCoordinatorsInNodeHierarchy];
   } else
     [_parent registerNodeHierarchyInContext:context];
 }
 
-- (void)_recursivelyConfigureControllersInNodeHierarchy {
-  self.controller.props = CR_NIL_COALESCING(self.controller.props, self.volatileProps);
-  self.controller.state = CR_NIL_COALESCING(self.controller.state, self.initialState);
-  self.controller.node = self;
-  CR_FOREACH(child, _mutableChildren) { [child _recursivelyConfigureControllersInNodeHierarchy]; }
+- (void)_recursivelyConfigureCoordinatorsInNodeHierarchy {
+  self.coordinator.props = CR_NIL_COALESCING(self.coordinator.props, self.volatileProps);
+  self.coordinator.state = CR_NIL_COALESCING(self.coordinator.state, self.initialState);
+  self.coordinator.node = self;
+  CR_FOREACH(child, _mutableChildren) { [child _recursivelyConfigureCoordinatorsInNodeHierarchy]; }
 }
 
 - (CRContext *)context {
@@ -107,12 +107,12 @@ void CRIllegalControllerTypeException(NSString *reason) {
   return _parent.root;
 }
 
-- (__kindof CRController *)controller {
+- (__kindof CRCoordinator *)coordinator {
   const auto context = self.context;
   if (!context) return nil;
-  if (!_controllerType) return _parent.controller;
-  return _key != nil ? [context controllerOfType:_controllerType withKey:_key]
-                     : [context controllerOfType:_controllerType];
+  if (!_coordinatorType) return _parent.coordinator;
+  return _key != nil ? [context coordinatorOfType:_coordinatorType withKey:_key]
+                     : [context coordinatorOfType:_coordinatorType];
 }
 
 - (CRNodeHierarchy *)nodeHierarchy {
@@ -150,25 +150,25 @@ void CRIllegalControllerTypeException(NSString *reason) {
   return self;
 }
 
-- (instancetype)bindController:(Class)controllerType
-                  initialState:(CRState *)state
-                         props:(CRProps *)props {
+- (instancetype)bindCoordinator:(Class)coordinatorType
+                   initialState:(CRState *)state
+                          props:(CRProps *)props {
   CR_ASSERT_ON_MAIN_THREAD();
   _volatileProps = props;
   _initialState = state;
-  if (controllerType) {
-    if ([controllerType isSubclassOfClass:CRController.class]) {
+  if (coordinatorType) {
+    if ([coordinatorType isSubclassOfClass:CRCoordinator.class]) {
       if (_key) {
-        if ([controllerType isStateless])
-          CRIllegalControllerTypeException(@"Nodes with key require a statefui controller.");
-        _controllerType = controllerType;
+        if ([coordinatorType isStateless])
+          CRIllegalCoordinatorTypeException(@"Nodes with key require a statefui coordinator.");
+        _coordinatorType = coordinatorType;
       } else {
-        if (![controllerType isStateless])
-          CRIllegalControllerTypeException(@"Nodes without key require a stateless controller.");
-        _controllerType = controllerType;
+        if (![coordinatorType isStateless])
+          CRIllegalCoordinatorTypeException(@"Nodes without key require a stateless coordinator.");
+        _coordinatorType = coordinatorType;
       }
     } else {
-      CRIllegalControllerTypeException(@"Must be a subclass of CRController.");
+      CRIllegalCoordinatorTypeException(@"Must be a subclass of CRCoordinator.");
     }
   }
   return self;
@@ -223,8 +223,8 @@ void CRIllegalControllerTypeException(NSString *reason) {
 }
 
 - (void)_configureConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options {
-  if (_controllerType) {
-    [self bindController:_controllerType initialState:_initialState props:_volatileProps];
+  if (_coordinatorType) {
+    [self bindCoordinator:_coordinatorType initialState:_initialState props:_volatileProps];
   }
   [self _constructViewWithReusableView:nil];
   [_renderedView.cr_nodeBridge storeViewSubTreeOldGeometry];

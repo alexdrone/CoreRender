@@ -5,7 +5,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CRNode;
 @class CRContext;
-@class CRController;
+@class CRCoordinator;
 
 NS_SWIFT_NAME(LayoutSpec)
 @interface CRNodeLayoutSpec<__covariant V : UIView *> : NSObject
@@ -37,8 +37,8 @@ NS_SWIFT_NAME(LayoutSpec)
 /// @note: Applicate to @c UIControl views only.
 - (void)resetAllTargets;
 
-/// Returns the the first controller of type @c controllerType in the current subtree.
-- (nullable __kindof CRController *)controllerOfType:(Class)controllerType;
+/// Returns the the first coordinator of type @c coordinatorType in the current subtree.
+- (nullable __kindof CRCoordinator *)coordinatorOfType:(Class)coordinatorType;
 
 @end
 

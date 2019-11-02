@@ -2,7 +2,7 @@ import XCTest
 import CoreRenderObjC
 import CoreRender
 
-class FooController: Controller<FooProps, FooState>, ControllerProtocol {
+class FooCoordinator: Coordinator<FooProps, FooState>, CoordinatorProtocol {
   typealias StateType = FooState
   typealias PropsType = FooProps
   func increase() { state.count += 1 }
@@ -17,15 +17,15 @@ class BarProps: Props { }
 
 class CRSwiftInteropTests: XCTestCase {
 
-  func testNodeWithAController() {
+  func testNodeWithACoordinator() {
     let node = Node(UIView.self)
-      .withControllerType(
-        FooController.self,
+      .withCoordinatorType(
+        FooCoordinator.self,
         key: "foo",
         initialState: NullState(),
         props: FooProps())
       .withLayoutSpec { spec in
-        guard let _ = spec.controller(ofType: FooController.self) else { fatalError() }
+        guard let _ = spec.coordinator(ofType: FooCoordinator.self) else { fatalError() }
     }
     XCTAssertNotNil(node)
   }
@@ -41,36 +41,36 @@ class CRSwiftInteropTests: XCTestCase {
 
   func makeCounterNodeWithHelpers(ctx: Context) -> ConcreteNode<UIView> {
     let key = "counter"
-    let provider = ctx.controllerProvider(type: FooController.self, key: key)
+    let provider = ctx.coordinatorProvider(type: FooCoordinator.self, key: key)
     
     return UIKit.VStack {
       UIKit.Label(text: "count").build()
       UIKit.Button(title: "Increse", action: {
-        guard let controller = provider?.controller else { return }
-        controller.increase()
+        guard let coordinator = provider?.coordinator else { return }
+        coordinator.increase()
       }).build()
     }
-    .withControllerType(
-      FooController.self,
+    .withCoordinatorType(
+      FooCoordinator.self,
       key: key, initialState: FooState(),
       props: NullProps.null)
     .build()
   }
   
-  func makeCounterNodeWithHelpers(ctx: Context, controller: FooController) -> ConcreteNode<UIView> {
+  func makeCounterNodeWithHelpers(ctx: Context, coordinator: FooCoordinator) -> ConcreteNode<UIView> {
     UIKit.VStack {
-      UIKit.Label(text: "count \(controller.state.count)").build()
+      UIKit.Label(text: "count \(coordinator.state.count)").build()
       UIKit.Button(title: "Increse", action: {
-        controller.increase()
+        coordinator.increase()
       }).build()
     }
-    .withController(controller, initialState: FooState(), props: NullProps.null)
+    .withCoordinator(coordinator, initialState: FooState(), props: NullProps.null)
     .build()
   }
   
-  func makeCounterNodeWithHelpers2(ctx: Context, controller: FooController) -> ConcreteNode<UIView> {
+  func makeCounterNodeWithHelpers2(ctx: Context, coordinator: FooCoordinator) -> ConcreteNode<UIView> {
     UIKit.VStack {
-      UIKit.Label(text: "count \(controller.state.count)").build()
+      UIKit.Label(text: "count \(coordinator.state.count)").build()
       UIKit.None()
     }.build()
   }

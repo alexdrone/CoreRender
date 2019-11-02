@@ -29,18 +29,18 @@ extension YGOverflow: WritableKeyPathBoxableEnum { }
 // MARK: - Type Erasure
 
 // Convenience type-erased protocols.
-@objc public protocol AnyController: class { }
+@objc public protocol AnyCoordinator: class { }
 @objc public protocol AnyProps: class { }
 @objc public protocol AnyState: class { }
 
 /// Swift-only compliance protocol.
-public protocol ControllerProtocol: AnyController {
-  /// The type of the props that will be passed down to this controller.
+public protocol CoordinatorProtocol: AnyCoordinator {
+  /// The type of the props that will be passed down to this coordinator.
   associatedtype PropsType: AnyProps
   /// The type of its internal state
   associatedtype StateType: AnyState
 }
 
-extension Controller: AnyController { }
+extension Coordinator: AnyCoordinator { }
 extension Props: AnyProps { }
 extension State: AnyState { }

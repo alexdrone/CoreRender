@@ -1,46 +1,47 @@
 #import "CRContext+Private.h"
-#import "CRController+Private.h"
+#import "CRCoordinator+Private.h"
 #import "CRMacros.h"
 #import "CRNode.h"
 
-#pragma mark - CRControllerProvider
+#pragma mark - CRCoordinatorProvider
 
-void CRControllerProviderException(NSString *reason) {
-  //@throw [NSException exceptionWithName:@"ControllerProviderException" reason:reason
+void CRCoordinatorProviderException(NSString *reason) {
+  //@throw [NSException exceptionWithName:@"CoordinatorProviderException" reason:reason
   // userInfo:nil];
   NSLog(@"%@", reason);
 }
 
-@implementation CRControllerProvider {
+@implementation CRCoordinatorProvider {
   NSString *_key;
   Class _type;
 }
 
 - (instancetype)initWithContext:(CRContext *)context
-                           type:(Class)controllerType
-                  controllerKey:(NSString *)controllerKey {
+                           type:(Class)coordinatorType
+                 coordinatorKey:(NSString *)coordinatorKey {
   if (self = [super init]) {
     _context = context;
-    _key = controllerKey;
-    _type = controllerType;
+    _key = coordinatorKey;
+    _type = coordinatorType;
   }
   return self;
 }
 
-- (CRController *)controller {
-  CRController *controller;
+- (CRCoordinator *)coordinator {
+  CRCoordinator *coordinator;
   if (_key) {
-    controller = [_context controllerOfType:_type withKey:_key];
+    coordinator = [_context coordinatorOfType:_type withKey:_key];
   } else {
-    controller = [_context controllerOfType:_type];
+    coordinator = [_context coordinatorOfType:_type];
   }
-  if (!controller.props || !controller.state) {
-    CRControllerProviderException(@"The controller has not yet been init'd (no props/ state set)");
+  if (!coordinator.props || !coordinator.state) {
+    CRCoordinatorProviderException(
+        @"The coordinator has not yet been init'd (no props/ state set)");
   }
-  if (!controller.node) {
-    CRControllerProviderException(@"The controller has no node.");
+  if (!coordinator.node) {
+    CRCoordinatorProviderException(@"The coordinator has no node.");
   }
-  return controller;
+  return coordinator;
 }
 
 @end
@@ -48,48 +49,49 @@ void CRControllerProviderException(NSString *reason) {
 #pragma mark - CRContext
 
 @implementation CRContext {
-  NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, CRController *> *> *_controllers;
+  NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, CRCoordinator *> *>
+      *_coordinators;
   NSPointerArray *_delegates;
 }
 
 - (instancetype)init {
   if (self = [super init]) {
-    _controllers = @{}.mutableCopy;
+    _coordinators = @{}.mutableCopy;
     _delegates = [NSPointerArray weakObjectsPointerArray];
   }
   return self;
 }
 
-- (__kindof CRController *)controllerOfType:(Class)type withKey:(NSString *)key {
+- (__kindof CRCoordinator *)coordinatorOfType:(Class)type withKey:(NSString *)key {
   CR_ASSERT_ON_MAIN_THREAD();
-  if (![type isSubclassOfClass:CRController.self]) return nil;
+  if (![type isSubclassOfClass:CRCoordinator.self]) return nil;
   const auto container = [self _containerForType:type];
-  if (const auto controller = container[key]) return controller;
-  const auto controller = CR_DYNAMIC_CAST(CRController, [[type alloc] initWithKey:key]);
-  controller.context = self;
-  container[key] = controller;
-  return controller;
+  if (const auto coordinator = container[key]) return coordinator;
+  const auto coordinator = CR_DYNAMIC_CAST(CRCoordinator, [[type alloc] initWithKey:key]);
+  coordinator.context = self;
+  container[key] = coordinator;
+  return coordinator;
 }
 
-- (__kindof CRStatelessController *)controllerOfType:(Class)type {
+- (__kindof CRStatelessCoordinator *)coordinatorOfType:(Class)type {
   CR_ASSERT_ON_MAIN_THREAD();
   if (![type isStateless]) return nil;
-  return [self controllerOfType:type withKey:CRControllerStatelessKey];
+  return [self coordinatorOfType:type withKey:CRCoordinatorStatelessKey];
 }
 
-- (CRControllerProvider *)controllerProviderOfType:(Class)type withKey:(NSString *)key {
-  return [[CRControllerProvider alloc] initWithContext:self type:type controllerKey:key];
+- (CRCoordinatorProvider *)coordinatorProviderOfType:(Class)type withKey:(NSString *)key {
+  return [[CRCoordinatorProvider alloc] initWithContext:self type:type coordinatorKey:key];
 }
 
-- (CRControllerProvider *)controllerProviderOfType:(Class)type {
-  return [[CRControllerProvider alloc] initWithContext:self type:type controllerKey:nil];
+- (CRCoordinatorProvider *)coordinatorProviderOfType:(Class)type {
+  return [[CRCoordinatorProvider alloc] initWithContext:self type:type coordinatorKey:nil];
 }
 
-- (NSMutableDictionary<NSString *, CRController *> *)_containerForType:(Class)type {
+- (NSMutableDictionary<NSString *, CRCoordinator *> *)_containerForType:(Class)type {
   const auto str = NSStringFromClass(type);
-  if (const auto container = _controllers[str]) return container;
-  const auto container = [[NSMutableDictionary<NSString *, CRController *> alloc] init];
-  _controllers[str] = container;
+  if (const auto container = _coordinators[str]) return container;
+  const auto container = [[NSMutableDictionary<NSString *, CRCoordinator *> alloc] init];
+  _coordinators[str] = container;
   return container;
 }
 

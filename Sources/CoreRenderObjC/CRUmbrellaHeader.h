@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 
 #import "CRContext.h"
-#import "CRController.h"
+#import "CRCoordinator.h"
 #import "CRMacros.h"
 #import "CRNode.h"
 #import "CRNodeBridge.h"

@@ -17,7 +17,7 @@ typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
 @class CRNode;
 @class CRNodeHierarchy;
 @class CRContext;
-@class CRController;
+@class CRCoordinator;
 @class CRNodeLayoutSpec<__covariant V : UIView *>;
 @class CRState;
 @class CRProps;
@@ -44,7 +44,7 @@ NS_SWIFT_NAME(ConcreteNode)
 /// Identifiers help Render understand which items have changed.
 /// A custom *reuseIdentifier* is mandatory if the node has a custom creation closure.
 @property(nonatomic, readonly) NSString *reuseIdentifier;
-/// A unique key for the component/node (necessary if the associated controller is stateful).
+/// A unique key for the component/node (necessary if the associated coordinator is stateful).
 @property(nonatomic, readonly, nullable) NSString *key;
 /// This component is the n-th children.
 @property(nonatomic, readonly) NSUInteger index;
@@ -60,17 +60,17 @@ NS_SWIFT_NAME(ConcreteNode)
 @property(nonatomic, readonly, nullable) V renderedView;
 /// The layout delegate for this node.
 @property(nonatomic, nullable, weak) id<CRNodeDelegate> delegate;
-/// The type of the associated controller.
-@property(nonatomic, nullable, readonly) Class controllerType;
+/// The type of the associated coordinator.
+@property(nonatomic, nullable, readonly) Class coordinatorType;
 /// Whether this node is a @c CRNullNode or not.
 @property(nonatomic, readonly) BOOL isNullNode;
-/// Returns the associated controller.
+/// Returns the associated coordinator.
 /// @note: @c nil if this node hierarchy is not registered to any @c CRContext, or if
-/// @c controllerType is @c nil.
-@property(nonatomic, nullable, readonly) __kindof CRController *controller;
-/// Represents the properties that are externally injected into the controller.
+/// @c coordinatorType is @c nil.
+@property(nonatomic, nullable, readonly) __kindof CRCoordinator *coordinator;
+/// Represents the properties that are externally injected into the coordinator.
 @property(nonatomic, nullable, readonly) __kindof CRProps *volatileProps;
-/// The initial state (if the controller doesn't have one already).
+/// The initial state (if the coordinator doesn't have one already).
 @property(nonatomic, nullable, readonly) __kindof CRState *initialState;
 
 #pragma mark Constructors
@@ -94,10 +94,10 @@ NS_SWIFT_NAME(ConcreteNode)
 /// Adds the nodes as children of this node.
 - (instancetype)appendChildren:(NSArray<CRNode *> *)children;
 
-/// Bind this node to the @c CRController class passed as argument.
-- (instancetype)bindController:(Class)controllerType
-                  initialState:(CRState *)state
-                         props:(CRProps *)props;
+/// Bind this node to the @c CRCoordinator class passed as argument.
+- (instancetype)bindCoordinator:(Class)coordinatorType
+                   initialState:(CRState *)state
+                          props:(CRProps *)props;
 
 /// Register the context for the root node of this node hierarchy.
 - (void)registerNodeHierarchyInContext:(CRContext *)context;

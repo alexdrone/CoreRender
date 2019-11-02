@@ -2,7 +2,7 @@ import UIKit
 import CoreRender
 import CoreRenderObjC
 
-class ViewController: UIViewController {
+class ViewCoordinator: UIViewController {
   var hostingView: HostingView!
   let context = Context()
   

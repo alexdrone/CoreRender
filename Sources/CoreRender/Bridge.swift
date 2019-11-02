@@ -27,7 +27,7 @@ import CoreRenderObjC
 ///   spec.view.backgroundColor = .green
 ///   spec.view.setTitle("FOO", for: .normal)
 /// ```
-/// - `withController:initialState.props`: Associates a controller to this node.
+/// - `withCoordinator:initialState.props`: Associates a coordinator to this node.
 /// - `build`: Builds the concrete node.
 public func Node<V: UIView>(
   _ type: V.Type = V.self,
@@ -94,34 +94,34 @@ public func withProperty<V: UIView, T: WritableKeyPathBoxableEnum>(
 
 // MARK: - Context Helpers
 
-/// Retrieves a controller from the context.
-public func ControllerProvider<C: AnyController> (
+/// Retrieves a coordinator from the context.
+public func CoordinatorProvider<C: AnyCoordinator> (
   _ ctx: Context,
   type: C.Type,
   key: String? = nil
-) -> ControllerProvider<C> {
+) -> CoordinatorProvider<C> {
   if let key = key {
-    return ctx.controllerProvider(ofType: type, withKey: key) as! ControllerProvider<C>
+    return ctx.coordinatorProvider(ofType: type, withKey: key) as! CoordinatorProvider<C>
   } else {
-    return ctx.controllerProvider(ofType: type) as! ControllerProvider<C>
+    return ctx.coordinatorProvider(ofType: type) as! CoordinatorProvider<C>
   }
 }
 
 public extension Context {
-  /// Returns the subtree controller of the given type.
-  func controller<C: AnyController, V: UIView>(
+  /// Returns the subtree coordinator of the given type.
+  func coordinator<C: AnyCoordinator, V: UIView>(
     _ spec: LayoutSpec<V>,
     type: C.Type
   ) -> C? {
-    return spec.controller(ofType: C.self) as? C
+    return spec.coordinator(ofType: C.self) as? C
   }
 
-  /// Returns the controller provider for the given key.
-  func controllerProvider<C: AnyController & NSObject> (
+  /// Returns the coordinator provider for the given key.
+  func coordinatorProvider<C: AnyCoordinator & NSObject> (
     type: C.Type,
     key: String? = nil
-  ) -> ControllerProvider<C>? {
-    return ControllerProvider(self, type: type, key: key)
+  ) -> CoordinatorProvider<C>? {
+    return CoordinatorProvider(self, type: type, key: key)
   }
 }
 

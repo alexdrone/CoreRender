@@ -1,20 +1,20 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "CRController.h"
+#import "CRCoordinator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class CRNode;
 @class CRContext;
 
-@interface CRController <P, S>()
+@interface CRCoordinator <P, S>()
 // Private setter modifiers
 @property(nonatomic, readwrite) NSString *key;
 @property(nonatomic, readwrite, nullable, weak) CRContext *context;
 @property(nonatomic, readwrite, nullable, weak) CRNode *node;
 
-/// @note: Never call the init method manually - controllers are dynamically constructed,
+/// @note: Never call the init method manually - coordinators are dynamically constructed,
 /// disposed and reused by @c CRContext.
 - (instancetype)initWithKey:(NSString *)key;
 

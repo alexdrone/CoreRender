@@ -1,5 +1,5 @@
 #import "CRNodeLayoutSpec.h"
-#import "CRController.h"
+#import "CRCoordinator.h"
 #import "CRMacros.h"
 #import "CRNode.h"
 #import "CRNodeBridge.h"
@@ -43,22 +43,22 @@
   return self;
 }
 
-- (__kindof CRController *)controllerOfType:(Class)controllerType {
-  if (![controllerType isSubclassOfClass:CRController.class]) return nil;
+- (__kindof CRCoordinator *)coordinatorOfType:(Class)coordinatorType {
+  if (![coordinatorType isSubclassOfClass:CRCoordinator.class]) return nil;
 
-  auto controller = (CRController *)nil;
+  auto coordinator = (CRCoordinator *)nil;
   auto node = self.node;
   auto context = self.context;
   NSAssert(node, @"Called when *node* is nil.");
   NSAssert(context, @"Called when *context* is nil.");
   while (node) {
-    if (node.controllerType == controllerType) {
-      controller = node.controller;
+    if (node.coordinatorType == coordinatorType) {
+      coordinator = node.coordinator;
       break;
     }
     node = node.parent;
   }
-  return controller;
+  return coordinator;
 }
 
 - (void)restore {

@@ -1,4 +1,4 @@
-#import "CRController.h"
+#import "CRCoordinator.h"
 #import "CRMacros.h"
 #import "CRNodeBuilder+Modifiers.h"
 #import "CRNodeLayoutSpec.h"

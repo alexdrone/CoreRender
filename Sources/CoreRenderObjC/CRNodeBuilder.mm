@@ -1,5 +1,5 @@
 #import "CRNodeBuilder.h"
-#import "CRController.h"
+#import "CRCoordinator.h"
 #import "CRMacros.h"
 
 void CRNodeBuilderException(NSString *reason) {
@@ -19,8 +19,8 @@ void CRNodeBuilderException(NSString *reason) {
   Class _type;
   NSString *_reuseIdentifier;
   NSString *_key;
-  CRController *_controller;
-  Class _controllerType;
+  CRCoordinator *_coordinator;
+  Class _coordinatorType;
   UIView * (^_viewInit)(void);
   NSMutableArray *_layoutSpecBlocks;
   void (^_layoutSpec)(CRNodeLayoutSpec *);
@@ -53,23 +53,23 @@ void CRNodeBuilderException(NSString *reason) {
   return self;
 }
 
-- (instancetype)withController:(id)obj initialState:(CRState *)state props:(CRProps *)props {
+- (instancetype)withCoordinator:(id)obj initialState:(CRState *)state props:(CRProps *)props {
   CR_ASSERT_ON_MAIN_THREAD();
-  const auto controller = CR_DYNAMIC_CAST_OR_ASSERT(CRController, obj);
-  _controller = controller;
-  _key = controller.key;
+  const auto coordinator = CR_DYNAMIC_CAST_OR_ASSERT(CRCoordinator, obj);
+  _coordinator = coordinator;
+  _key = coordinator.key;
   _initialState = state;
   _volatileProps = props;
   return self;
 }
 
-- (instancetype)withControllerType:(Class)controllerType
-                               key:(NSString *)key
-                      initialState:(CRState *)state
-                             props:(CRProps *)props {
+- (instancetype)withCoordinatorType:(Class)coordinatorType
+                                key:(NSString *)key
+                       initialState:(CRState *)state
+                              props:(CRProps *)props {
   CR_ASSERT_ON_MAIN_THREAD();
-  NSAssert([controllerType isSubclassOfClass:CRController.class], @"");
-  _controllerType = controllerType;
+  NSAssert([coordinatorType isSubclassOfClass:CRCoordinator.class], @"");
+  _coordinatorType = coordinatorType;
   _key = key;
   _initialState = state;
   _volatileProps = props;
@@ -110,24 +110,24 @@ void CRNodeBuilderException(NSString *reason) {
 
 - (CRNode *)build {
   CR_ASSERT_ON_MAIN_THREAD();
-  if (_controller) {
-    _controllerType = _controller.class;
-    _key = _controller.key;
+  if (_coordinator) {
+    _coordinatorType = _coordinator.class;
+    _key = _coordinator.key;
   }
   if (_viewInit && !_reuseIdentifier) {
     CRNodeBuilderException(@"The node has a custom view initializer but no reuse identifier.");
     return CRNullNode.nullNode;
   }
-  if (_controllerType && ![_controllerType isSubclassOfClass:CRController.class]) {
-    CRNodeBuilderException(@"Illegal controller type.");
+  if (_coordinatorType && ![_coordinatorType isSubclassOfClass:CRCoordinator.class]) {
+    CRNodeBuilderException(@"Illegal coordinator type.");
     return CRNullNode.nullNode;
   }
-  if ((_controllerType && ![(id)_controllerType isStateless]) && !_key) {
-    CRNodeBuilderException(@"Stateful controller withou a key.");
+  if ((_coordinatorType && ![(id)_coordinatorType isStateless]) && !_key) {
+    CRNodeBuilderException(@"Stateful coordinator withou a key.");
     return CRNullNode.nullNode;
   }
-  if ((_controllerType && ![(id)_controllerType isStateless]) && !_initialState) {
-    CRNodeBuilderException(@"Stateful controller withou an initial state.");
+  if ((_coordinatorType && ![(id)_coordinatorType isStateless]) && !_initialState) {
+    CRNodeBuilderException(@"Stateful coordinator withou an initial state.");
     return CRNullNode.nullNode;
   }
   __block const auto blocks = _layoutSpecBlocks;
@@ -142,8 +142,8 @@ void CRNodeBuilderException(NSString *reason) {
                                              key:_key
                                         viewInit:_viewInit
                                       layoutSpec:_layoutSpec];
-  if (_controllerType) {
-    [node bindController:_controllerType initialState:_initialState props:_volatileProps];
+  if (_coordinatorType) {
+    [node bindCoordinator:_coordinatorType initialState:_initialState props:_volatileProps];
   }
   [node appendChildren:_mutableChildren];
   return node;
