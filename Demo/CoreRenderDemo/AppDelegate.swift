@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       // Use a UIHostingCoordinator as window root view coordinator.
       if let windowScene = scene as? UIWindowScene {
           let window = UIWindow(windowScene: windowScene)
-          window.rootViewCoordinator = UIHostingCoordinator(rootView: contentView)
+          window.rootViewCoordinator = UIHostingController(rootView: contentView)
           self.window = window
           window.makeKeyAndVisible()
       }
@@ -55,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       // Use a normal ViewCoordinator as window root view coordinator.
       if let windowScene = scene as? UIWindowScene {
           let window = UIWindow(windowScene: windowScene)
-          window.rootViewCoordinator = ViewCoordinator()
+          window.rootViewController = ViewCoordinator()
           self.window = window
           window.makeKeyAndVisible()
       }

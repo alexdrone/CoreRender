@@ -110,10 +110,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)maxHeight:(CGFloat)value;
 
 /// Matches the parent width.
-- (instancetype)matchHostingViewWithMargin:(CGFloat)margin;
+- (instancetype)matchHostingViewWidthWithMargin:(CGFloat)margin;
 
 /// Matches the parent height.
-- (instancetype)matchHostingViewWithMargin:(CGFloat)margin;
+- (instancetype)matchHostingViewHeightWithMargin:(CGFloat)margin;
 
 @end
 

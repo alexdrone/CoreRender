@@ -17,6 +17,5 @@ class ViewCoordinator: UIViewController {
     super.viewDidLayoutSubviews()
     hostingView.setNeedsLayout()
   }
-
   
 }
