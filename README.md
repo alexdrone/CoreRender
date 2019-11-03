@@ -53,7 +53,7 @@ The `withLayoutSpec` modifier allows to specify a custom configuration closure f
 *Coordinators* are similar to Components in React/Render/Litho and Coordinators in SwiftUI.
 
 ```swift
-class CounterCoordinator: Coordinator<NullProps, CounterState> {
+class CounterCoordinator: Coordinator<CounterState, NullProps> {
 
   func incrementCounter() {
     self.state.count += 1                // Update the state.
@@ -74,13 +74,14 @@ class CounterViewCoordinator: UIViewController {
   private var hostingView: HostingView {
     view as! HostingView
   }
-  private let coordinator: CounterCoordinator {
-    context.coordinator(ofType: CounterCoordinator.self, withKey: "counter")
+  var coordinator: CounterCoordinator {
+    context.coordinator(makeCoordinatorDescriptor(CounterCoordinator.self).toRef())
+      as! CounterCoordinator
   }
   
   func loadView() {
     view = HostingView(context: context, options: [.useSafeAreaInsets]) { ctx in
-      makeCounter(ctx: ctx)
+      makeCounter(ctx: ctx, coordinator: coordinator)
     }
   }
   

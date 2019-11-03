@@ -6,17 +6,8 @@ class ViewCoordinator: UIViewController {
   var hostingView: HostingView!
   let context = Context()
   var coordinator: CounterCoordinator {
-    let c = context.coordinator(CounterCoordinator.descriptor.toRef())
-    guard let _ = c as? CounterCoordinator else {
-      print(type(of: c))
-      let a =  CounterCoordinator()
-      print(type(of: a))
-      print(c is CounterCoordinator)
-      print(c is CoordinatorProtocol)
-      print(c.state)
-      fatalError()
-    }
-    return coordinator
+    context.coordinator(makeCoordinatorDescriptor(CounterCoordinator.self).toRef())
+      as! CounterCoordinator
   }
   
   override func loadView() {
