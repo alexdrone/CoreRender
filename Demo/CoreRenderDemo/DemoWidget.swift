@@ -36,11 +36,15 @@ class CounterState: State {
   var count: UInt = 0
 }
 
-class CounterCoordinator: Coordinator<NullProps, CounterState> {
+class CounterCoordinator: Coordinator<NullProps, CounterState>, CoordinatorProtocol {
+  static let descriptor: AnyCoordinatorDescriptor =
+    CoordinatorDescriptor<CounterCoordinator, NullProps, CounterState>()
+  
   func increase() {
     self.state.count += 1
   }
 }
+
 
 // MARK: - Constants
 

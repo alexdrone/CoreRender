@@ -45,9 +45,6 @@ NS_SWIFT_NAME(Coordinator)
 /// Returns the coordinator descriptor.
 @property(nonatomic, readonly) CRCoordinatorDescriptor *descriptor;
 
-/// Coordinators are instantiated from @c CRContext.
-- (instancetype)init NS_UNAVAILABLE;
-
 /// Called whenever the coordinator is constructed.
 - (void)onInit;
 
