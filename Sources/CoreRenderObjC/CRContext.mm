@@ -65,6 +65,7 @@
   }
   const auto coordinator = CR_DYNAMIC_CAST(
       CRCoordinator, CR_NIL_COALESCING(desc.instance, [[desc.type alloc] initWithKey:desc.key]));
+  coordinator.key = desc.key;
   coordinator.state = desc.initialState;
   coordinator.props = desc.props;
   coordinator.context = self;
