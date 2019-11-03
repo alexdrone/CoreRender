@@ -8,8 +8,11 @@ void CRNodeBuilderException(NSString *reason) {
 
 @implementation CRTypeErasedNodeBuilder
 
-/// Defines the node configuration and layout.
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+- (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor {
   NSAssert(NO, @"Called on abstract super class.");
 }
 
@@ -23,14 +26,11 @@ void CRNodeBuilderException(NSString *reason) {
   Class _type;
   NSString *_reuseIdentifier;
   NSString *_key;
-  CRCoordinator *_coordinator;
-  Class _coordinatorType;
   UIView * (^_viewInit)(void);
   NSMutableArray *_layoutSpecBlocks;
   void (^_layoutSpec)(CRNodeLayoutSpec *);
   NSMutableArray<CRNode *> *_mutableChildren;
-  CRProps *_volatileProps;
-  CRState *_initialState;
+  CRCoordinatorDescriptor *_coordinatorDescriptor;
 }
 
 - (instancetype)initWithType:(Class)type {
@@ -39,8 +39,6 @@ void CRNodeBuilderException(NSString *reason) {
     _type = type;
     _layoutSpecBlocks = @[].mutableCopy;
     _mutableChildren = @[].mutableCopy;
-    _volatileProps = [[CRNullProps alloc] init];
-    _initialState = [[CRNullState alloc] init];
   }
   return self;
 }
@@ -57,26 +55,9 @@ void CRNodeBuilderException(NSString *reason) {
   return self;
 }
 
-- (instancetype)withCoordinator:(id)obj initialState:(CRState *)state props:(CRProps *)props {
+- (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor {
   CR_ASSERT_ON_MAIN_THREAD();
-  const auto coordinator = CR_DYNAMIC_CAST_OR_ASSERT(CRCoordinator, obj);
-  _coordinator = coordinator;
-  _key = coordinator.key;
-  _initialState = state;
-  _volatileProps = props;
-  return self;
-}
-
-- (instancetype)withCoordinatorType:(Class)coordinatorType
-                                key:(NSString *)key
-                       initialState:(CRState *)state
-                              props:(CRProps *)props {
-  CR_ASSERT_ON_MAIN_THREAD();
-  NSAssert([coordinatorType isSubclassOfClass:CRCoordinator.class], @"");
-  _coordinatorType = coordinatorType;
-  _key = key;
-  _initialState = state;
-  _volatileProps = props;
+  _coordinatorDescriptor = descriptor;
   return self;
 }
 
@@ -90,12 +71,6 @@ void CRNodeBuilderException(NSString *reason) {
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec *))layoutSpec {
   CR_ASSERT_ON_MAIN_THREAD();
   [_layoutSpecBlocks addObject:[layoutSpec copy]];
-  return self;
-}
-
-- (instancetype)withProps:(CRProps *)props {
-  CR_ASSERT_ON_MAIN_THREAD();
-  _volatileProps = props;
   return self;
 }
 
@@ -114,24 +89,8 @@ void CRNodeBuilderException(NSString *reason) {
 
 - (CRNode *)build {
   CR_ASSERT_ON_MAIN_THREAD();
-  if (_coordinator) {
-    _coordinatorType = _coordinator.class;
-    _key = _coordinator.key;
-  }
   if (_viewInit && !_reuseIdentifier) {
     CRNodeBuilderException(@"The node has a custom view initializer but no reuse identifier.");
-    return CRNullNode.nullNode;
-  }
-  if (_coordinatorType && ![_coordinatorType isSubclassOfClass:CRCoordinator.class]) {
-    CRNodeBuilderException(@"Illegal coordinator type.");
-    return CRNullNode.nullNode;
-  }
-  if ((_coordinatorType && ![(id)_coordinatorType isStateless]) && !_key) {
-    CRNodeBuilderException(@"Stateful coordinator withou a key.");
-    return CRNullNode.nullNode;
-  }
-  if ((_coordinatorType && ![(id)_coordinatorType isStateless]) && !_initialState) {
-    CRNodeBuilderException(@"Stateful coordinator withou an initial state.");
     return CRNullNode.nullNode;
   }
   __block const auto blocks = _layoutSpecBlocks;
@@ -146,8 +105,8 @@ void CRNodeBuilderException(NSString *reason) {
                                              key:_key
                                         viewInit:_viewInit
                                       layoutSpec:_layoutSpec];
-  if (_coordinatorType) {
-    [node bindCoordinator:_coordinatorType initialState:_initialState props:_volatileProps];
+  if (_coordinatorDescriptor) {
+    [node bindCoordinator:_coordinatorDescriptor];
   }
   [node appendChildren:_mutableChildren];
   return node;

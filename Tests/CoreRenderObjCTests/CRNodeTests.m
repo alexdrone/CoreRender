@@ -83,87 +83,6 @@
   XCTAssert(fabs(CGRectGetMaxY(sv[1].frame) - sv[2].frame.origin.y) <= 1.0);
 }
 
-- (void)testThrowExeptionWhenIllegalCoordinatorTypeIsPassedAsArgument {
-  BOOL test = NO;
-  CRNode *node = nil;
-  @try {
-    node = [CRNode nodeWithType:UIView.self
-                     layoutSpec:^(CRNodeLayoutSpec *spec){
-                     }];
-    [node bindCoordinator:TestStatelessCoordinator.class
-            initialState:CRNullState.null
-                   props:CRNullProps.null];
-    test = YES;
-  } @catch (NSException *e) {
-    test = NO;
-  }
-  XCTAssertTrue(test);
-  XCTAssertNotNil(node);
-
-  test = NO;
-  node = nil;
-  @try {
-    node = [CRNode nodeWithType:UIView.self
-                reuseIdentifier:nil
-                            key:@"1"
-                       viewInit:nil
-                     layoutSpec:^(CRNodeLayoutSpec *spec){
-                     }];
-    [node bindCoordinator:TestCoordinator.class initialState:CRNullState.null props:CRNullProps.null];
-    test = YES;
-  } @catch (NSException *e) {
-    test = NO;
-  }
-  XCTAssertTrue(test);
-  XCTAssertNotNil(node);
-
-  test = NO;
-  node = nil;
-  @try {
-    node = [CRNode nodeWithType:UIView.self
-                     layoutSpec:^(CRNodeLayoutSpec *spec){
-                     }];
-    [node bindCoordinator:TestCoordinator.class initialState:CRNullState.null props:CRNullProps.null];
-    test = YES;
-  } @catch (NSException *e) {
-    test = NO;
-  }
-  XCTAssertFalse(test);
-
-  test = NO;
-  node = nil;
-  @try {
-    node = [CRNode nodeWithType:UIView.self
-                reuseIdentifier:nil
-                            key:@"1"
-                       viewInit:nil
-                     layoutSpec:^(CRNodeLayoutSpec *spec){
-                     }];
-    [node bindCoordinator:TestStatelessCoordinator.class
-            initialState:CRNullState.null
-                   props:CRNullProps.null];
-    test = YES;
-  } @catch (NSException *e) {
-    test = NO;
-  }
-  XCTAssertFalse(test);
-
-  test = NO;
-  node = nil;
-  @try {
-    node = [CRNode nodeWithType:UIView.self
-                reuseIdentifier:nil
-                            key:@"1"
-                       viewInit:nil
-                     layoutSpec:^(CRNodeLayoutSpec *spec){
-                     }];
-    test = YES;
-  } @catch (NSException *e) {
-    test = NO;
-  }
-  XCTAssertTrue(test);
-}
-
 - (void)testThatCoordinatorIsPassedDownToNodeSubtree {
   __block auto expectRootNodeHasCoordinator = NO;
   __block auto expectRooNodeHasState = NO;
@@ -182,7 +101,7 @@
                   expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.state);
                   expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.props);
                 }];
-  [root bindCoordinator:TestCoordinator.class initialState:CRNullState.null props:CRNullProps.null];
+  [root bindCoordinator:self.testDescriptor];
 
   const auto leaf =
       [CRNode nodeWithType:UIView.class
@@ -207,6 +126,13 @@
   XCTAssertTrue(expectLeafNodeHasCoordinator);
   XCTAssertTrue(expectLeafNodeHasState);
   XCTAssertTrue(expectLeafNodeHasProps);
+}
+
+- (CRCoordinatorDescriptor *)testDescriptor {
+  return [[CRCoordinatorDescriptor alloc] initWithType:TestCoordinator.class
+                                                   key:@"test"
+                                          initialState:CRNullState.null
+                                                 props:CRNullProps.null];
 }
 
 @end

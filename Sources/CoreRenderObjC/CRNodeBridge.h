@@ -4,6 +4,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class CRNode;
+@class CRCoordinatorDescriptor;
 
 NS_SWIFT_NAME(NodeBridge)
 @interface CRNodeBridge : NSObject

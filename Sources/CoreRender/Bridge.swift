@@ -27,7 +27,7 @@ import CoreRenderObjC
 ///   spec.view.backgroundColor = .green
 ///   spec.view.setTitle("FOO", for: .normal)
 /// ```
-/// - `withCoordinator:initialState.props`: Associates a coordinator to this node.
+/// - `withCoordinatorDescriptor:initialState.props`: Associates a coordinator to this node.
 /// - `build`: Builds the concrete node.
 public func Node<V: UIView>(
   _ type: V.Type = V.self,
@@ -92,36 +92,58 @@ public func withProperty<V: UIView, T: WritableKeyPathBoxableEnum>(
   spec.set(kvc, value: nsValue, animator: animator)
 }
 
-// MARK: - Context Helpers
+// MARK: - CoordinatorProtocol
 
-/// Retrieves a coordinator from the context.
-public func CoordinatorProvider<C: AnyCoordinator> (
-  _ ctx: Context,
-  type: C.Type,
-  key: String? = nil
-) -> CoordinatorProvider<C> {
-  if let key = key {
-    return ctx.coordinatorProvider(ofType: type, withKey: key) as! CoordinatorProvider<C>
-  } else {
-    return ctx.coordinatorProvider(ofType: type) as! CoordinatorProvider<C>
+/// Swift-only compliance protocol.
+public protocol CoordinatorProtocol: class, NSObjectProtocol {
+  /// Must return the coordinator descriptor.
+  static var descriptor: AnyCoordinatorDescriptor { get }
+}
+
+// MARK: - CoordinatorDescriptor
+
+public extension TypeErasedNodeBuilder {
+  /// Bind the given coordinator to the node hierarchy.
+  func withCoordinator(_ descriptor: AnyCoordinatorDescriptor) -> Self {
+    return withCoordinatorDescriptor(descriptor.toRef())
   }
 }
 
-public extension Context {
-  /// Returns the subtree coordinator of the given type.
-  func coordinator<C: AnyCoordinator, V: UIView>(
-    _ spec: LayoutSpec<V>,
-    type: C.Type
-  ) -> C? {
-    return spec.coordinator(ofType: C.self) as? C
-  }
-
-  /// Returns the coordinator provider for the given key.
-  func coordinatorProvider<C: AnyCoordinator & NSObject> (
-    type: C.Type,
-    key: String? = nil
-  ) -> CoordinatorProvider<C>? {
-    return CoordinatorProvider(self, type: type, key: key)
-  }
+public protocol AnyCoordinatorDescriptor {
+  /// Returns a new coordinator descriptor with a different key.
+  func withKey(key newKey: String) -> Self
+  /// Build a objc ref-based object descriptor.
+  func toRef() -> _CoordinatorDescriptor
 }
 
+public struct CoordinatorDescriptor<T: CoordinatorProtocol, P: Props, S: State>
+  : AnyCoordinatorDescriptor {
+  /// The coordinator type.
+  let type: T.Type
+  /// The coordinator key.
+  let key: String
+  /// The coordinator initial state.
+  let initialState: S
+  /// The coordinator volatile props.
+  let props: P
+
+  public init(
+    _ type: T.Type = T.self,
+    _ key: String = String(describing: T.self),
+    initialState: S = S(),
+    props: P = P()
+  ) {
+    self.type = type
+    self.key = key
+    self.props = props
+    self.initialState = initialState
+  }
+
+  public func withKey(key newKey: String) -> Self {
+    return CoordinatorDescriptor(type, newKey, initialState: initialState, props: props)
+  }
+
+  public func toRef() -> _CoordinatorDescriptor {
+    return _CoordinatorDescriptor(type: type, key: key, initialState: initialState, props: props)
+  }
+}

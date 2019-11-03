@@ -29,7 +29,7 @@ func makeCounter(ctx: Context, coordinator: CounterCoordinator) -> ConcreteNode<
       coordinator.increase()
     }).build()
   }
-  .withCoordinator(coordinator, initialState: CounterState(), props: FooProps)
+  .withCoordinatorDescriptor(coordinator, initialState: CounterState(), props: FooProps)
   .build()
 }
 ```

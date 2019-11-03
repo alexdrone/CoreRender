@@ -1,5 +1,5 @@
 #import "CRNode.h"
-#import "CRContext+Private.h"
+#import "CRContext.h"
 #import "CRCoordinator+Private.h"
 #import "CRMacros.h"
 #import "CRNodeBridge.h"
@@ -91,8 +91,10 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
 }
 
 - (void)_recursivelyConfigureCoordinatorsInNodeHierarchy {
-  self.coordinator.props = CR_NIL_COALESCING(self.coordinator.props, self.volatileProps);
-  self.coordinator.state = CR_NIL_COALESCING(self.coordinator.state, self.initialState);
+  self.coordinator.props =
+      CR_NIL_COALESCING(self.coordinator.props, self.coordinatorDescriptor.props);
+  self.coordinator.state =
+      CR_NIL_COALESCING(self.coordinator.state, self.coordinatorDescriptor.initialState);
   self.coordinator.node = self;
   CR_FOREACH(child, _mutableChildren) { [child _recursivelyConfigureCoordinatorsInNodeHierarchy]; }
 }
@@ -110,9 +112,8 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
 - (__kindof CRCoordinator *)coordinator {
   const auto context = self.context;
   if (!context) return nil;
-  if (!_coordinatorType) return _parent.coordinator;
-  return _key != nil ? [context coordinatorOfType:_coordinatorType withKey:_key]
-                     : [context coordinatorOfType:_coordinatorType];
+  if (!_coordinatorDescriptor) return _parent.coordinator;
+  return [context coordinator:_coordinatorDescriptor];
 }
 
 - (CRNodeHierarchy *)nodeHierarchy {
@@ -150,27 +151,9 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   return self;
 }
 
-- (instancetype)bindCoordinator:(Class)coordinatorType
-                   initialState:(CRState *)state
-                          props:(CRProps *)props {
+- (instancetype)bindCoordinator:(CRCoordinatorDescriptor *)descriptor {
   CR_ASSERT_ON_MAIN_THREAD();
-  _volatileProps = props;
-  _initialState = state;
-  if (coordinatorType) {
-    if ([coordinatorType isSubclassOfClass:CRCoordinator.class]) {
-      if (_key) {
-        if ([coordinatorType isStateless])
-          CRIllegalCoordinatorTypeException(@"Nodes with key require a statefui coordinator.");
-        _coordinatorType = coordinatorType;
-      } else {
-        if (![coordinatorType isStateless])
-          CRIllegalCoordinatorTypeException(@"Nodes without key require a stateless coordinator.");
-        _coordinatorType = coordinatorType;
-      }
-    } else {
-      CRIllegalCoordinatorTypeException(@"Must be a subclass of CRCoordinator.");
-    }
-  }
+  _coordinatorDescriptor = descriptor;
   return self;
 }
 
@@ -223,9 +206,6 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
 }
 
 - (void)_configureConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options {
-  if (_coordinatorType) {
-    [self bindCoordinator:_coordinatorType initialState:_initialState props:_volatileProps];
-  }
   [self _constructViewWithReusableView:nil];
   [_renderedView.cr_nodeBridge storeViewSubTreeOldGeometry];
   const auto spec = [[CRNodeLayoutSpec alloc] initWithNode:self constrainedToSize:size];

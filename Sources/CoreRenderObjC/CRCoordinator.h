@@ -5,6 +5,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class CRContext;
 @class CRNode;
 @class CRNodeHierarchy;
+@class CRCoordinatorDescriptor;
 @protocol CRNodeDelegate;
 
 extern NSString *CRCoordinatorStatelessKey;
@@ -41,6 +42,8 @@ NS_SWIFT_NAME(Coordinator)
 @property(nonatomic, readonly, nullable, weak) CRNodeHierarchy *body;
 /// The UI node assigned to this coordinator.
 @property(nonatomic, readonly, nullable, weak) CRNode *node;
+/// Returns the coordinator descriptor.
+@property(nonatomic, readonly) CRCoordinatorDescriptor *descriptor;
 
 /// Coordinators are instantiated from @c CRContext.
 - (instancetype)init NS_UNAVAILABLE;
@@ -70,6 +73,10 @@ NS_SWIFT_NAME(NullProps)
 
 NS_SWIFT_NAME(StatelessCoordinator)
 @interface CRStatelessCoordinator<__covariant P : CRProps *> : CRCoordinator <P, CRNullState *>
+@end
+
+NS_SWIFT_NAME(ProplessCoordinator)
+@interface CRProplessCoordinator<__covariant S : CRState *> : CRCoordinator <CRNullProps *, S>
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,7 +7,28 @@ NS_ASSUME_NONNULL_BEGIN
 @class CRStatelessCoordinator;
 @class CRNode;
 @class CRContext;
+@class CRState;
+@class CRProps;
 @class CRContextReconciliationInfo;
+
+NS_SWIFT_NAME(_CoordinatorDescriptor)
+@interface CRCoordinatorDescriptor : NSObject
+/// The coordinator type.
+@property(nonatomic, readonly) Class type;
+/// The coordinator unique key.
+@property(nonatomic, readonly) NSString *key;
+/// The coordinator initial state.
+@property(nonatomic, readonly) __kindof CRState *initialState;
+/// The desired coordinator props.
+@property(nonatomic, readonly) __kindof CRProps *props;
+
+- (instancetype)init NS_UNAVAILABLE;
+/// Constructs a new coordinator descriptor.
+- (instancetype)initWithType:(Class)type
+                         key:(NSString *)key
+                initialState:(CRState *)state
+                       props:(CRProps *)props;
+@end
 
 NS_SWIFT_NAME(ContextDelegate)
 @protocol CRContextDelegate <NSObject>
@@ -15,15 +36,6 @@ NS_SWIFT_NAME(ContextDelegate)
 - (void)context:(CRContext *)context willReconciliateHieararchy:(CRContextReconciliationInfo *)info;
 /// Node/View hierarchy reconciliation has just occurred.
 - (void)context:(CRContext *)context didReconciliateHieararchy:(CRContextReconciliationInfo *)info;
-@end
-
-NS_SWIFT_NAME(CoordinatorProvider)
-@interface CRCoordinatorProvider<__covariant C : NSObject *> : NSObject
-- (instancetype)init NS_UNAVAILABLE;
-/// The context that spawn thix
-@property(nonatomic, readonly, nullable, weak) CRContext *context;
-/// The coordinator associated to this provider.
-@property(nonatomic, readonly) C coordinator;
 @end
 
 NS_SWIFT_NAME(Context)
@@ -35,15 +47,7 @@ NS_SWIFT_NAME(Context)
 /// passed as argument.
 /// @note: Returns @c nil if @c type is not a subclass of @c CRCoordinator (or if it's a statelss
 /// coordinator).
-- (CRCoordinatorProvider *)coordinatorProviderOfType:(Class)type withKey:(NSString *)key;
-
-/// Returns the coordinator (or instantiate a new one) of type @c type for the unique identifier
-/// passed as argument.
-- (__kindof CRCoordinator *)coordinatorOfType:(Class)type withKey:(NSString *)key;
-
-/// Returns the coordinator (or instantiate a new one) of type @c type.
-/// @note: Returns @c nil if @c type is not a subclass of @c CRStatelessCoordinator.
-- (CRCoordinatorProvider *)coordinatorProviderOfType:(Class)type;
+- (__kindof CRCoordinator *)coordinator:(CRCoordinatorDescriptor *)descriptor;
 
 /// Add the object as delegate for this context.
 - (void)addDelegate:(id<CRContextDelegate>)delegate;

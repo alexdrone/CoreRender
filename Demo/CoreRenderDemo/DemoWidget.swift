@@ -2,7 +2,7 @@ import Foundation
 import CoreRender
 import CoreRenderObjC
 
-func makeDemoWidget(ctx: Context) -> ConcreteNode<UIView> {
+func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
   UIKit.HStack {
     UIKit.View()
       .width(Const.size)
@@ -16,7 +16,7 @@ func makeDemoWidget(ctx: Context) -> ConcreteNode<UIView> {
       UIKit.Label(text: "Hello World", font: UIFont.boldSystemFont(ofSize: 14))
         .margin(Const.margin)
         .build()
-      UIKit.Label(text: "The count is: 0")
+      UIKit.Label(text: "The count is: \(coordinator.state.count)")
         .margin(Const.margin)
         .build()
     }
@@ -28,8 +28,21 @@ func makeDemoWidget(ctx: Context) -> ConcreteNode<UIView> {
   .margin(Const.margin)
   .background(UIColor.secondarySystemBackground)
   .matchHostingViewWidth(withMargin: Const.margin * 2)
-  .build()
 }
+
+// MARK: - Coordinator
+
+class CounterState: State {
+  var count: UInt = 0
+}
+
+class CounterCoordinator: Coordinator<NullProps, CounterState> {
+  func increase() {
+    self.state.count += 1
+  }
+}
+
+// MARK: - Constants
 
 struct Const {
   static let size: CGFloat = 48.0

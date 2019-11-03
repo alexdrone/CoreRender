@@ -1,3 +1,4 @@
+#import "CRContext.h"
 #import "CRCoordinator+Private.h"
 #import "CRMacros.h"
 #import "CRNode.h"
@@ -19,6 +20,11 @@ NSString *CRIllegalCoordinatorTypeExceptionName = @"IllegalCoordinatorType";
 
 - (CRNodeHierarchy *)body {
   return _node.nodeHierarchy;
+}
+
+- (CRCoordinatorDescriptor *)descriptor {
+  return [[CRCoordinatorDescriptor
+      alloc] initWithType:self.class key:self.key initialState:self.state props:self.props];
 }
 
 // By default coordinators are *stateful*.

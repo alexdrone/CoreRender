@@ -1,4 +1,5 @@
 #import "CRNodeLayoutSpec.h"
+#import "CRContext.h"
 #import "CRCoordinator.h"
 #import "CRMacros.h"
 #import "CRNode.h"
@@ -52,7 +53,7 @@
   NSAssert(node, @"Called when *node* is nil.");
   NSAssert(context, @"Called when *context* is nil.");
   while (node) {
-    if (node.coordinatorType == coordinatorType) {
+    if (node.coordinatorDescriptor.type == coordinatorType) {
       coordinator = node.coordinator;
       break;
     }
