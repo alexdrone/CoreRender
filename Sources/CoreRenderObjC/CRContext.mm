@@ -20,6 +20,16 @@
   return self;
 }
 
+- (instancetype)initWithInstance:(CRCoordinator *)coordinator {
+  if (self = [super init]) {
+    _type = coordinator.class;
+    _key = coordinator.key;
+    _initialState = coordinator.state;
+    _props = coordinator.props;
+    _instance = coordinator;
+  }
+}
+
 - (BOOL)isEqual:(id)object {
   if (object == nil) return;
   if (![object isKindOfClass:CRCoordinatorDescriptor.class]) return;
@@ -53,7 +63,8 @@
     coordinator.props = desc.props;
     return coordinator;
   }
-  const auto coordinator = CR_DYNAMIC_CAST(CRCoordinator, [[desc.type alloc] initWithKey:desc.key]);
+  const auto coordinator = CR_DYNAMIC_CAST(
+      CRCoordinator, CR_NIL_COALESCING(desc.instance, [[desc.type alloc] initWithKey:desc.key]));
   coordinator.state = desc.initialState;
   coordinator.props = desc.props;
   coordinator.context = self;

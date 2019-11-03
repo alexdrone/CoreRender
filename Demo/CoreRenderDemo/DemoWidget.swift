@@ -39,7 +39,13 @@ class CounterState: State {
 class CounterCoordinator: Coordinator<NullProps, CounterState>, CoordinatorProtocol {
   static let descriptor: AnyCoordinatorDescriptor =
     CoordinatorDescriptor<CounterCoordinator, NullProps, CounterState>()
-  
+
+  override init() {
+    super.init()
+    self.state = CounterState()
+    self.props = NullProps.null
+  }
+
   func increase() {
     self.state.count += 1
   }

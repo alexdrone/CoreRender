@@ -21,6 +21,8 @@ NS_SWIFT_NAME(_CoordinatorDescriptor)
 @property(nonatomic, readonly) __kindof CRState *initialState;
 /// The desired coordinator props.
 @property(nonatomic, readonly) __kindof CRProps *props;
+/// Optional instance associated with this descriptor.
+@property(nonatomic, weak, nullable) id instance;
 
 - (instancetype)init NS_UNAVAILABLE;
 /// Constructs a new coordinator descriptor.
@@ -28,6 +30,10 @@ NS_SWIFT_NAME(_CoordinatorDescriptor)
                          key:(NSString *)key
                 initialState:(CRState *)state
                        props:(CRProps *)props;
+
+/// Construct a new coordinator descriptor from an instance.
+- (instancetype)initWithInstance:(CRCoordinator *)coordinator;
+
 @end
 
 NS_SWIFT_NAME(ContextDelegate)

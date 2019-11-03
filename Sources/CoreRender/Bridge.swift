@@ -116,8 +116,9 @@ public protocol AnyCoordinatorDescriptor {
   func toRef() -> _CoordinatorDescriptor
 }
 
-public struct CoordinatorDescriptor<T: CoordinatorProtocol, P: Props, S: State>
+public struct CoordinatorDescriptor<T: CoordinatorProtocol & NSObject, P: Props, S: State>
   : AnyCoordinatorDescriptor {
+  let prototype: () -> T
   /// The coordinator type.
   let type: T.Type
   /// The coordinator key.
@@ -128,22 +129,26 @@ public struct CoordinatorDescriptor<T: CoordinatorProtocol, P: Props, S: State>
   let props: P
 
   public init(
-    _ type: T.Type = T.self,
-    _ key: String = String(describing: T.self),
+    _ prototype: @escaping () -> T = { T() },
+    type: T.Type = T.self,
+    key: String = String(describing: T.self),
     initialState: S = S(),
     props: P = P()
   ) {
     self.type = type
     self.key = key
+    self.prototype = prototype
     self.props = props
     self.initialState = initialState
   }
 
-  public func withKey(key newKey: String) -> Self {
-    return CoordinatorDescriptor(type, newKey, initialState: initialState, props: props)
+  public func withKey(key: String) -> Self {
+    CoordinatorDescriptor(prototype, type: type, key: key, initialState: initialState, props: props)
   }
 
   public func toRef() -> _CoordinatorDescriptor {
-    return _CoordinatorDescriptor(type: type, key: key, initialState: initialState, props: props)
+    let ref = _CoordinatorDescriptor(type: type, key: key, initialState: initialState, props: props)
+    ref.instance = prototype()
+    return ref
   }
 }
