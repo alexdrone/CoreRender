@@ -92,15 +92,28 @@ public func withProperty<V: UIView, T: WritableKeyPathBoxableEnum>(
   spec.set(kvc, value: nsValue, animator: animator)
 }
 
-// MARK: - CoordinatorProtocol
+// MARK: - CoordinatorDescriptor
 
-/// Swift-only compliance protocol.
-public protocol CoordinatorProtocol: class, NSObjectProtocol {
-  /// Must return the coordinator descriptor.
-  static var descriptor: AnyCoordinatorDescriptor { get }
+/// Creates a new CoordinatorDescriptor use to retrieve and/or pass new argument to a coordinator.
+public func makeCoordinatorDescriptor<C: Coordinator<S, P>, S, P>(
+  _ type: C.Type
+) -> AnyCoordinatorDescriptor {
+  CoordinatorDescriptor<C, S, P>()
 }
 
-// MARK: - CoordinatorDescriptor
+/// Base class for any coordinator.
+open class Coordinator<S: State, P: Props>: objc_Coordinator {
+  /// The current coordinator state.
+  public var state: S {
+    get { self.anyState as! S }
+    set { self.anyState = newValue }
+  }
+  /// The props currently assigned to this coordinator.
+  public var props: P {
+    get { self.anyProps as! P }
+    set { self.anyProps = newValue }
+  }
+}
 
 public extension TypeErasedNodeBuilder {
   /// Bind the given coordinator to the node hierarchy.
@@ -112,43 +125,58 @@ public extension TypeErasedNodeBuilder {
 public protocol AnyCoordinatorDescriptor {
   /// Returns a new coordinator descriptor with a different key.
   func withKey(key newKey: String) -> Self
+  /// Returns a new coordinator descriptor with new props.
+  func withProps(props: Props) -> Self
   /// Build a objc ref-based object descriptor.
-  func toRef() -> _CoordinatorDescriptor
+  func toRef() -> objc_CoordinatorDescriptor
 }
 
-public struct CoordinatorDescriptor<T: CoordinatorProtocol & NSObject, P: Props, S: State>
+/// See `makeCoordinatorDescriptor` to construct a new descriptor.
+/// - note: Use the `toRef` method to pass the descriptor straight to some objc apis.
+public struct CoordinatorDescriptor<C: Coordinator<S, P>, S: State, P: Props>
   : AnyCoordinatorDescriptor {
-  let prototype: () -> T
   /// The coordinator type.
-  let type: T.Type
+  let type: C.Type
   /// The coordinator key.
-  let key: String
+  var key: String
   /// The coordinator initial state.
   let initialState: S
   /// The coordinator volatile props.
-  let props: P
+  var props: P
 
-  public init(
-    _ prototype: @escaping () -> T = { T() },
-    type: T.Type = T.self,
-    key: String = String(describing: T.self),
+  /// See `makeCoordinatorDescriptor` to construct a new descriptor.
+  fileprivate init(
+    type: C.Type = C.self,
+    key: String = String(describing: C.self),
     initialState: S = S(),
     props: P = P()
   ) {
     self.type = type
     self.key = key
-    self.prototype = prototype
     self.props = props
     self.initialState = initialState
   }
-
+  /// Returns a new coordinator descriptor with a different key.
   public func withKey(key: String) -> Self {
-    CoordinatorDescriptor(prototype, type: type, key: key, initialState: initialState, props: props)
+    assign(self) { $0.key = key }
   }
-
-  public func toRef() -> _CoordinatorDescriptor {
-    let ref = _CoordinatorDescriptor(type: type, key: key, initialState: initialState, props: props)
-    ref.instance = prototype()
-    return ref
+  /// Returns a new coordinator descriptor with new props.
+  public func withProps(props: Props) -> Self {
+    assign(self) {
+      guard let props = props as? P else { return }
+      $0.props = props
+    }
+  }
+  /// - note: Use the `toRef` method to pass the descriptor straight to some objc apis.
+  public func toRef() -> objc_CoordinatorDescriptor {
+    objc_CoordinatorDescriptor(type: type, key: key, initialState: initialState, props: props)
+  }
+  
+  private func assign<T>(_ value: T, changes: (inout T) -> Void) -> T {
+    var copy = value
+    changes(&copy)
+    return copy
   }
 }
+
+

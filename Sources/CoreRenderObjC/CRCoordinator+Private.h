@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class CRNode;
 @class CRContext;
 
-@interface CRCoordinator <P, S>()
+@interface CRCoordinator ()
 // Private setter modifiers
 @property(nonatomic, readwrite) NSString *key;
 @property(nonatomic, readwrite, nullable, weak) CRContext *context;

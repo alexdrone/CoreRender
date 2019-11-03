@@ -18,13 +18,19 @@ NSString *CRIllegalCoordinatorTypeExceptionName = @"IllegalCoordinatorType";
 
 @implementation CRCoordinator
 
+- (instancetype)init {
+  if (self = [super init]) {
+  }
+  return self;
+}
+
 - (CRNodeHierarchy *)body {
   return _node.nodeHierarchy;
 }
 
-- (CRCoordinatorDescriptor *)descriptor {
+- (CRCoordinatorDescriptor *)prototype {
   return [[CRCoordinatorDescriptor
-      alloc] initWithType:self.class key:self.key initialState:self.state props:self.props];
+      alloc] initWithType:self.class key:self.key initialState:self.anyState props:self.anyProps];
 }
 
 // By default coordinators are *stateful*.

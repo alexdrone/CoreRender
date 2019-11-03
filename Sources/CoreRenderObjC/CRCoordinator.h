@@ -23,8 +23,8 @@ NS_SWIFT_NAME(State)
 @property(nonatomic, readonly) NSString *key;
 @end
 
-NS_SWIFT_NAME(Coordinator)
-@interface CRCoordinator<__covariant P : CRProps *, __covariant S : CRState *> : NSObject
+NS_SWIFT_NAME(objc_Coordinator)
+@interface CRCoordinator : NSObject
 /// The context associated with this coordinator.
 @property(nonatomic, readonly, nullable, weak) CRContext *context;
 /// Whether this coordinator is stateful or not.
@@ -35,15 +35,15 @@ NS_SWIFT_NAME(Coordinator)
 /// If this coordinator is @c transient the value of this property is @c CRCoordinatorStatelessKey.
 @property(nonatomic, readonly) NSString *key;
 /// The props currently assigned to this coordinator.
-@property(nonatomic, readwrite) P props;
+@property(nonatomic, readwrite) CRProps *anyProps;
 /// The current coordinator state.
-@property(nonatomic, readwrite) S state;
+@property(nonatomic, readwrite) CRState *anyState;
 /// The UI node assigned to this coordinator.
 @property(nonatomic, readonly, nullable, weak) CRNodeHierarchy *body;
 /// The UI node assigned to this coordinator.
 @property(nonatomic, readonly, nullable, weak) CRNode *node;
 /// Returns the coordinator descriptor.
-@property(nonatomic, readonly) CRCoordinatorDescriptor *descriptor;
+@property(nonatomic, readonly) CRCoordinatorDescriptor *prototype;
 
 /// Coordinators are instantiated from @c CRContext.
 - (instancetype)init;
@@ -69,14 +69,6 @@ NS_SWIFT_NAME(NullState)
 NS_SWIFT_NAME(NullProps)
 @interface CRNullProps : CRProps
 @property(class, nonatomic, readonly) CRNullProps *null;
-@end
-
-NS_SWIFT_NAME(StatelessCoordinator)
-@interface CRStatelessCoordinator<__covariant P : CRProps *> : CRCoordinator <P, CRNullState *>
-@end
-
-NS_SWIFT_NAME(ProplessCoordinator)
-@interface CRProplessCoordinator<__covariant S : CRState *> : CRCoordinator <CRNullProps *, S>
 @end
 
 NS_ASSUME_NONNULL_END

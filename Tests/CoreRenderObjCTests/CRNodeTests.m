@@ -5,10 +5,10 @@
 @property(nonatomic, weak) UILabel *testOutlet;
 @end
 
-@interface TestCoordinator : CRCoordinator <CRNullProps *, CRNullState *>
+@interface TestCoordinator : CRCoordinator
 @end
 
-@interface TestStatelessCoordinator : CRStatelessCoordinator <CRNullProps *>
+@interface TestStatelessCoordinator : CRCoordinator
 @end
 
 @implementation CRNodeTests
@@ -98,8 +98,8 @@
                 layoutSpec:^(CRNodeLayoutSpec *spec) {
                   const auto coordinator = [spec coordinatorOfType:TestCoordinator.class];
                   expectRootNodeHasCoordinator = CR_DYNAMIC_CAST(TestCoordinator, coordinator);
-                  expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.state);
-                  expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.props);
+                  expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.anyState);
+                  expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.anyProps);
                 }];
   [root bindCoordinator:self.testDescriptor];
 
@@ -108,8 +108,8 @@
                 layoutSpec:^(CRNodeLayoutSpec *spec) {
                   const auto coordinator = [spec coordinatorOfType:TestCoordinator.class];
                   expectLeafNodeHasCoordinator = CR_DYNAMIC_CAST(TestCoordinator, coordinator);
-                  expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.state);
-                  expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.props);
+                  expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.anyState);
+                  expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.anyProps);
                 }];
   [root appendChildren:@[ leaf ]];
 
