@@ -115,6 +115,40 @@ NS_ASSUME_NONNULL_BEGIN
 /// Matches the parent height.
 - (instancetype)matchHostingViewHeightWithMargin:(CGFloat)margin;
 
+/// Determines whether user events are ignored and removed from the event queue.
+- (instancetype)userInteractionEnabled:(BOOL)userInteractionEnabled;
+
+/// Adds an animator for the whole view layout.
+- (instancetype)layoutAnimator:(UIViewPropertyAnimator*)animator;
+
+@end
+
+@interface CRNodeBuilder (UILabel)
+
+/// The current text that is displayed by the label.
+- (instancetype)text:(nullable NSString *)text;
+
+/// The current styled text that is displayed by the label.
+- (instancetype)attributedText:(nullable NSAttributedString *)attributedText;
+
+/// The current styled text that is displayed by the label.
+- (instancetype)font:(UIFont *)font;
+
+/// The color of the text.
+- (instancetype)textColor:(UIColor *)textColor;
+
+/// The technique to use for aligning the text.
+- (instancetype)textAlignment:(NSTextAlignment)textAlignment;
+
+/// The technique to use for wrapping and truncating the label’s text.
+- (instancetype)lineBreakMode:(NSLineBreakMode)lineBreakMode;
+
+/// The technique to use for wrapping and truncating the label’s text.
+- (instancetype)enabled:(BOOL)isEnabled;
+
+/// The maximum number of lines to use for rendering text.
+- (instancetype)numberOfLines:(NSUInteger)numberOfLines;
+
 @end
 
 NS_ASSUME_NONNULL_END

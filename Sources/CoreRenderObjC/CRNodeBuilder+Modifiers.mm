@@ -1,4 +1,5 @@
 #import "CRCoordinator.h"
+#import "CRContext.h"
 #import "CRMacros.h"
 #import "CRNodeBuilder+Modifiers.h"
 #import "CRNodeLayoutSpec.h"
@@ -193,6 +194,87 @@
 - (instancetype)matchHostingViewHeightWithMargin:(CGFloat)margin {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
     [spec set:CR_KEYPATH(spec.view, yoga.height) value:@(spec.size.height - 2 * margin)];
+  }];
+}
+
+- (instancetype)userInteractionEnabled:(BOOL)userInteractionEnabled {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    [spec set:CR_KEYPATH(spec.view, userInteractionEnabled) value:@(userInteractionEnabled)];
+  }];
+}
+
+/// Adds an animator for the whole view layout.
+- (instancetype)layoutAnimator:(UIViewPropertyAnimator*)animator {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    spec.context.layoutAnimator = animator;
+  }];
+}
+
+@end
+
+@implementation CRNodeBuilder (UILabel)
+
+- (instancetype)text:(nullable NSString *)text {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(text));
+    if (![spec.view respondsToSelector:selector]) return;
+    [spec set:CR_UNSAFE_KEYPATH(text) value:text];
+  }];
+}
+
+- (instancetype)attributedText:(nullable NSAttributedString *)attributedText {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(attributedText));
+    if (![spec.view respondsToSelector:selector]) return;
+    [spec set:CR_UNSAFE_KEYPATH(attributedText) value:attributedText];
+  }];
+}
+
+- (instancetype)font:(UIFont *)font {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(font));
+    if (![spec.view respondsToSelector:selector]) return;
+    [spec set:CR_UNSAFE_KEYPATH(font) value:font];
+  }];
+}
+
+- (instancetype)textColor:(UIColor *)textColor {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(textColor));
+    if (![spec.view respondsToSelector:selector]) return;
+    [spec set:CR_UNSAFE_KEYPATH(textColor) value:textColor];
+  }];
+}
+
+- (instancetype)textAlignment:(NSTextAlignment)textAlignment {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(textAlignment));
+    if (![spec.view respondsToSelector:selector]) return;
+    [spec set:CR_UNSAFE_KEYPATH(textAlignment) value:@(textAlignment)];
+  }];
+}
+
+- (instancetype)lineBreakMode:(NSLineBreakMode)lineBreakMode {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(lineBreakMode));
+    if (![spec.view respondsToSelector:selector]) return;
+    [spec set:CR_UNSAFE_KEYPATH(lineBreakMode) value:@(lineBreakMode)];
+  }];
+}
+
+- (instancetype)enabled:(BOOL)isEnabled {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(isEnabled));
+    if (![spec.view respondsToSelector:selector]) return;
+    [spec set:CR_UNSAFE_KEYPATH(enabled) value:@(isEnabled)];
+  }];
+}
+
+- (instancetype)numberOfLines:(NSUInteger)numberOfLines {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(numberOfLines));
+    if (![spec.view respondsToSelector:selector]) return;
+    [spec set:CR_UNSAFE_KEYPATH(numberOfLines) value:@(numberOfLines)];
   }];
 }
 

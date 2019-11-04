@@ -72,6 +72,8 @@ static inline id CRDynamicCast(__unsafe_unretained id obj, Class type, BOOL asse
   }
 
 // Safe keypath litterals.
+#define CR_UNSAFE_KEYPATH(p) @ #p
+
 #if DEBUG
 #define CR_KEYPATH(o, p) ((void)(NO && ((void)o.p, NO)), @ #p)
 #else
