@@ -118,6 +118,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Determines whether user events are ignored and removed from the event queue.
 - (instancetype)userInteractionEnabled:(BOOL)userInteractionEnabled;
 
+/// Applies a transformation.
+- (instancetype)transform:(CGAffineTransform)transform
+                 animator:(UIViewPropertyAnimator *)animator;
+
 /// Adds an animator for the whole view layout.
 - (instancetype)layoutAnimator:(UIViewPropertyAnimator *)animator;
 

@@ -13,8 +13,12 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .height(Const.size)
       .margin(Const.margin)
       .cornerRadius(Const.size/2)
-      .onTap { recognizer in
-        recognizer
+      .userInteractionEnabled(true)
+      .onTouchDown { _ in
+        print("down")
+      }
+      .onTouchUpInside { _ in
+        print("up")
       }
     HStack {
       Button(key: Const.increaseButtonKey)

@@ -139,7 +139,7 @@ extension UIView {
   
   public func onTouchDown(_ handler: @escaping (UIGestureRecognizer) -> Void) {
     onGestureRecognizer(
-      type: UITapGestureRecognizer.self,
+      type: TouchDownGestureRecognizer.self,
       key: "\(#function)" as NSString,
       handler)
   }

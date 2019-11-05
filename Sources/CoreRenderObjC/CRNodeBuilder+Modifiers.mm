@@ -223,6 +223,20 @@
   }];
 }
 
+- (instancetype)transform:(CGAffineTransform)transform
+                 animator:(UIViewPropertyAnimator *)animator {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    if (animator != nil) {
+      spec.view.transform = transform;
+    } else {
+      [animator addAnimations:^{
+        spec.view.transform = transform;
+      }];
+      [animator startAnimation];
+    }
+  }];
+}
+
 /// Adds an animator for the whole view layout.
 - (instancetype)layoutAnimator:(UIViewPropertyAnimator *)animator {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
