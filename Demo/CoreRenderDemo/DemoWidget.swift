@@ -4,33 +4,31 @@ import CoreRenderObjC
 
 func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
   VStack {
-    View {
-      Label(text: "\(coordinator.state.count)")
-        .font(UIFont.systemFont(ofSize: 24, weight: .bold))
-        .width(Const.size)
-        .height(Const.size)
-        .textAlignment(.center)
-      None()
-    }
-    .width(Const.size)
-    .height(Const.size)
-    .cornerRadius(Const.size/2)
-    .background(.systemOrange)
-    .margin(Const.margin)
-    .alignSelf(.center)
+    Label(text: "\(coordinator.state.count)")
+      .font(UIFont.systemFont(ofSize: 24, weight: .black))
+      .textAlignment(.center)
+      .background(.systemOrange)
+      .alignSelf(.center)
+      .width(Const.size)
+      .height(Const.size)
+      .margin(Const.margin)
+      .cornerRadius(Const.size/2)
+      .onTap { recognizer in
+        recognizer
+      }
     HStack {
       Button(key: Const.increaseButtonKey)
         .text("TAP HERE TO INCREASE COUNT")
-        .textColor(UIColor.black)
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
         .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
-      Label(text: " >> \(coordinator.state.count)")
-        .margin(Const.margin)
+        .textColor(UIColor.black)
+        .background(UIColor.secondarySystemBackground)
+        .padding(Const.margin * 2)
+        .cornerRadius(Const.cornerRadius)
+      None()
     }
     .alignSelf(.center)
   }
-  .padding(Const.margin)
-  .background(UIColor.secondarySystemBackground)
   .matchHostingViewWidth(withMargin: 0)
   .withCoordinator(coordinator.descriptor())
 }

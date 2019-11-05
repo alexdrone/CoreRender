@@ -5,8 +5,12 @@ import CoreRenderObjC
 // MARK: - NodeBuilder
 
 extension TypeErasedNodeBuilder {
-  public func onTap(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
-    withLayoutSpec { spec in spec.view?.onTap(handler) }
+  public func onTouchUpInside(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onTouchUpInside(handler) }
+  }
+  
+  public func onTouchDown(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
+    withLayoutSpec { spec in spec.view?.onTouchDown(handler) }
   }
 
   public func onDoubleTap(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
@@ -126,7 +130,14 @@ extension UIView {
     addGestureRecognizer(gesture)
   }
 
-  public func onTap(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+  public func onTouchUpInside(_ handler: @escaping (UIGestureRecognizer) -> Void) {
+    onGestureRecognizer(
+      type: UITapGestureRecognizer.self,
+      key: "\(#function)" as NSString,
+      handler)
+  }
+  
+  public func onTouchDown(_ handler: @escaping (UIGestureRecognizer) -> Void) {
     onGestureRecognizer(
       type: UITapGestureRecognizer.self,
       key: "\(#function)" as NSString,
@@ -221,3 +232,17 @@ fileprivate class WeakGestureRecognizer: NSObject {
 }
 
 fileprivate var __handler: UInt8 = 0
+
+class TouchDownGestureRecognizer: UIGestureRecognizer {
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
+    if self.state == .possible {
+      self.state = .recognized
+    }
+  }
+  override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+    self.state = .failed
+    }
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
+    self.state = .failed
+  }
+}
