@@ -22,6 +22,14 @@ void CRNodeBuilderException(NSString *reason) {
 
 @end
 
+@implementation CRNullNodeBuilder
+
+- (CRNullNode *)build {
+  return CRNullNode.nullNode;
+}
+
+@end
+
 @implementation CRNodeBuilder {
   Class _type;
   NSString *_reuseIdentifier;

@@ -40,9 +40,9 @@ public func Node<V: UIView>(
 @_functionBuilder
 public struct _ContentBuilder {
   /// Passes a single node written as a child view through unmodified.
-  public static func buildBlock(_ nodes: AnyNode...) -> _Builder {
+  public static func buildBlock(_ nodes: TypeErasedNodeBuilder...) -> _Builder {
     let children = nodes.filter { $0 !== NullNode.nullNode }
-    return _Builder(children: children)
+    return _Builder(children: children.map { $0.build() })
   }
 }
 

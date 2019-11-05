@@ -15,6 +15,12 @@ NS_SWIFT_NAME(TypeErasedNodeBuilder)
 - (CRNode *)build;
 @end
 
+NS_SWIFT_NAME(NullNodeBuilder)
+@interface CRNullNodeBuilder  : CRTypeErasedNodeBuilder
+/// Build the concrete node.
+- (CRNullNode *)build;
+@end
+
 NS_SWIFT_NAME(NodeBuilder)
 @interface CRNodeBuilder<__covariant V : UIView *> : CRTypeErasedNodeBuilder
 - (instancetype)init NS_UNAVAILABLE;

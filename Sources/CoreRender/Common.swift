@@ -37,19 +37,11 @@ public struct UIKit {
 
   public static func Label(
     text: String,
-    font: UIFont = UIFont.systemFont(ofSize: 12),
-    foregroundColor: UIColor = UIColor.black,
-    alignment: NSTextAlignment = .left,
-    lineLimit: Int = 0,
     @_ContentBuilder builder: () -> _Builder = _Builder.default
   ) -> NodeBuilder<UILabel> {
     Node(UILabel.self, builder: builder).withLayoutSpec { spec in
       guard let view = spec.view else { return }
       view.text = text
-      view.font = font
-      view.textColor = foregroundColor
-      view.textAlignment = alignment
-      view.numberOfLines = lineLimit
     }
   }
   
@@ -60,8 +52,8 @@ public struct UIKit {
     Node(UIButton.self, builder: builder).withKey(key)
   }
   
-  public static func None() -> NullNode {
-    return NullNode.nullNode
+  public static func None() -> NullNodeBuilder {
+    return NullNodeBuilder()
   }
 }
 
