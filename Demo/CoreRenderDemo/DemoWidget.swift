@@ -12,14 +12,14 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
         .textAlignment(.center)
       UIKit.None()
     }
-      .width(Const.size)
-      .height(Const.size)
-      .cornerRadius(Const.size/2)
-      .background(.systemOrange)
-      .margin(Const.margin)
-      .alignSelf(.center)
+    .width(Const.size)
+    .height(Const.size)
+    .cornerRadius(Const.size/2)
+    .background(.systemOrange)
+    .margin(Const.margin)
+    .alignSelf(.center)
     UIKit.HStack {
-      UIKit.Button(key: "increase")
+      UIKit.Button(key: Const.increaseButtonKey)
         .text("TAP HERE TO INCREASE COUNT")
         .textColor(UIColor.black)
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
@@ -27,15 +27,11 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       UIKit.Label(text: " >> \(coordinator.state.count)")
         .margin(Const.margin)
     }
-    .alignItems(.center)
-    .justifyContent(.center)
+    .alignSelf(.center)
   }
-  .alignItems(.center)
-  .cornerRadius(Const.cornerRadius)
   .padding(Const.margin)
-  .margin(Const.margin)
   .background(UIColor.secondarySystemBackground)
-  .matchHostingViewWidth(withMargin: Const.margin * 2)
+  .matchHostingViewWidth(withMargin: 0)
   .withCoordinator(coordinator.descriptor())
 }
 
@@ -55,6 +51,7 @@ class CounterCoordinator: Coordinator<CounterState, NullProps> {
 // MARK: - Constants
 
 struct Const {
+  static let increaseButtonKey = "button_increase"
   static let size: CGFloat = 48.0
   static let cornerRadius: CGFloat = 8.0
   static let margin: CGFloat = 4.0
