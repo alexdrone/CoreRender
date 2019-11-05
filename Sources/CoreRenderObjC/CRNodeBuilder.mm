@@ -93,10 +93,10 @@ void CRNodeBuilderException(NSString *reason) {
     CRNodeBuilderException(@"The node has a custom view initializer but no reuse identifier.");
     return CRNullNode.nullNode;
   }
-  __block const auto blocks = _layoutSpecBlocks;
+  __block const auto blocks = [_layoutSpecBlocks copy];
   _layoutSpec = ^(CRNodeLayoutSpec *spec) {
     for (id obj in blocks) {
-      void (^block)(CRNodeLayoutSpec *) = obj;
+      void (^block)(CRNodeLayoutSpec *) = [obj copy];
       block(spec);
     }
   };

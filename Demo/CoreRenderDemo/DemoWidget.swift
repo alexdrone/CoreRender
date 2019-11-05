@@ -3,8 +3,16 @@ import CoreRender
 import CoreRenderObjC
 
 func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
-  UIKit.HStack {
-    UIKit.View()
+  UIKit.VStack {
+    UIKit.View {
+      UIKit.Label(text: "\(coordinator.state.count)")
+        .font(UIFont.systemFont(ofSize: 24, weight: .bold))
+        .justifyContent(.center)
+        .alignSelf(.center)
+        .flex()
+        .build()
+      UIKit.None()
+    }
       .width(Const.size)
       .height(Const.size)
       .cornerRadius(Const.size/2)
@@ -12,19 +20,22 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .margin(Const.margin)
       .alignSelf(.center)
       .build()
-    UIKit.VStack {
+    UIKit.HStack {
       UIKit.Button(key: "increase")
-        .text("Increase count")
+        .text("INCREASE COUNT")
+        .textColor(UIColor.black)
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
         .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
         .build()
-      UIKit.Label(text: "The count is: \(coordinator.state.count)")
+      UIKit.Label(text: " >> \(coordinator.state.count)")
         .margin(Const.margin)
         .build()
     }
-    .justifyContent(.flexStart)
+    .alignItems(.center)
+    .justifyContent(.center)
     .build()
   }
+  .alignItems(.center)
   .cornerRadius(Const.cornerRadius)
   .padding(Const.margin)
   .margin(Const.margin)
