@@ -1,9 +1,29 @@
-#import "CRCoordinator.h"
 #import "CRContext.h"
+#import "CRCoordinator.h"
 #import "CRMacros.h"
 #import "CRNodeBuilder+Modifiers.h"
 #import "CRNodeLayoutSpec.h"
 #import "YGLayout.h"
+
+@interface CRNodeBuilder (Private)
+- (instancetype)_unsafeSet:(NSString *)keyPath value:(id)value;
+@end
+
+@implementation CRNodeBuilder (Private)
+
+- (instancetype)_unsafeSet:(NSString *)keyPath value:(id)value {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto selector = NSSelectorFromString(keyPath);
+    if (![spec.view respondsToSelector:selector]) {
+      NSLog(@"warning: %@ cannot find keyPath %@ in class %@", NSStringFromSelector(_cmd), keyPath,
+            spec.view.class);
+    } else {
+      [spec set:keyPath value:value];
+    }
+  }];
+}
+
+@end
 
 @implementation CRNodeBuilder (Modifiers)
 
@@ -204,9 +224,45 @@
 }
 
 /// Adds an animator for the whole view layout.
-- (instancetype)layoutAnimator:(UIViewPropertyAnimator*)animator {
+- (instancetype)layoutAnimator:(UIViewPropertyAnimator *)animator {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
     spec.context.layoutAnimator = animator;
+  }];
+}
+
+@end
+
+@implementation CRNodeBuilder (UIControl)
+
+- (instancetype)enabled:(BOOL)enabled {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto getter = NSSelectorFromString(CR_UNSAFE_KEYPATH(isEnabled));
+    if (![spec.view respondsToSelector:getter]) return;
+    [spec set:CR_UNSAFE_KEYPATH(enabled) value:@(enabled)];
+  }];
+}
+
+- (instancetype)selected:(BOOL)selected {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto getter = NSSelectorFromString(CR_UNSAFE_KEYPATH(isSelected));
+    if (![spec.view respondsToSelector:getter]) return;
+    [spec set:CR_UNSAFE_KEYPATH(selected) value:@(selected)];
+  }];
+}
+
+- (instancetype)highlighted:(BOOL)highlighted {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto getter = NSSelectorFromString(CR_UNSAFE_KEYPATH(isHighlighted));
+    if (![spec.view respondsToSelector:getter]) return;
+    [spec set:CR_UNSAFE_KEYPATH(highlighted) value:@(highlighted)];
+  }];
+}
+- (instancetype)setTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)events {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    const auto control = CR_DYNAMIC_CAST(UIControl, spec.view);
+    if (!control) return;
+    [control removeTarget:nil action:nil forControlEvents:events];
+    [control addTarget:target action:action forControlEvents:events];
   }];
 }
 
@@ -216,66 +272,58 @@
 
 - (instancetype)text:(nullable NSString *)text {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(text));
-    if (![spec.view respondsToSelector:selector]) return;
-    [spec set:CR_UNSAFE_KEYPATH(text) value:text];
+    const auto button = CR_DYNAMIC_CAST(UIButton, spec.view);
+    if (button) {
+      [button setTitle:text forState:UIControlStateNormal];
+    } else {
+      return [self _unsafeSet:CR_UNSAFE_KEYPATH(text) value:text];
+    }
   }];
 }
 
 - (instancetype)attributedText:(nullable NSAttributedString *)attributedText {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(attributedText));
-    if (![spec.view respondsToSelector:selector]) return;
-    [spec set:CR_UNSAFE_KEYPATH(attributedText) value:attributedText];
+    const auto button = CR_DYNAMIC_CAST(UIButton, spec.view);
+    if (button) {
+      [button setAttributedTitle:attributedText forState:UIControlStateNormal];
+    } else {
+      return [self _unsafeSet:CR_UNSAFE_KEYPATH(attributedText) value:attributedText];
+    }
   }];
 }
 
 - (instancetype)font:(UIFont *)font {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(font));
-    if (![spec.view respondsToSelector:selector]) return;
-    [spec set:CR_UNSAFE_KEYPATH(font) value:font];
+    const auto button = CR_DYNAMIC_CAST(UIButton, spec.view);
+    if (button) {
+      [spec set:CR_KEYPATH(button, titleLabel.font) value:font];
+    } else {
+      return [self _unsafeSet:CR_UNSAFE_KEYPATH(font) value:font];
+    }
   }];
 }
 
 - (instancetype)textColor:(UIColor *)textColor {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(textColor));
-    if (![spec.view respondsToSelector:selector]) return;
-    [spec set:CR_UNSAFE_KEYPATH(textColor) value:textColor];
+    const auto button = CR_DYNAMIC_CAST(UIButton, spec.view);
+    if (button) {
+      [button setTitleColor:textColor forState:UIControlStateNormal];
+    } else {
+      return [self _unsafeSet:CR_UNSAFE_KEYPATH(textColor) value:textColor];
+    }
   }];
 }
 
 - (instancetype)textAlignment:(NSTextAlignment)textAlignment {
-  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(textAlignment));
-    if (![spec.view respondsToSelector:selector]) return;
-    [spec set:CR_UNSAFE_KEYPATH(textAlignment) value:@(textAlignment)];
-  }];
+  return [self _unsafeSet:CR_UNSAFE_KEYPATH(textAlignment) value:@(textAlignment)];
 }
 
 - (instancetype)lineBreakMode:(NSLineBreakMode)lineBreakMode {
-  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(lineBreakMode));
-    if (![spec.view respondsToSelector:selector]) return;
-    [spec set:CR_UNSAFE_KEYPATH(lineBreakMode) value:@(lineBreakMode)];
-  }];
-}
-
-- (instancetype)enabled:(BOOL)isEnabled {
-  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(isEnabled));
-    if (![spec.view respondsToSelector:selector]) return;
-    [spec set:CR_UNSAFE_KEYPATH(enabled) value:@(isEnabled)];
-  }];
+  return [self _unsafeSet:CR_UNSAFE_KEYPATH(lineBreakMode) value:@(lineBreakMode)];
 }
 
 - (instancetype)numberOfLines:(NSUInteger)numberOfLines {
-  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    const auto selector = NSSelectorFromString(CR_UNSAFE_KEYPATH(numberOfLines));
-    if (![spec.view respondsToSelector:selector]) return;
-    [spec set:CR_UNSAFE_KEYPATH(numberOfLines) value:@(numberOfLines)];
-  }];
+  return [self _unsafeSet:CR_UNSAFE_KEYPATH(numberOfLines) value:@(numberOfLines)];
 }
 
 @end

@@ -119,7 +119,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)userInteractionEnabled:(BOOL)userInteractionEnabled;
 
 /// Adds an animator for the whole view layout.
-- (instancetype)layoutAnimator:(UIViewPropertyAnimator*)animator;
+- (instancetype)layoutAnimator:(UIViewPropertyAnimator *)animator;
+
+@end
+
+@interface CRNodeBuilder (UIControl)
+
+/// A Boolean value indicating whether the control is enabled.
+- (instancetype)enabled:(BOOL)enabled;
+
+/// A Boolean value indicating whether the control is in the selected state.
+- (instancetype)selected:(BOOL)selected;
+
+/// A Boolean value indicating whether the control draws a highlight.
+- (instancetype)highlighted:(BOOL)selected;
+
+/// Associates a target object and action method with the control.
+- (instancetype)setTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)events;
 
 @end
 
@@ -142,9 +158,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The technique to use for wrapping and truncating the label’s text.
 - (instancetype)lineBreakMode:(NSLineBreakMode)lineBreakMode;
-
-/// The technique to use for wrapping and truncating the label’s text.
-- (instancetype)enabled:(BOOL)isEnabled;
 
 /// The maximum number of lines to use for rendering text.
 - (instancetype)numberOfLines:(NSUInteger)numberOfLines;
