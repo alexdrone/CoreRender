@@ -71,8 +71,8 @@ void CRNodeBuilderException(NSString *reason) {
   void (^oldBlock)(CRNodeLayoutSpec *) = [_layoutSpec copy];
   void (^newBlock)(CRNodeLayoutSpec *) = [layoutSpec copy];
   _layoutSpec = [^(CRNodeLayoutSpec *spec) {
-    oldBlock(spec);
-    newBlock(spec);
+    if (oldBlock != nil) oldBlock(spec);
+    if (newBlock != nil) newBlock(spec);
   } copy];
   return self;
 }
