@@ -14,11 +14,13 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .margin(Const.margin)
       .cornerRadius(Const.size/2)
       .userInteractionEnabled(true)
-      .onTouchDown { _ in
-        print("down")
-      }
-      .onTouchUpInside { _ in
-        print("up")
+      .transform(
+        coordinator.state.animateBadge ?
+          CGAffineTransform(scaleX: 0.5, y: 0.5) : CGAffineTransform.identity,
+        animator: UIViewPropertyAnimator(duration: 1, dampingRatio: 0.5, animations: nil))
+      .layoutAnimator(UIViewPropertyAnimator(duration: 1, dampingRatio: 0.5, animations: nil))
+      .onTouchDown{ _ in
+        coordinator.animateBadge()
       }
     HStack {
       Button(key: Const.increaseButtonKey)
@@ -40,6 +42,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
 // MARK: - Coordinator
 
 class CounterState: State {
+  var animateBadge = false
   var count: UInt = 0
 }
 
@@ -47,6 +50,15 @@ class CounterCoordinator: Coordinator<CounterState, NullProps> {
   @objc func increase() {
     state.count += 1
     body?.setNeedsReconcile()
+  }
+  
+  func animateBadge() {
+    state.animateBadge = true;
+    body?.setNeedsReconcile()
+    DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+      self?.state.animateBadge = false;
+      self?.body?.setNeedsReconcile()
+    }
   }
 }
 

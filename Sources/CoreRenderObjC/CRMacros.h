@@ -114,6 +114,7 @@ typedef struct CR_OBJC_BOXABLE CGRect CGRect;
 typedef struct CR_OBJC_BOXABLE CGVector CGVector;
 typedef struct CR_OBJC_BOXABLE UIEdgeInsets UIEdgeInsets;
 typedef struct CR_OBJC_BOXABLE _NSRange NSRange;
+typedef struct CR_OBJC_BOXABLE CGAffineTransform CGAffineTransform;
 
 #pragma mark - Generics
 

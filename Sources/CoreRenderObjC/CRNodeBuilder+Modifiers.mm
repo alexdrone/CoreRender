@@ -226,14 +226,7 @@
 - (instancetype)transform:(CGAffineTransform)transform
                  animator:(UIViewPropertyAnimator *)animator {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
-    if (animator != nil) {
-      spec.view.transform = transform;
-    } else {
-      [animator addAnimations:^{
-        spec.view.transform = transform;
-      }];
-      [animator startAnimation];
-    }
+    [spec set:CR_KEYPATH(spec.view, transform) value:@(transform) animator:animator];
   }];
 }
 
