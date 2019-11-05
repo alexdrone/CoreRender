@@ -5,13 +5,11 @@ import CoreRenderObjC
 func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
   UIKit.VStack {
     UIKit.View {
-      UIKit.Label(
-        text: "\(coordinator.state.count)",
-        font: UIFont.systemFont(ofSize: 24, weight: .bold))
+      UIKit.Label(text: "\(coordinator.state.count)")
+        .font(UIFont.systemFont(ofSize: 24, weight: .bold))
         .width(Const.size)
         .height(Const.size)
         .textAlignment(.center)
-        .build()
       UIKit.None()
     }
       .width(Const.size)
@@ -20,21 +18,17 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .background(.systemOrange)
       .margin(Const.margin)
       .alignSelf(.center)
-      .build()
     UIKit.HStack {
       UIKit.Button(key: "increase")
         .text("TAP HERE TO INCREASE COUNT")
         .textColor(UIColor.black)
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
         .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
-        .build()
       UIKit.Label(text: " >> \(coordinator.state.count)")
         .margin(Const.margin)
-        .build()
     }
     .alignItems(.center)
     .justifyContent(.center)
-    .build()
   }
   .alignItems(.center)
   .cornerRadius(Const.cornerRadius)
