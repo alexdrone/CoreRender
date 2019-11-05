@@ -62,18 +62,18 @@ void CRNodeBuilderException(NSString *reason) {
 - (instancetype)withViewInit:(UIView * (^)(NSString *))viewInit {
   CR_ASSERT_ON_MAIN_THREAD();
   NSString *key = _key;
-  _viewInit = ^UIView *(void) { return viewInit(key); };
+  _viewInit = ^UwIView *(void) { return viewInit(key); };
   return self;
 }
 
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec *))layoutSpec {
   CR_ASSERT_ON_MAIN_THREAD();
-  __block void (^oldBlock)(CRNodeLayoutSpec *) = [_layoutSpec copy];
-  __block void (^newBlock)(CRNodeLayoutSpec *) = [layoutSpec copy];
-  _layoutSpec = ^(CRNodeLayoutSpec *spec) {
+  void (^oldBlock)(CRNodeLayoutSpec *) = [_layoutSpec copy];
+  void (^newBlock)(CRNodeLayoutSpec *) = [layoutSpec copy];
+  _layoutSpec = [^(CRNodeLayoutSpec *spec) {
     oldBlock(spec);
     newBlock(spec);
-  };
+  } copy];
   return self;
 }
 

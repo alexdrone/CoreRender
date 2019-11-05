@@ -5,8 +5,9 @@ import CoreRenderObjC
 func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
   UIKit.VStack {
     UIKit.View {
-      UIKit.Label(text: "\(coordinator.state.count)")
-        .font(UIFont.systemFont(ofSize: 24, weight: .bold))
+      UIKit.Label(
+        text: "\(coordinator.state.count)",
+        font: UIFont.systemFont(ofSize: 24, weight: .bold))
         .justifyContent(.center)
         .alignSelf(.center)
         .flex()
