@@ -27,7 +27,6 @@ void CRNodeBuilderException(NSString *reason) {
   NSString *_reuseIdentifier;
   NSString *_key;
   UIView * (^_viewInit)(void);
-  NSMutableArray *_layoutSpecBlocks;
   void (^_layoutSpec)(CRNodeLayoutSpec *);
   NSMutableArray<CRNode *> *_mutableChildren;
   CRCoordinatorDescriptor *_coordinatorDescriptor;
@@ -37,7 +36,6 @@ void CRNodeBuilderException(NSString *reason) {
   CR_ASSERT_ON_MAIN_THREAD();
   if (self = [super init]) {
     _type = type;
-    _layoutSpecBlocks = @[].mutableCopy;
     _mutableChildren = @[].mutableCopy;
   }
   return self;
@@ -70,7 +68,12 @@ void CRNodeBuilderException(NSString *reason) {
 
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec *))layoutSpec {
   CR_ASSERT_ON_MAIN_THREAD();
-  [_layoutSpecBlocks addObject:[layoutSpec copy]];
+  __block void (^oldBlock)(CRNodeLayoutSpec *) = [_layoutSpec copy];
+  __block void (^newBlock)(CRNodeLayoutSpec *) = [layoutSpec copy];
+  _layoutSpec = ^(CRNodeLayoutSpec *spec) {
+    oldBlock(spec);
+    newBlock(spec);
+  };
   return self;
 }
 
@@ -93,13 +96,6 @@ void CRNodeBuilderException(NSString *reason) {
     CRNodeBuilderException(@"The node has a custom view initializer but no reuse identifier.");
     return CRNullNode.nullNode;
   }
-  __block const auto blocks = [_layoutSpecBlocks copy];
-  _layoutSpec = ^(CRNodeLayoutSpec *spec) {
-    for (id obj in blocks) {
-      void (^block)(CRNodeLayoutSpec *) = [obj copy];
-      block(spec);
-    }
-  };
   const auto node = [[CRNode alloc] initWithType:_type
                                  reuseIdentifier:_reuseIdentifier
                                              key:_key
