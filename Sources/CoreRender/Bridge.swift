@@ -101,6 +101,16 @@ public func makeCoordinatorDescriptor<C: Coordinator<S, P>, S, P>(
   CoordinatorDescriptor<C, S, P>()
 }
 
+public func makeCoordinatorDescriptor<C: Coordinator<S, P>, S, P>(
+  _ coordinator: C
+) -> AnyCoordinatorDescriptor {
+  CoordinatorDescriptor<C, S, P>(
+    type: C.self,
+    key: coordinator.key,
+    initialState: coordinator.state,
+    props: coordinator.props)
+}
+
 /// Base class for any coordinator.
 open class Coordinator<S: State, P: Props>: objc_Coordinator {
   /// The current coordinator state.
@@ -112,6 +122,10 @@ open class Coordinator<S: State, P: Props>: objc_Coordinator {
   public var props: P {
     get { self.anyProps as! P }
     set { self.anyProps = newValue }
+  }
+  
+  public func descriptor() -> AnyCoordinatorDescriptor {
+    return CoordinatorDescriptor(type: Self.self, key: key, initialState: state, props: props)
   }
 }
 

@@ -13,7 +13,8 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .alignSelf(.center)
       .build()
     UIKit.VStack {
-      Node(UIButton.self)
+      UIKit.Button(key: "increase")
+        .text("Increase count")
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
         .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
         .build()
@@ -29,6 +30,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
   .margin(Const.margin)
   .background(UIColor.secondarySystemBackground)
   .matchHostingViewWidth(withMargin: Const.margin * 2)
+  .withCoordinator(coordinator.)
 }
 
 // MARK: - Coordinator
@@ -40,7 +42,7 @@ class CounterState: State {
 class CounterCoordinator: Coordinator<CounterState, NullProps> {
   @objc func increase() {
     state.count += 1
-    body?.setNeedsLayout()
+    body?.setNeedsReconcile()
   }
 }
 
