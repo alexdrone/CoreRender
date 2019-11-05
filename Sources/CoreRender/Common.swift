@@ -54,32 +54,10 @@ public struct UIKit {
   }
   
   public static func Button(
-    title: String,
-    action: @escaping () -> Void,
-    @_ContentBuilder builder: () -> _Builder = _Builder.default
-  ) -> NodeBuilder<UIButton> {
-    Node(UIButton.self, builder: builder).withLayoutSpec { spec in
-      guard let view = spec.view else { return }
-      view.setTitle(title, for: .normal)
-      view.onTap { _ in action() }
-    }
-  }
-
-  public static func Button(
     key: String,
-    title: String,
-    target: Any? = nil,
-    action: Selector = #selector(NSObject.doesNotRecognizeSelector(_:)),
     @_ContentBuilder builder: () -> _Builder = _Builder.default
   ) -> NodeBuilder<UIButton> {
-    Node(UIButton.self, builder: builder).withKey(key).withViewInit { _ in
-      let button = UIButton()
-      button.addTarget(target, action: action, for: .touchUpInside)
-      return button
-    }.withLayoutSpec { spec in
-      guard let view = spec.view else { return }
-      view.setTitle(title, for: .normal)
-    }
+    Node(UIButton.self, builder: builder).withKey(key)
   }
   
   public static func None() -> NullNode {
