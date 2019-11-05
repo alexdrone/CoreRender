@@ -30,7 +30,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
   .margin(Const.margin)
   .background(UIColor.secondarySystemBackground)
   .matchHostingViewWidth(withMargin: Const.margin * 2)
-  .withCoordinator(coordinator.)
+  .withCoordinator(coordinator.descriptor())
 }
 
 // MARK: - Coordinator

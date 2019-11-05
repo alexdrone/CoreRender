@@ -51,14 +51,9 @@
   [_root layoutConstrainedToSize:size withOptions:options];
 }
 
-- (void)setNeedsRebuildHierarchy {
-  CR_ASSERT_ON_MAIN_THREAD();
-  [self buildHierarchyInView:_containerView constrainedToSize:_size withOptions:_options];
-}
-
 - (void)setNeedsReconcile {
   CR_ASSERT_ON_MAIN_THREAD();
-  [self reconcileInView:nil constrainedToSize:_size withOptions:_options];
+  [self buildHierarchyInView:_containerView constrainedToSize:_size withOptions:_options];
 }
 
 - (void)setNeedsLayout {

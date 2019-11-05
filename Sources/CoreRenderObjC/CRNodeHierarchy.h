@@ -36,9 +36,6 @@ NS_SWIFT_NAME(NodeHierarchy)
 
 /// Constructs a new node hierarchy by invoking the @c buildNodeHierarchy block and reconciles it
 /// against the currently mounted view hierarchy.
-- (void)setNeedsRebuildHierarchy;
-
-/// Tells the node that the node/view hierarchy must be reconciled.
 - (void)setNeedsReconcile;
 
 /// Tells the node that the node/view hierarchy must be re-layout.
