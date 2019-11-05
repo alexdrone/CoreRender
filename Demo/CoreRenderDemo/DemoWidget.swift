@@ -13,8 +13,9 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .alignSelf(.center)
       .build()
     UIKit.VStack {
-      UIKit.Label(text: "Hello World", font: UIFont.boldSystemFont(ofSize: 14))
-        .margin(Const.margin)
+      Node(UIButton.self)
+        .font(UIFont.systemFont(ofSize: 12, weight: .bold))
+        .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
         .build()
       UIKit.Label(text: "The count is: \(coordinator.state.count)")
         .margin(Const.margin)
@@ -37,7 +38,7 @@ class CounterState: State {
 }
 
 class CounterCoordinator: Coordinator<CounterState, NullProps> {
-  func increase() {
+  @objc func increase() {
     state.count += 1
     body?.setNeedsLayout()
   }

@@ -276,7 +276,7 @@
     if (button) {
       [button setTitle:text forState:UIControlStateNormal];
     } else {
-      return [self _unsafeSet:CR_UNSAFE_KEYPATH(text) value:text];
+      [self _unsafeSet:CR_UNSAFE_KEYPATH(text) value:text];
     }
   }];
 }
@@ -287,7 +287,7 @@
     if (button) {
       [button setAttributedTitle:attributedText forState:UIControlStateNormal];
     } else {
-      return [self _unsafeSet:CR_UNSAFE_KEYPATH(attributedText) value:attributedText];
+      [self _unsafeSet:CR_UNSAFE_KEYPATH(attributedText) value:attributedText];
     }
   }];
 }
@@ -298,7 +298,7 @@
     if (button) {
       [spec set:CR_KEYPATH(button, titleLabel.font) value:font];
     } else {
-      return [self _unsafeSet:CR_UNSAFE_KEYPATH(font) value:font];
+      [self _unsafeSet:CR_UNSAFE_KEYPATH(font) value:font];
     }
   }];
 }
@@ -309,7 +309,7 @@
     if (button) {
       [button setTitleColor:textColor forState:UIControlStateNormal];
     } else {
-      return [self _unsafeSet:CR_UNSAFE_KEYPATH(textColor) value:textColor];
+      [self _unsafeSet:CR_UNSAFE_KEYPATH(textColor) value:textColor];
     }
   }];
 }
