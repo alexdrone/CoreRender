@@ -14,10 +14,6 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .margin(Const.margin)
       .cornerRadius(Const.size/2)
       .userInteractionEnabled(true)
-      .transform(
-        coordinator.state.animateBadge ?
-          CGAffineTransform(scaleX: 0.5, y: 0.5) : CGAffineTransform.identity,
-        animator: UIViewPropertyAnimator(duration: 1, dampingRatio: 0.5, animations: nil))
       .layoutAnimator(UIViewPropertyAnimator(duration: 1, dampingRatio: 0.5, animations: nil))
       .onTouchDown{ _ in
         coordinator.animateBadge()

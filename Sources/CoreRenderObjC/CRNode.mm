@@ -244,7 +244,6 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   const auto view = _renderedView;
   if (!animator) return;
   [view.cr_nodeBridge applyViewSubTreeOldGeometry];
-  [animator stopAnimation:YES];
   [animator addAnimations:^{
     [view.cr_nodeBridge applyViewSubTreeNewGeometry];
   }];
