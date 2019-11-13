@@ -243,17 +243,13 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   const auto animator = self.context.layoutAnimator;
   const auto view = _renderedView;
   if (!animator) return;
+  [view.cr_nodeBridge storeViewSubTreeNewGeometry];
   [view.cr_nodeBridge applyViewSubTreeOldGeometry];
+  [animator stopAnimation:YES];
   [animator addAnimations:^{
     [view.cr_nodeBridge applyViewSubTreeNewGeometry];
   }];
-  [animator addCompletion:^(UIViewAnimatingPosition finalPosition) {
-    [view.cr_nodeBridge applyViewSubTreeNewGeometry];
-  }];
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)),
-                 dispatch_get_main_queue(), ^{
-                   [animator startAnimation];
-                 });
+  [animator startAnimation];
   [view.cr_nodeBridge fadeInNewlyCreatedViewsInViewSubTreeWithDelay:animator.duration];
 }
 

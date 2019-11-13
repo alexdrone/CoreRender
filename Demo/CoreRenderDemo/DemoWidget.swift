@@ -14,7 +14,6 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .margin(Const.margin)
       .cornerRadius(Const.size/2)
       .userInteractionEnabled(true)
-      .layoutAnimator(UIViewPropertyAnimator(duration: 1, curve: .easeInOut, animations: {}))
       .onTouchDown{ _ in
         coordinator.animateBadge()
       }
