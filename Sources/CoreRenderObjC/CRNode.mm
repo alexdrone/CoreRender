@@ -272,7 +272,7 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
 
   [self _configureConstrainedToSize:size withOptions:options];
   NSUInteger numberOfLayoutPasses = 2;
-  for (NSUInteger i = 0, i < numberOfLayoutPasses; i++) {
+  for (NSUInteger i = 0; i < numberOfLayoutPasses; i++) {
     [self _computeFlexboxLayoutConstrainedToSize:size];
   }
   auto frame = _renderedView.frame;
