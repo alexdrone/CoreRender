@@ -11,7 +11,7 @@ NS_SWIFT_NAME(NodeBridge)
 /// Whether the view has been created at the last render pass.
 @property(nonatomic) BOOL isNewlyCreated;
 /// The node associated to this view.
-@property(nonatomic, nullable, weak) CRNode *node;
+@property(nonatomic, nullable) CRNode *node;
 /// The bridged view.
 @property(nonatomic, nullable, weak) UIView *view;
 /// Layout animator for this subtree.

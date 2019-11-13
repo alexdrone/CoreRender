@@ -34,6 +34,9 @@ NS_SWIFT_NAME(NodeHierarchy)
 /// See @c CRNode.slayoutConstrainedToSize:withOptions:.
 - (void)layoutConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options;
 
+/// Rebuilds the view hierarchy.
+- (void)setNeedsRebuild()
+
 /// Constructs a new node hierarchy by invoking the @c buildNodeHierarchy block and reconciles it
 /// against the currently mounted view hierarchy.
 - (void)setNeedsReconcile;
