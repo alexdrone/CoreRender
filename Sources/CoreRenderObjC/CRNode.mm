@@ -245,10 +245,7 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   if (!animator) return;
   [view.cr_nodeBridge storeViewSubTreeNewGeometry];
   [view.cr_nodeBridge applyViewSubTreeOldGeometry];
-  [animator addAnimations:^{
-    [view.cr_nodeBridge applyViewSubTreeNewGeometry];
-  }];
-  [animator startAnimation];
+  [view.cr_nodeBridge applyViewSubTreeNewGeometry];
   [view.cr_nodeBridge fadeInNewlyCreatedViewsInViewSubTreeWithDelay:animator.duration];
 }
 
