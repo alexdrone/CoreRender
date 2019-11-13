@@ -245,7 +245,6 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   if (!animator) return;
   [view.cr_nodeBridge storeViewSubTreeNewGeometry];
   [view.cr_nodeBridge applyViewSubTreeOldGeometry];
-  [animator stopAnimation:YES];
   [animator addAnimations:^{
     [view.cr_nodeBridge applyViewSubTreeNewGeometry];
   }];
@@ -272,7 +271,10 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   }
 
   [self _configureConstrainedToSize:size withOptions:options];
-  [self _computeFlexboxLayoutConstrainedToSize:size];
+  NSUInteger numberOfLayoutPasses = 2;
+  for (NSUInteger i = 0, i < numberOfLayoutPasses; i++) {
+    [self _computeFlexboxLayoutConstrainedToSize:size];
+  }
   auto frame = _renderedView.frame;
   frame.origin.x += safeAreaOffset.x;
   frame.origin.y += safeAreaOffset.y;
