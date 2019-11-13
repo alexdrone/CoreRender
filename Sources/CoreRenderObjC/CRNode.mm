@@ -247,7 +247,13 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   [animator addAnimations:^{
     [view.cr_nodeBridge applyViewSubTreeNewGeometry];
   }];
-  [animator startAnimation];
+  [animator addCompletion:^(UIViewAnimatingPosition finalPosition) {
+    [view.cr_nodeBridge applyViewSubTreeNewGeometry];
+  }];
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
+                   [animator startAnimation];
+                 });
   [view.cr_nodeBridge fadeInNewlyCreatedViewsInViewSubTreeWithDelay:animator.duration];
 }
 

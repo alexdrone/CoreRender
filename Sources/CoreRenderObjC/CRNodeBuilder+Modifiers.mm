@@ -223,8 +223,7 @@
   }];
 }
 
-- (instancetype)transform:(CGAffineTransform)transform
-                 animator:(UIViewPropertyAnimator *)animator {
+- (instancetype)transform:(CGAffineTransform)transform animator:(UIViewPropertyAnimator *)animator {
   return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
     [spec set:CR_KEYPATH(spec.view, transform) value:@(transform) animator:animator];
   }];

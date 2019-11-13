@@ -16,7 +16,7 @@ NS_SWIFT_NAME(TypeErasedNodeBuilder)
 @end
 
 NS_SWIFT_NAME(NullNodeBuilder)
-@interface CRNullNodeBuilder  : CRTypeErasedNodeBuilder
+@interface CRNullNodeBuilder : CRTypeErasedNodeBuilder
 /// Build the concrete node.
 - (CRNullNode *)build;
 @end

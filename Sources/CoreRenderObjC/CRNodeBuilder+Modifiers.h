@@ -119,8 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)userInteractionEnabled:(BOOL)userInteractionEnabled;
 
 /// Applies a transformation.
-- (instancetype)transform:(CGAffineTransform)transform
-                 animator:(UIViewPropertyAnimator *)animator;
+- (instancetype)transform:(CGAffineTransform)transform animator:(UIViewPropertyAnimator *)animator;
 
 /// Adds an animator for the whole view layout.
 - (instancetype)layoutAnimator:(UIViewPropertyAnimator *)animator;

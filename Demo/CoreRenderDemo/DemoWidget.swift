@@ -9,12 +9,12 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .textAlignment(.center)
       .background(.systemOrange)
       .alignSelf(.center)
-      .width(Const.size)
-      .height(Const.size)
+      .width(coordinator.state.expanded ? Const.size * 2 : Const.size)
+      .height(coordinator.state.expanded ? Const.size * 2 : Const.size)
       .margin(Const.margin)
       .cornerRadius(Const.size/2)
       .userInteractionEnabled(true)
-      .layoutAnimator(UIViewPropertyAnimator(duration: 1, dampingRatio: 0.5, animations: nil))
+      .layoutAnimator(UIViewPropertyAnimator(duration: 1, curve: .easeInOut, animations: {}))
       .onTouchDown{ _ in
         coordinator.animateBadge()
       }
@@ -38,7 +38,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
 // MARK: - Coordinator
 
 class CounterState: State {
-  var animateBadge = false
+  var expanded = false
   var count: UInt = 0
 }
 
@@ -49,12 +49,8 @@ class CounterCoordinator: Coordinator<CounterState, NullProps> {
   }
   
   func animateBadge() {
-    state.animateBadge = true;
-    body?.setNeedsReconcile()
-    DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-      self?.state.animateBadge = false;
-      self?.body?.setNeedsReconcile()
-    }
+    state.expanded.toggle();
+    self.body?.setNeedsReconcile()
   }
 }
 
