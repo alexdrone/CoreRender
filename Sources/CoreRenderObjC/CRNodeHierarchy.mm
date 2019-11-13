@@ -32,6 +32,7 @@
   [_root registerNodeHierarchyInContext:_context];
   [_root setNodeHierarchy:self];
   [_root reconcileInView:view constrainedToSize:size withOptions:options];
+  [_root layoutConstrainedToSize:size withOptions:options];
 }
 
 - (void)reconcileInView:(nullable UIView *)view
