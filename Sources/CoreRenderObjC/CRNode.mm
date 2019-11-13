@@ -269,10 +269,9 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
       safeAreaOffset.y = safeArea.top;
     }
   }
-
-  [self _configureConstrainedToSize:size withOptions:options];
   NSUInteger numberOfLayoutPasses = 2;
-  for (NSUInteger i = 0; i < numberOfLayoutPasses; i++) {
+  for (NSUInteger pass = 0; pass < numberOfLayoutPasses; pass++) {
+    [self _configureConstrainedToSize:size withOptions:options];
     [self _computeFlexboxLayoutConstrainedToSize:size];
   }
   auto frame = _renderedView.frame;
