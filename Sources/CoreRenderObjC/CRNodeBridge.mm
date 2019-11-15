@@ -63,6 +63,7 @@
   CR_ASSERT_ON_MAIN_THREAD();
   if (!_view.cr_hasNode) return;
   _view.frame = _newGeometry;
+  _view.alpha = _targetAlpha;
   CR_FOREACH(subview, _view.subviews) {
     if (!subview.cr_hasNode) continue;
     [subview.cr_nodeBridge applyViewSubTreeNewGeometry];
