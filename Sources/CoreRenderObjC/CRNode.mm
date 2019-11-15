@@ -245,11 +245,14 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   if (!animator) return;
   [view.cr_nodeBridge storeViewSubTreeNewGeometry];
   [view.cr_nodeBridge applyViewSubTreeOldGeometry];
+  [animator stopAnimation:YES];
   [animator addAnimations:^{
     [view.cr_nodeBridge applyViewSubTreeNewGeometry];
   }];
+  [animator addCompletion:^(UIViewAnimatingPosition finalPosition) {
+    [view.cr_nodeBridge fadeInNewlyCreatedViewsInViewSubTreeWithDelay:animator.duration];
+  }];
   [animator startAnimation];
-  [view.cr_nodeBridge fadeInNewlyCreatedViewsInViewSubTreeWithDelay:animator.duration];
 }
 
 - (void)layoutConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options {
