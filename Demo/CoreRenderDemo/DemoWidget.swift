@@ -9,15 +9,10 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .textAlignment(.center)
       .background(.systemOrange)
       .alignSelf(.center)
-      .width(coordinator.state.expanded ? Const.size * 2 : Const.size)
-      .height(coordinator.state.expanded ? Const.size * 2 : Const.size)
+      .minWidth(Const.size + 8 * CGFloat(coordinator.state.count))
+      .minHeight(Const.size)
       .margin(Const.margin)
-      .cornerRadius(Const.size/2)
       .userInteractionEnabled(true)
-      .layoutAnimator(UIViewPropertyAnimator(duration: 1, curve: .easeInOut, animations: {}))
-      .onTouchDown{ _ in
-        coordinator.animateBadge()
-      }
     HStack {
       Button(key: Const.increaseButtonKey)
         .text("TAP HERE TO INCREASE COUNT")
@@ -38,18 +33,12 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
 // MARK: - Coordinator
 
 class CounterState: State {
-  var expanded = false
   var count: UInt = 0
 }
 
 class CounterCoordinator: Coordinator<CounterState, NullProps> {
   @objc func increase() {
     state.count += 1
-    body?.setNeedsReconcile()
-  }
-  
-  func animateBadge() {
-    state.expanded.toggle();
     self.body?.setNeedsReconcile()
   }
 }
