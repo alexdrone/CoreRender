@@ -244,10 +244,10 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   const auto view = _renderedView;
   if (!animator) return;
   [view.cr_nodeBridge applyViewSubTreeOldGeometry];
-  [animator addAnimations:^{
+//  [animator addAnimations:^{
     [self _computeFlexboxLayoutConstrainedToSize:_size];
-  }];
-  [animator startAnimation];
+//  }];
+//  [animator startAnimation];
   [view.cr_nodeBridge fadeInNewlyCreatedViewsInViewSubTreeWithDelay:animator.duration];
 }
 
