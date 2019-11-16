@@ -5,9 +5,9 @@
 CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 10+ and ObjC).
 
 
-<img src="docs/assets/carbon_2.png" width=640 alt="screen_code" />
+<img src="docs/assets/carbon_3.png" width=640 alt="screen_code" />
 
-<img src="docs/assets/screen_2.png" width=640 alt="screen" />
+<img src="docs/assets/screen_2.png" width=320 alt="screen" />
 
 ### Introduction
 
