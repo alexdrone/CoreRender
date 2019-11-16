@@ -5,9 +5,9 @@
 CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 10+ and ObjC).
 
 
-<img src="docs/assets/carbon_1.png" width=640 alt="screen_code" />
+<img src="docs/assets/carbon_2.png" width=640 alt="screen_code" />
 
-<img src="docs/assets/screen_1.png" width=640 alt="screen" />
+<img src="docs/assets/screen_2.png" width=640 alt="screen" />
 
 ### Introduction
 
@@ -23,18 +23,16 @@ The following is the node hierarchy definition.
 
 ```swift
 func makeCounter(ctx: Context, coordinator: CounterCoordinator) -> ConcreteNode<UIView> {
-  UIKit.VStack {
-    UIKit.Label(text: "count \(coordinator.state.count)").build()
-    UIKit.Button(title: "Increse", action: {
-      coordinator.increase()
-    }).build()
+  VStack {
+    Label(text: "count \(coordinator.state.count)").build()
+    Button(title: "Increse", action: {
+        coordinator.increase()
+    })
   }
-  .withCoordinatorDescriptor(coordinator, initialState: CounterState(), props: FooProps)
-  .build()
 }
 ```
 
-`UIKit.Label` and `UIKit.Button` are just specialized versions of the `Node<V: UIView>` pure function.
+`Label` and `Button` are just specialized versions of the `Node<V: UIView>` pure function.
 That means you could wrap any UIView subclass in a vdom node. e.g.
 ```swift
 
