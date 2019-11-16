@@ -252,7 +252,10 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   [animator addCompletion:^(UIViewAnimatingPosition finalPosition) {
     [view.cr_nodeBridge fadeInNewlyCreatedViewsInViewSubTreeWithDelay:animator.duration];
   }];
-  [animator startAnimation];
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
+                   [animator startAnimation];
+                 });
 }
 
 - (void)layoutConstrainedToSize:(CGSize)size withOptions:(CRNodeLayoutOptions)options {
