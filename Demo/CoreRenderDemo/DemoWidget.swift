@@ -27,6 +27,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
     .alignSelf(.center)
   }
   .matchHostingViewWidth(withMargin: 0)
+  .layoutAnimator(UIViewPropertyAnimator(duration: 1, dampingRatio: 0.8, animations: nil))
   .withCoordinator(coordinator.descriptor())
 }
 
