@@ -22,13 +22,27 @@ Let's build the classic *Counter-Example*.
 The following is the node hierarchy definition.
 
 ```swift
-func makeCounter(ctx: Context, coordinator: CounterCoordinator) -> ConcreteNode<UIView> {
+func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
   VStack {
-    Label(text: "count \(coordinator.state.count)").build()
-    Button(title: "Increse", action: {
-        coordinator.increase()
-    })
+    Label(text: "\(coordinator.state.count)")
+      .textColor(.darkText)
+      .background(.secondarySystemBackground)
+      .width(Const.size + 8 * CGFloat(coordinator.state.count))
+      .height(Const.size)
+      .margin(Const.margin)
+      .cornerRadius(Const.cornerRadius)
+    HStack {
+      Button()
+        .text("TAP HERE TO INCREASE COUNT")
+        .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
+        .background(.systemTeal)
+        .padding(Const.margin * 2)
+        .cornerRadius(Const.cornerRadius)
+    }
   }
+  .alignItems(.center)
+  .matchHostingViewWidth(withMargin: 0)
+  .withCoordinator(coordinator.descriptor())
 }
 ```
 
