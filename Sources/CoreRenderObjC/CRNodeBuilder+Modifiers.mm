@@ -6,9 +6,7 @@
 #import "YGLayout.h"
 
 @interface CRNodeBuilder (Private)
-- (instancetype)_unsafeSetSpec:(CRNodeLayoutSpec *)spec
-                       keyPath:(NSString *)keyPath
-                         value:(id)value;
+- (instancetype)_unsafeSetSpec:(CRNodeLayoutSpec *)spec keyPath:(NSString *)keyPath value:(id)value;
 - (instancetype)_unsafeSet:(NSString *)keyPath value:(id)value;
 @end
 
@@ -17,14 +15,13 @@
 - (instancetype)_unsafeSetSpec:(CRNodeLayoutSpec *)spec
                        keyPath:(NSString *)keyPath
                          value:(id)value {
-    const auto selector = NSSelectorFromString(keyPath);
-    if (![spec.view respondsToSelector:selector]) {
-      NSLog(@"warning: %@ cannot find keyPath %@ in class %@", NSStringFromSelector(_cmd), keyPath,
-            spec.view.class);
-    } else {
-      [spec set:keyPath value:value];
-    }
-  }];
+  const auto selector = NSSelectorFromString(keyPath);
+  if (![spec.view respondsToSelector:selector]) {
+    NSLog(@"warning: %@ cannot find keyPath %@ in class %@", NSStringFromSelector(_cmd), keyPath,
+          spec.view.class);
+  } else {
+    [spec set:keyPath value:value];
+  }
 }
 
 - (instancetype)_unsafeSet:(NSString *)keyPath value:(id)value {
