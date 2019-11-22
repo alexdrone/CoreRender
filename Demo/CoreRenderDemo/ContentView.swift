@@ -1,4 +1,6 @@
 import SwiftUI
+import CoreRender
+import CoreRenderObjC
 
 struct ContentView: View {
     var body: some View {

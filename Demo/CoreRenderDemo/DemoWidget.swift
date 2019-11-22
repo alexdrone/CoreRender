@@ -16,7 +16,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
     Label(text: ">> TAP HERE TO SPIN THE BUTTON >>")
       .font(UIFont.systemFont(ofSize: 12, weight: .bold))
       .textAlignment(.center)
-      .textColor(.darkText)
+      .textColor(.systemOrange)
       .height(Const.size)
       .margin(Const.margin)
       .userInteractionEnabled(true)
@@ -54,13 +54,15 @@ class CounterCoordinator: Coordinator<CounterState, NullProps> {
 
   // Example of manual access to the underlying view hierarchy.
   func doSomeFunkyStuff() {
-    let view = body?.root.view(withKey: Const.increaseButtonKey)
+    guard let body = body, let view = body.root.view(withKey: Const.increaseButtonKey) else {
+      return
+    }
     let transform = state.isRotated
       ? CGAffineTransform.identity
       : CGAffineTransform.init(rotationAngle: .pi)
     state.isRotated.toggle()
     UIView.animate(withDuration: 1) {
-      view?.transform = transform
+      view.transform = transform
     }
   }
 }
