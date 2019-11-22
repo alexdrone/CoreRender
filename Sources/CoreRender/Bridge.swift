@@ -94,6 +94,17 @@ public func withProperty<V: UIView, T: WritableKeyPathBoxableEnum>(
 
 // MARK: - CoordinatorDescriptor
 
+public extension Context {
+  /// Retrieve the coordinator with the given type and key (optional).
+  @nonobjc func coordinator<C: Coordinator<S, P>, S, P>(
+    type: C.Type,
+    key: String = String(describing: C.self)
+  ) -> C {
+    let descriptor = CoordinatorDescriptor<C, S, P>(type: type, key: key).toRef()
+    return self.coordinator(descriptor) as! C
+  }
+}
+
 /// Creates a new CoordinatorDescriptor use to retrieve and/or pass new argument to a coordinator.
 public func makeCoordinatorDescriptor<C: Coordinator<S, P>, S, P>(
   _ type: C.Type
