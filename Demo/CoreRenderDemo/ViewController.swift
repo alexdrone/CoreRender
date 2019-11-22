@@ -6,8 +6,7 @@ class ViewCoordinator: UIViewController {
   var hostingView: HostingView!
   let context = Context()
   var coordinator: CounterCoordinator {
-    context.coordinator(makeCoordinatorDescriptor(CounterCoordinator.self).toRef())
-      as! CounterCoordinator
+    context.coordinator(CounterCoordinator.self)
   }
   
   override func loadView() {

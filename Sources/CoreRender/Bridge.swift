@@ -96,7 +96,7 @@ public func withProperty<V: UIView, T: WritableKeyPathBoxableEnum>(
 
 public extension Context {
   /// Retrieve the coordinator with the given type and key (optional).
-  @nonobjc func coordinator<C: Coordinator<S, P>, S, P>(
+  @nonobjc func getCoordinator<C: Coordinator<S, P>, S, P>(
     type: C.Type,
     key: String = String(describing: C.self)
   ) -> C {
