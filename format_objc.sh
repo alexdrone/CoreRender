@@ -11,4 +11,5 @@ format() {
 
 echo "Running clang-format..."
 cd Sources/CoreRenderObjC && format;
+cd ../../;
 cd Tests/CoreRenderObjCTests && format;

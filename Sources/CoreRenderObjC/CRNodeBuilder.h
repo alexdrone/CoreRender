@@ -46,4 +46,10 @@ NS_SWIFT_NAME(NodeBuilder)
 - (CRNode<V> *)build;
 @end
 
+static CRNodeBuilder *CRBuildLeaf(Class type,
+                                  void(NS_NOESCAPE ^ configure)(CRNodeBuilder *builder));
+
+static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBuilder *builder),
+                              NSArray<CRNodeBuilder *> *children);
+
 NS_ASSUME_NONNULL_END

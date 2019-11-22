@@ -6,6 +6,19 @@ void CRNodeBuilderException(NSString *reason) {
   @throw [NSException exceptionWithName:@"NodeBuilderException" reason:reason userInfo:nil];
 }
 
+static CRNodeBuilder *CRBuildLeaf(Class type,
+                                  void(NS_NOESCAPE ^ configure)(CRNodeBuilder *builder)) {
+  return CRBuild(type, configure, @[]);
+}
+
+static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBuilder *builder),
+                              NSArray<CRNodeBuilder *> *children) {
+  const auto builder = [[CRNodeBuilder alloc] initWithType:type];
+  CR_FOREACH(node, children) { [builder addChild:[node build]]; }
+  configure(builder);
+  return builder;
+}
+
 @implementation CRTypeErasedNodeBuilder
 
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {

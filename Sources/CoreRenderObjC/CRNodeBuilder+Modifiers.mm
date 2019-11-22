@@ -5,7 +5,7 @@
 #import "CRNodeLayoutSpec.h"
 #import "YGLayout.h"
 
-void _CRUnsafeSet(CRNodeLayoutSpec * spec, NSString *keyPath, id value) {
+void _CRUnsafeSet(CRNodeLayoutSpec *spec, NSString *keyPath, id value) {
   const auto selector = NSSelectorFromString(keyPath);
   if (![spec.view respondsToSelector:selector]) {
     NSLog(@"warning: cannot find keyPath %@ in class %@", keyPath, spec.view.class);
