@@ -6,13 +6,17 @@
 #import "YGLayout.h"
 
 @interface CRNodeBuilder (Private)
+- (instancetype)_unsafeSetSpec:(CRNodeLayoutSpec *)spec
+                       keyPath:(NSString *)keyPath
+                         value:(id)value;
 - (instancetype)_unsafeSet:(NSString *)keyPath value:(id)value;
 @end
 
 @implementation CRNodeBuilder (Private)
 
-- (instancetype)_unsafeSet:(NSString *)keyPath value:(id)value {
-  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+- (instancetype)_unsafeSetSpec:(CRNodeLayoutSpec *)spec
+                       keyPath:(NSString *)keyPath
+                         value:(id)value {
     const auto selector = NSSelectorFromString(keyPath);
     if (![spec.view respondsToSelector:selector]) {
       NSLog(@"warning: %@ cannot find keyPath %@ in class %@", NSStringFromSelector(_cmd), keyPath,
@@ -20,6 +24,12 @@
     } else {
       [spec set:keyPath value:value];
     }
+  }];
+}
+
+- (instancetype)_unsafeSet:(NSString *)keyPath value:(id)value {
+  return [self withLayoutSpec:^(CRNodeLayoutSpec *spec) {
+    [self _unsafeSetSpec:spec keyPath:keyPath value:value];
   }];
 }
 
@@ -282,7 +292,7 @@
     if (button) {
       [button setTitle:text forState:UIControlStateNormal];
     } else {
-      [self _unsafeSet:CR_UNSAFE_KEYPATH(text) value:text];
+      [self _unsafeSetSpec:spec keyPath:CR_UNSAFE_KEYPATH(text) value:text];
     }
   }];
 }
@@ -293,7 +303,7 @@
     if (button) {
       [button setAttributedTitle:attributedText forState:UIControlStateNormal];
     } else {
-      [self _unsafeSet:CR_UNSAFE_KEYPATH(attributedText) value:attributedText];
+      [self _unsafeSetSpec:spec keyPath:CR_UNSAFE_KEYPATH(attributedText) value:attributedText];
     }
   }];
 }
@@ -304,7 +314,7 @@
     if (button) {
       [spec set:CR_KEYPATH(button, titleLabel.font) value:font];
     } else {
-      [self _unsafeSet:CR_UNSAFE_KEYPATH(font) value:font];
+      [self _unsafeSetSpec:spec keyPath:CR_UNSAFE_KEYPATH(font) value:font];
     }
   }];
 }
@@ -315,7 +325,7 @@
     if (button) {
       [button setTitleColor:textColor forState:UIControlStateNormal];
     } else {
-      [self _unsafeSet:CR_UNSAFE_KEYPATH(textColor) value:textColor];
+      [self _unsafeSetSpec:spec keyPath:CR_UNSAFE_KEYPATH(textColor) value:textColor];
     }
   }];
 }

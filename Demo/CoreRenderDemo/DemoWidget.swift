@@ -5,7 +5,7 @@ import CoreRenderObjC
 func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
   VStack {
     Label(text: "\(coordinator.state.count)")
-      .font(UIFont.systemFont(ofSize: 24, weight: .black))
+      //.font(UIFont.systemFont(ofSize: 24, weight: .black))
       .textAlignment(.center)
       .textColor(.darkText)
       .background(.secondarySystemBackground)
@@ -13,6 +13,16 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .height(Const.size)
       .margin(Const.margin)
       .cornerRadius(Const.cornerRadius)
+    Label(text: ">> TAP HERE TO SPIN THE BUTTON >>")
+      .font(UIFont.systemFont(ofSize: 12, weight: .bold))
+      .textAlignment(.center)
+      .textColor(.darkText)
+      .height(Const.size)
+      .margin(Const.margin)
+      .userInteractionEnabled(true)
+      .onTouchUpInside { _ in
+        coordinator.doSomeFunkyStuff()
+      }
     HStack {
       Button(key: Const.increaseButtonKey)
         .text("TAP HERE TO INCREASE COUNT")
@@ -33,12 +43,25 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
 
 class CounterState: State {
   var count: UInt = 0
+  var isRotated: Bool = false
 }
 
 class CounterCoordinator: Coordinator<CounterState, NullProps> {
-  @objc func increase() {
+  @objc dynamic func increase() {
     state.count += 1
-    self.body?.setNeedsReconcile()
+    body?.setNeedsReconcile()
+  }
+
+  // Example of manual access to the underlying view hierarchy.
+  func doSomeFunkyStuff() {
+    let view = body?.root.view(withKey: Const.increaseButtonKey)
+    let transform = state.isRotated
+      ? CGAffineTransform.identity
+      : CGAffineTransform.init(rotationAngle: .pi)
+    state.isRotated.toggle()
+    UIView.animate(withDuration: 1) {
+      view?.transform = transform
+    }
   }
 }
 
