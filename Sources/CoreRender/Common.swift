@@ -51,7 +51,7 @@ public func ButtonNode(
   Node(UIButton.self, builder: builder).withKey(key)
 }
 
-public func NullNode() -> NullNodeBuilder {
+public func SpacerNode() -> NullNodeBuilder {
   return NullNodeBuilder()
 }
 
