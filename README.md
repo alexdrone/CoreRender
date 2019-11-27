@@ -18,7 +18,7 @@ Let's build the classic *Counter-Example*.
 The following is the node hierarchy definition.
 
 ```swift
-func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
+func makeCounterWidget(context: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
   VStack {
     Label(text: "\(coordinator.state.count)")
       .textColor(.darkText)
@@ -38,7 +38,6 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
   }
   .alignItems(.center)
   .matchHostingViewWidth(withMargin: 0)
-  .withCoordinator(coordinator.descriptor())
 }
 ```
 
@@ -48,11 +47,11 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
 That means you could wrap any UIView subclass in a vdom node. e.g.
 ```swift
 
-Node(type: UIScrollView.self) {
-  Node(type: UILabel.self).withLayoutSpec { spec in 
+Node(UIScrollView.self) {
+  Node(UILabel.self).withLayoutSpec { spec in 
     // This is where you can have all sort of custom view configuration.
-  }.build()
-  Node(type: UISwitch.self).build()
+  }
+  Node(UISwitch.self)
 }
 
 ```
@@ -63,16 +62,13 @@ The `withLayoutSpec` modifier allows to specify a custom configuration closure f
 *Coordinators* are similar to Components in React/Render/Litho and Coordinators in SwiftUI.
 
 ```swift
-class CounterCoordinator: Coordinator<CounterState, NullProps> {
+class CounterCoordinator: Coordinator{
+  var count: UInt = 0
 
   func incrementCounter() {
     self.state.count += 1                // Update the state.
     body?.setNeedsReconcile()            // Trigger the reconciliation algorithm on the view hiearchy associated to this coordinator.
   }
-}
-
-class CounterState: State {
-  var count = 0;
 }
 ```
 
@@ -80,21 +76,18 @@ Finally let's create *CoreRender* node hiararchy in our ViewCoordinator.
 
 ```swift
 class CounterViewCoordinator: UIViewController {
-  private let context = Context()
-  private var hostingView: HostingView {
-    view as! HostingView
-  }
-  var coordinator: CounterCoordinator {
-    context.coordinator(makeCoordinatorDescriptor(CounterCoordinator.self).toRef())
-      as! CounterCoordinator
-  }
-  
-  func loadView() {
-    view = HostingView(context: context, options: [.useSafeAreaInsets]) { ctx in
-      makeCounter(ctx: ctx, coordinator: coordinator)
+  var hostingView: HostingView!
+  let context = Context()
+
+  override func loadView() {
+    hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { context in
+      Component<CounterCoordinator>(context: context) { context, coordinator in
+        makeCounterWidget(context: context, coordinator: coordinator)
+      }.builder()
     }
+    self.view = hostingView
   }
-  
+    
   override func viewDidLayoutSubviews() {
     hostingView.setNeedsLayout()
   }

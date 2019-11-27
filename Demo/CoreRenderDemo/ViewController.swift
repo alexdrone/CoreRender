@@ -7,10 +7,10 @@ class ViewCoordinator: UIViewController {
   let context = Context()
 
   override func loadView() {
-    hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { ctx in
+    hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { context in
       Component<DemoWidgetCoordinator>(context: context) { context, coordinator in
         makeDemoWidget(context: context, coordinator: coordinator)
-      }
+      }.builder()
     }
     self.view = hostingView
   }
@@ -19,5 +19,4 @@ class ViewCoordinator: UIViewController {
     super.viewDidLayoutSubviews()
     hostingView.setNeedsLayout()
   }
-  
 }
