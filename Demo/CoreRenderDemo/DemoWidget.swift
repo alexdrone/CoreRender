@@ -31,7 +31,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
         .background(.systemTeal)
         .padding(Const.margin * 2)
         .cornerRadius(Const.cornerRadius)
-      NilNode()
+      SpacerNode()
     }
   }
   .alignItems(.center)
@@ -53,6 +53,8 @@ class CounterCoordinator: Coordinator<CounterState, NullProps> {
   }
 
   // Example of manual access to the underlying view hierarchy.
+  // Transitions can be performed in the node description as well, this is just an
+  // example of manual view hierarchy manipulation.
   func doSomeFunkyStuff() {
     guard let body = body, let view = body.root.view(withKey: Const.increaseButtonKey) else {
       return
@@ -65,6 +67,8 @@ class CounterCoordinator: Coordinator<CounterState, NullProps> {
       view.transform = transform
     }
   }
+
+
 }
 
 // MARK: - Constants

@@ -141,9 +141,13 @@ open class Coordinator<S: State, P: Props>: objc_Coordinator {
 }
 
 public extension TypeErasedNodeBuilder {
-  /// Bind the given coordinator to the node hierarchy.
-  func withCoordinator(_ descriptor: AnyCoordinatorDescriptor) -> Self {
+  /// Bind the given coordinator descriptor to the node hierarchy.
+  func withCoordinator(descriptor: AnyCoordinatorDescriptor) -> Self {
     return withCoordinatorDescriptor(descriptor.toRef())
+  }
+  /// Bind the given coordinator to the node hierarchy.
+  func withCoordinator<S: State, P: Props>(_ coordinator: Coordinator<S, P>) -> Self {
+    return withCoordinator(descriptor: coordinator.descriptor())
   }
 }
 
@@ -204,4 +208,36 @@ public struct CoordinatorDescriptor<C: Coordinator<S, P>, S: State, P: Props>
   }
 }
 
+// MARK: - Alias types
+
+// Drops the YG prefix.
+public typealias FlexDirection = YGFlexDirection
+public typealias Align = YGAlign
+public typealias Edge = YGEdge
+public typealias Wrap = YGWrap
+public typealias Display = YGDisplay
+public typealias Overflow = YGOverflow
+
+public typealias LayoutOptions = CRNodeLayoutOptions
+
+// Ensure that Yoga's C-enums are accessibly through KeyPathRefs.
+public protocol WritableKeyPathBoxableEnum {
+  var rawValue: Int32 { get }
+}
+
+extension YGFlexDirection: WritableKeyPathBoxableEnum { }
+extension YGAlign: WritableKeyPathBoxableEnum { }
+extension YGEdge: WritableKeyPathBoxableEnum { }
+extension YGWrap: WritableKeyPathBoxableEnum { }
+extension YGDisplay: WritableKeyPathBoxableEnum { }
+extension YGOverflow: WritableKeyPathBoxableEnum { }
+
+// MARK: - Type Erasure
+
+// Convenience type-erased protocols.
+@objc public protocol AnyProps: class { }
+@objc public protocol AnyState: class { }
+
+extension Props: AnyProps { }
+extension State: AnyState { }
 
