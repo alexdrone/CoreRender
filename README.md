@@ -15,20 +15,20 @@ CoreRender is a SwiftUI inspired API for UIKit (that is compatible with iOS 10+ 
 
 Let's build the classic *Counter-Example*.
 
-The following is the node hierarchy definition.
+The DSL to define the vdom representation is similiar to SwiftUI.
 
 ```swift
-func makeCounterWidget(context: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
-  VStack {
-    Label(text: "\(coordinator.state.count)")
+func makeCounterBodyFragment(context: Context, coordinator: CounterCoordinator) -> OpaqueNodeBuilder {
+  VStackNode {
+    LabelNode(text: "\(coordinator.state.count)")
       .textColor(.darkText)
       .background(.secondarySystemBackground)
       .width(Const.size + 8 * CGFloat(coordinator.state.count))
       .height(Const.size)
       .margin(Const.margin)
       .cornerRadius(Const.cornerRadius)
-    HStack {
-      Button()
+    HStackNode {
+      ButtonNode()
         .text("TAP HERE TO INCREASE COUNT")
         .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
         .background(.systemTeal)
@@ -57,22 +57,24 @@ Node(UIScrollView.self) {
 ```
 The `withLayoutSpec` modifier allows to specify a custom configuration closure for your view.
 
-
-
-*Coordinators* are similar to Components in React/Render/Litho and Coordinators in SwiftUI.
+ `Coordinators`  are the only non-transient objects in CoreRender. They yeld the view internal state and 
+ they are able to manually access to the concrete view hierarchy (if one desires to do so).
+ 
+ By calling  `setNeedsReconcile`  the vdom is being recomputed and reconciled against the concrete view hiearchy.
 
 ```swift
 class CounterCoordinator: Coordinator{
   var count: UInt = 0
 
   func incrementCounter() {
-    self.state.count += 1                // Update the state.
-    body?.setNeedsReconcile()            // Trigger the reconciliation algorithm on the view hiearchy associated to this coordinator.
+    self.count += 1                      // Update the state.
+    setNeedsReconcile()                  // Trigger the reconciliation algorithm on the view hiearchy associated to this coordinator.
   }
 }
 ```
 
-Finally let's create *CoreRender* node hiararchy in our ViewCoordinator.
+Finally,  `Components` are yet again transient value types that bind together a body fragment with a
+given coordinator.
 
 ```swift
 class CounterViewCoordinator: UIViewController {
@@ -82,7 +84,7 @@ class CounterViewCoordinator: UIViewController {
   override func loadView() {
     hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { context in
       Component<CounterCoordinator>(context: context) { context, coordinator in
-        makeCounterWidget(context: context, coordinator: coordinator)
+        makeCounterBodyFragment(context: context, coordinator: coordinator)
       }.builder()
     }
     self.view = hostingView
@@ -92,4 +94,24 @@ class CounterViewCoordinator: UIViewController {
     hostingView.setNeedsLayout()
   }
 }
+```
+
+Components can be nested in the node hierarchy.
+
+```swift
+
+func makeFragment(context: Context) {
+  Component<FooCoordinator>(context: context) { context, coordinator in
+    VStackNode {
+      LabelNode(text: "Foo")
+      Component<BarCoordinator>(context: context) { context, coordinator in
+        HStackNode {
+          LabelNode(text: "Bar")
+          LabelNode(text: "Baz")
+        }
+      }
+    }
+  }
+}
+
 ```
