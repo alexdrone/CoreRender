@@ -5,13 +5,10 @@ import CoreRenderObjC
 class ViewCoordinator: UIViewController {
   var hostingView: HostingView!
   let context = Context()
-  var coordinator: CounterCoordinator {
-    context.getCoordinator(type: CounterCoordinator.self)
-  }
-  
+
   override func loadView() {
     hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { ctx in
-      makeDemoWidget(ctx: ctx, coordinator: self.coordinator).build()
+      DemoWidget.makeComponent(ctx: ctx).build()
     }
     self.view = hostingView
   }
