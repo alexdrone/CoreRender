@@ -47,4 +47,12 @@ NSString *CRIllegalCoordinatorTypeExceptionName = @"IllegalCoordinatorType";
   CR_ASSERT_ON_MAIN_THREAD();
 }
 
+- (UIView *)viewWithKey:(NSString *)key {
+  return [self.body.root viewWithKey:key];
+}
+
+- (NSArray<UIView *> *)viewsWithReuseIdentifier:(NSString *)reuseIdentifier {
+  return [self.body.root viewsWithReuseIdentifier:reuseIdentifier];
+}
+
 @end

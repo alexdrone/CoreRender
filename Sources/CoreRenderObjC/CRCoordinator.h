@@ -37,6 +37,12 @@ NS_SWIFT_NAME(Coordinator)
 /// Overrides this method to manually configure the view hierarchy after it has been layed out.
 - (void)onLayout;
 
+/// Returns the view in the subtree of this node with the given @c key.
+- (nullable UIView *)viewWithKey:(NSString *)key;
+
+/// Returns all the views that have been registered with the given @c reuseIdentifier.
+- (NSArray<UIView *> *)viewsWithReuseIdentifier:(NSString *)reuseIdentifier;
+
 @end
 
 NS_ASSUME_NONNULL_END

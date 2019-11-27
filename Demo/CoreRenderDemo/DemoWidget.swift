@@ -10,7 +10,15 @@ class DemoWidgetCoordinator: Coordinator {
 
   @objc dynamic func increase() {
     count += 1
-    body?.setNeedsReconcile()
+    setNeedsReconcile()
+  }
+
+  override func onLayout() {
+    // Override this to manually override the layout of some of the views in the view hierarchy.
+    // e.g.
+    // body?.root.view(withKey: Const.increaseButtonKey) else { return }
+
+    print(button.superview?.frame)
   }
 }
 
