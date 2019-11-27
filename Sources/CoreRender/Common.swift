@@ -4,13 +4,13 @@ import CoreRenderObjC
 
 // MARK: - Common Nodes
 
-public func UIViewNode(
+public func ViewNode(
   @_ContentBuilder builder: () -> _Builder = _Builder.default
 ) -> NodeBuilder<UIView> {
   Node(UIView.self, builder: builder)
 }
 
-public func UIViewHStackNode (
+public func HStackNode (
   @_ContentBuilder builder: () -> _Builder = _Builder.default
 ) -> NodeBuilder<UIView> {
   Node(UIView.self, builder: builder).withLayoutSpec { spec in
@@ -22,7 +22,7 @@ public func UIViewHStackNode (
   }
 }
 
-public func UIViewVStackNode(
+public func VStackNode(
   @_ContentBuilder builder: () -> _Builder = _Builder.default
 ) -> NodeBuilder<UIView> {
   Node(UIView.self, builder: builder).withLayoutSpec { spec in
@@ -34,7 +34,7 @@ public func UIViewVStackNode(
   }
 }
 
-public func UILabelNode(
+public func LabelNode(
   text: String,
   @_ContentBuilder builder: () -> _Builder = _Builder.default
 ) -> NodeBuilder<UILabel> {
@@ -44,7 +44,7 @@ public func UILabelNode(
   }
 }
 
-public func UIButtonNode(
+public func ButtonNode(
   key: String,
   @_ContentBuilder builder: () -> _Builder = _Builder.default
 ) -> NodeBuilder<UIButton> {

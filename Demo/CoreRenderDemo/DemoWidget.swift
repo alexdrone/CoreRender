@@ -3,8 +3,8 @@ import CoreRender
 import CoreRenderObjC
 
 func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilder<UIView> {
-  VStack {
-    Label(text: "\(coordinator.state.count)")
+  UIViewVStackNode {
+    UILabelNode(text: "\(coordinator.state.count)")
       //.font(UIFont.systemFont(ofSize: 24, weight: .black))
       .textAlignment(.center)
       .textColor(.darkText)
@@ -13,7 +13,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .height(Const.size)
       .margin(Const.margin)
       .cornerRadius(Const.cornerRadius)
-    Label(text: ">> TAP HERE TO SPIN THE BUTTON >>")
+    UILabelNode(text: ">> TAP HERE TO SPIN THE BUTTON >>")
       .font(UIFont.systemFont(ofSize: 12, weight: .bold))
       .textAlignment(.center)
       .textColor(.systemOrange)
@@ -23,15 +23,15 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
       .onTouchUpInside { _ in
         coordinator.doSomeFunkyStuff()
       }
-    HStack {
-      Button(key: Const.increaseButtonKey)
+    UIViewHStackNode {
+      UIButtonNode(key: Const.increaseButtonKey)
         .text("TAP HERE TO INCREASE COUNT")
         .font(UIFont.systemFont(ofSize: 12, weight: .bold))
         .setTarget(coordinator, action: #selector(CounterCoordinator.increase), for: .touchUpInside)
         .background(.systemTeal)
         .padding(Const.margin * 2)
         .cornerRadius(Const.cornerRadius)
-      None()
+      NullNode()
     }
   }
   .alignItems(.center)
