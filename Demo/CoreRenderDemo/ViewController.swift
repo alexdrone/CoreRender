@@ -8,7 +8,9 @@ class ViewCoordinator: UIViewController {
 
   override func loadView() {
     hostingView = HostingView(context: context, with: [.useSafeAreaInsets]) { ctx in
-      DemoWidget(ctx: ctx).build()
+      Component<DemoWidgetCoordinator>(context: context) { context, coordinator in
+        makeDemoWidget(context: context, coordinator: coordinator)
+      }
     }
     self.view = hostingView
   }

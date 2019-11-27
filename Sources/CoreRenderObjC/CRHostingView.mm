@@ -3,6 +3,7 @@
 #include "CRContext.h"
 #include "CRMacros.h"
 #include "CRNode.h"
+#include "CRNodeBuilder.h"
 #include "CRNodeHierarchy.h"
 
 @implementation CRHostingView {
@@ -13,9 +14,9 @@
 
 - (instancetype)initWithContext:(CRContext *)context
                     withOptions:(CRNodeLayoutOptions)options
-                           body:(CRNode * (^)(CRContext *))buildBody {
+                           body:(CROpaqueNodeBuilder * (^)(CRContext *))buildBody {
   if (self = [super initWithFrame:CGRectZero]) {
-    if (@available(iOS 12, *)) {
+    if (@available(iOS 13, *)) {
       self.backgroundColor = [UIColor systemBackgroundColor];
     } else {
       self.backgroundColor = [UIColor whiteColor];

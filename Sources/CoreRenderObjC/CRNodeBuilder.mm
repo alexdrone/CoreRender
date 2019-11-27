@@ -133,7 +133,6 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
   NSAssert(NO, @"Called on abstract super class.");
 }
 
-
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
   NSAssert(NO, @"Called on abstract super class.");
 }
@@ -151,4 +150,3 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
 }
 
 @end
-

@@ -2,14 +2,6 @@ import Foundation
 import CoreRender
 import CoreRenderObjC
 
-// MARK: - Wrapping Component
-
-func DemoWidget(ctx: Context) -> OpaqueNodeBuilder {
-  Component(type: DemoWidgetCoordinator.self, context: ctx) { ctx, coordinator in
-    makeBody(ctx: ctx, coordinator: coordinator)
-  }
-}
-
 // MARK: - Coordinator
 
 class DemoWidgetCoordinator: Coordinator {
@@ -24,10 +16,10 @@ class DemoWidgetCoordinator: Coordinator {
 
 // MARK: - Body
 
-private func makeBody(ctx: Context, coordinator: DemoWidgetCoordinator) -> OpaqueNodeBuilder {
+func makeDemoWidget(context: Context, coordinator: DemoWidgetCoordinator) -> OpaqueNodeBuilder {
   VStackNode {
     LabelNode(text: "\(coordinator.count)")
-      //.font(UIFont.systemFont(ofSize: 24, weight: .black))
+      .font(UIFont.systemFont(ofSize: 24, weight: .black))
       .textAlignment(.center)
       .textColor(.darkText)
       .background(.secondarySystemBackground)
@@ -54,7 +46,7 @@ private func makeBody(ctx: Context, coordinator: DemoWidgetCoordinator) -> Opaqu
         .background(.systemTeal)
         .padding(Const.margin * 2)
         .cornerRadius(Const.cornerRadius)
-      SpacerNode()
+      EmptyNode()
     }
   }
   .alignItems(.center)

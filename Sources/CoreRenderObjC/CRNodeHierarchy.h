@@ -2,6 +2,7 @@
 #import <UIKit/UIKit.h>
 
 #import "CRNode.h"
+@class CROpaqueNodeBuilder;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +17,7 @@ NS_SWIFT_NAME(NodeHierarchy)
 
 /// Instantiate a new node hierarchy.
 - (instancetype)initWithContext:(CRContext *)context
-           nodeHierarchyBuilder:(CRNode * (^)(CRContext *))buildNodeHierarchy;
+           nodeHierarchyBuilder:(CROpaqueNodeBuilder * (^)(CRContext *))buildNodeHierarchy;
 
 #pragma mark Render
 

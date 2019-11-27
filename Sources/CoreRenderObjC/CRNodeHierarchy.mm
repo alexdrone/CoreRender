@@ -1,17 +1,19 @@
 #import "CRNodeHierarchy.h"
+
 #import "CRContext.h"
 #import "CRMacros.h"
+#include "CRNodeBuilder.h"
 
 @implementation CRNodeHierarchy {
   __weak CRContext *_context;
   __weak UIView *_containerView;
   CGSize _size;
   CRNodeLayoutOptions _options;
-  CRNode * (^_buildNodeHierarchy)(CRContext *);
+  CROpaqueNodeBuilder * (^_buildNodeHierarchy)(CRContext *);
 }
 
 - (instancetype)initWithContext:(CRContext *)context
-           nodeHierarchyBuilder:(CRNode * (^)(CRContext *))buildNodeHierarchy {
+           nodeHierarchyBuilder:(CROpaqueNodeBuilder * (^)(CRContext *))buildNodeHierarchy {
   if (self = [super init]) {
     _context = context;
     _buildNodeHierarchy = buildNodeHierarchy;
@@ -28,7 +30,7 @@
   _containerView = view;
   _size = size;
   _options = options;
-  _root = _buildNodeHierarchy(_context);
+  _root = [_buildNodeHierarchy(_context) build];
   [_root registerNodeHierarchyInContext:_context];
   [_root setNodeHierarchy:self];
   [_root reconcileInView:view constrainedToSize:size withOptions:options];

@@ -7,6 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CRContext;
 @class CRNodeHierarchy;
+@class CROpaqueNodeBuilder;
 
 NS_SWIFT_NAME(HostingView)
 @interface CRHostingView : UIView
@@ -20,7 +21,8 @@ NS_SWIFT_NAME(HostingView)
 /// Construct a new hosting view with the given reference context.
 - (instancetype)initWithContext:(CRContext *)context
                     withOptions:(CRNodeLayoutOptions)options
-                           body:(CRNode * (^)(CRContext *))buildBody NS_DESIGNATED_INITIALIZER;
+                           body:(CROpaqueNodeBuilder * (^)(CRContext *))buildBody
+    NS_DESIGNATED_INITIALIZER;
 
 /// Tells the node that the node/view hierarchy must be reconciled.
 - (void)setNeedsReconcile;
