@@ -16,9 +16,7 @@ class DemoWidgetCoordinator: Coordinator {
   override func onLayout() {
     // Override this to manually override the layout of some of the views in the view hierarchy.
     // e.g.
-    // body?.root.view(withKey: Const.increaseButtonKey) else { return }
-
-    print(button.superview?.frame)
+    // view(withKey: Const.increaseButtonKey)?.frame = ...
   }
 }
 
@@ -68,15 +66,12 @@ extension DemoWidgetCoordinator {
   // Transitions can be performed in the node description as well, this is just an
   // example of manual view hierarchy manipulation.
   func doSomeFunkyStuff() {
-    guard let body = body, let view = body.root.view(withKey: Const.increaseButtonKey) else {
-      return
-    }
     let transform = isRotated
       ? CGAffineTransform.identity
       : CGAffineTransform.init(rotationAngle: .pi)
     isRotated.toggle()
     UIView.animate(withDuration: 1) {
-      view.transform = transform
+      self.view(withKey: Const.increaseButtonKey)?.transform = transform
     }
   }
 }
