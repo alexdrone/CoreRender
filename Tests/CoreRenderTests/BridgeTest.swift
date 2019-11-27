@@ -2,27 +2,28 @@ import XCTest
 import CoreRenderObjC
 import CoreRender
 
-class FooCoordinator: Coordinator<FooState, FooProps> {
-
-  func increase() { state.count += 1 }
+class FooCoordinator: Coordinator {
+  var count: Int = 0
+  func increase() { count += 1 }
 }
 
-class FooState: State {
-  var count = 0
+class BarCoordinator: Coordinator {
 }
-
-class FooProps: Props { }
-class BarProps: Props { }
 
 class CRSwiftInteropTests: XCTestCase {
 
   func testGetCoordinator() {
     let context = Context()
-    let desc = makeCoordinatorDescriptor(FooCoordinator.self)
-    let coordinator = context.coordinator(desc.toRef())
-    XCTAssert(coordinator is FooCoordinator)
-    let cast = coordinator as? FooCoordinator
-    XCTAssert(cast != nil)
+
+    Component(type: FooCoordinator.self, context: context) { _, _ in
+      VStackNode {
+        LabelNode(text: "Foor")
+        LabelNode(text: "Bar")
+        Component(type: BarCoordinator.self, context: context) { _, _ in
+          ButtonNode(key: "Hi")
+        }
+      }
+    }
   }
 
 }

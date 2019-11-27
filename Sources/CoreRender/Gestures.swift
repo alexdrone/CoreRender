@@ -4,7 +4,7 @@ import CoreRenderObjC
 
 // MARK: - NodeBuilder
 
-extension TypeErasedNodeBuilder {
+extension OpaqueNodeBuilder {
   public func onTouchUpInside(_ handler: @escaping (UIGestureRecognizer) -> Void) -> Self {
     withLayoutSpec { spec in spec.view?.onTouchUpInside(handler) }
   }

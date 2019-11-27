@@ -91,10 +91,6 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
 }
 
 - (void)_recursivelyConfigureCoordinatorsInNodeHierarchy {
-  self.coordinator.anyProps =
-      CR_NIL_COALESCING(self.coordinator.anyProps, self.coordinatorDescriptor.props);
-  self.coordinator.anyState =
-      CR_NIL_COALESCING(self.coordinator.anyState, self.coordinatorDescriptor.initialState);
   self.coordinator.node = self;
   CR_FOREACH(child, _mutableChildren) { [child _recursivelyConfigureCoordinatorsInNodeHierarchy]; }
 }

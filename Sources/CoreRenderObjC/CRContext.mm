@@ -7,15 +7,10 @@
 
 @implementation CRCoordinatorDescriptor
 
-- (instancetype)initWithType:(Class)type
-                         key:(NSString *)key
-                initialState:(CRState *)state
-                       props:(CRProps *)props {
+- (instancetype)initWithType:(Class)type key:(NSString *)key {
   if (self = [super init]) {
     _type = type;
     _key = key;
-    _initialState = state;
-    _props = props;
   }
   return self;
 }
@@ -50,13 +45,10 @@
   if (![desc.type isSubclassOfClass:CRCoordinator.self]) return nil;
   const auto container = [self _containerForType:desc.type];
   if (const auto coordinator = container[desc.key]) {
-    coordinator.anyProps = desc.props;
     return coordinator;
   }
   const auto coordinator = CR_DYNAMIC_CAST(CRCoordinator, [[desc.type alloc] initWithKey:desc.key]);
   coordinator.key = desc.key;
-  coordinator.anyState = desc.initialState;
-  coordinator.anyProps = desc.props;
   coordinator.context = self;
   container[desc.key] = coordinator;
   return coordinator;

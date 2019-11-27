@@ -1,4 +1,5 @@
 #import "CRNodeBuilder.h"
+#import "CRContext.h"
 #import "CRCoordinator.h"
 #import "CRMacros.h"
 
@@ -19,9 +20,13 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
   return builder;
 }
 
-@implementation CRTypeErasedNodeBuilder
+@implementation CROpaqueNodeBuilder
 
 - (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+- (instancetype)withCoordinator:(CRCoordinator *)coordinator {
   NSAssert(NO, @"Called on abstract super class.");
 }
 
@@ -78,6 +83,13 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
   CR_ASSERT_ON_MAIN_THREAD();
   _coordinatorDescriptor = descriptor;
   return self;
+}
+
+- (instancetype)withCoordinator:(CRCoordinator *)coordinator {
+  CR_ASSERT_ON_MAIN_THREAD();
+  const auto descriptor =
+      [[CRCoordinatorDescriptor alloc] initWithType:coordinator.class key:coordinator.key];
+  return [self withCoordinatorDescriptor:descriptor];
 }
 
 - (instancetype)withViewInit:(UIView * (^)(NSString *))viewInit {

@@ -5,8 +5,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(TypeErasedNodeBuilder)
-@interface CRTypeErasedNodeBuilder : NSObject
+NS_SWIFT_NAME(OpaqueNodeBuilder)
+@interface CROpaqueNodeBuilder : NSObject
+/// The coordinator assigned to this node.
+- (instancetype)withCoordinator:(CRCoordinator *)coordinator;
 /// The coordinator type assigned to this node.
 - (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor;
 /// Defines the node configuration and layout.
@@ -16,13 +18,13 @@ NS_SWIFT_NAME(TypeErasedNodeBuilder)
 @end
 
 NS_SWIFT_NAME(NullNodeBuilder)
-@interface CRNullNodeBuilder : CRTypeErasedNodeBuilder
+@interface CRNullNodeBuilder : CROpaqueNodeBuilder
 /// Build the concrete node.
 - (CRNullNode *)build;
 @end
 
 NS_SWIFT_NAME(NodeBuilder)
-@interface CRNodeBuilder<__covariant V : UIView *> : CRTypeErasedNodeBuilder
+@interface CRNodeBuilder<__covariant V : UIView *> : CROpaqueNodeBuilder
 - (instancetype)init NS_UNAVAILABLE;
 /// The view type of the desired @c CRNode.
 - (instancetype)initWithType:(Class)type;
@@ -32,8 +34,6 @@ NS_SWIFT_NAME(NodeBuilder)
 /// Unique node key (required for stateful components).
 /// @note: This is required if @c coordinatorType or @c state is set.
 - (instancetype)withKey:(NSString *)key;
-/// The coordinator type assigned to this node.
-- (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)desc;
 /// Custom view initialization code.
 - (instancetype)withViewInit:(UIView * (^)(NSString *))viewInit;
 /// Defines the node configuration and layout.

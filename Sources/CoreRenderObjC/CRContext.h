@@ -6,27 +6,19 @@ NS_ASSUME_NONNULL_BEGIN
 @class CRCoordinator;
 @class CRNode;
 @class CRContext;
-@class CRState;
-@class CRProps;
+;
 @class CRContextReconciliationInfo;
 
-NS_SWIFT_NAME(objc_CoordinatorDescriptor)
+NS_SWIFT_NAME(CoordinatorDescriptor)
 @interface CRCoordinatorDescriptor : NSObject
 /// The coordinator type.
 @property(nonatomic, readonly) Class type;
 /// The coordinator unique key.
 @property(nonatomic, readonly) NSString *key;
-/// The coordinator initial state.
-@property(nonatomic, readonly) CRState *initialState;
-/// The desired coordinator props.
-@property(nonatomic, readonly) CRProps *props;
 
 - (instancetype)init NS_UNAVAILABLE;
 /// Constructs a new coordinator descriptor.
-- (instancetype)initWithType:(Class)type
-                         key:(NSString *)key
-                initialState:(CRState *)state
-                       props:(CRProps *)props;
+- (instancetype)initWithType:(Class)type key:(NSString *)key;
 @end
 
 NS_SWIFT_NAME(ContextDelegate)

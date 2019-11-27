@@ -2,6 +2,27 @@ import Foundation
 import UIKit
 import CoreRenderObjC
 
+// MARK: - Component
+
+/// A piece of user interface.
+/// This is a transient object that represent the description of a particulat subtree at a
+/// given state.
+///
+/// You create custom views by declaring types that conform to the `Component`
+/// protocol. Implement the required `body` property to provide the content
+/// and behavior for your custom view.
+public func Component<C: Coordinator>(
+  type: C.Type,
+  context: Context,
+  key: String = String(describing: type(of: C.self)),
+  props: (C) -> Void = { _ in },
+  body: (Context, C) -> OpaqueNodeBuilder
+) -> OpaqueNodeBuilder {
+  let coordinator = context.coordinator(CoordinatorDescriptor(type: C.self, key: key)) as! C
+  props(coordinator)
+  return body(context, coordinator).withCoordinator(coordinator)
+}
+
 // MARK: - Function builders
 
 /// - note: Shorthand to build a NodeBuilder using Swift function builders.
@@ -39,8 +60,7 @@ public func Node<V: UIView>(
 
 @_functionBuilder
 public struct _ContentBuilder {
-  /// Passes a single node written as a child view through unmodified.
-  public static func buildBlock(_ nodes: TypeErasedNodeBuilder...) -> _Builder {
+  public static func buildBlock(_ nodes: OpaqueNodeBuilder...) -> _Builder {
     let children = nodes.filter { $0 !== NullNode.nullNode }
     return _Builder(children: children.map { $0.build() })
   }
@@ -92,122 +112,6 @@ public func withProperty<V: UIView, T: WritableKeyPathBoxableEnum>(
   spec.set(kvc, value: nsValue, animator: animator)
 }
 
-// MARK: - CoordinatorDescriptor
-
-public extension Context {
-  /// Retrieve the coordinator with the given type and key (optional).
-  @nonobjc func getCoordinator<C: Coordinator<S, P>, S, P>(
-    type: C.Type,
-    key: String = String(describing: C.self)
-  ) -> C {
-    let descriptor = CoordinatorDescriptor<C, S, P>(type: type, key: key).toRef()
-    return self.coordinator(descriptor) as! C
-  }
-}
-
-/// Creates a new CoordinatorDescriptor use to retrieve and/or pass new argument to a coordinator.
-public func makeCoordinatorDescriptor<C: Coordinator<S, P>, S, P>(
-  _ type: C.Type
-) -> AnyCoordinatorDescriptor {
-  CoordinatorDescriptor<C, S, P>()
-}
-
-public func makeCoordinatorDescriptor<C: Coordinator<S, P>, S, P>(
-  _ coordinator: C
-) -> AnyCoordinatorDescriptor {
-  CoordinatorDescriptor<C, S, P>(
-    type: C.self,
-    key: coordinator.key,
-    initialState: coordinator.state,
-    props: coordinator.props)
-}
-
-/// Base class for any coordinator.
-open class Coordinator<S: State, P: Props>: objc_Coordinator {
-  /// The current coordinator state.
-  public var state: S {
-    get { self.anyState as! S }
-    set { self.anyState = newValue }
-  }
-  /// The props currently assigned to this coordinator.
-  public var props: P {
-    get { self.anyProps as! P }
-    set { self.anyProps = newValue }
-  }
-  
-  public func descriptor() -> AnyCoordinatorDescriptor {
-    return CoordinatorDescriptor(type: Self.self, key: key, initialState: state, props: props)
-  }
-}
-
-public extension TypeErasedNodeBuilder {
-  /// Bind the given coordinator descriptor to the node hierarchy.
-  func withCoordinator(descriptor: AnyCoordinatorDescriptor) -> Self {
-    return withCoordinatorDescriptor(descriptor.toRef())
-  }
-  /// Bind the given coordinator to the node hierarchy.
-  func withCoordinator<S: State, P: Props>(_ coordinator: Coordinator<S, P>) -> Self {
-    return withCoordinator(descriptor: coordinator.descriptor())
-  }
-}
-
-public protocol AnyCoordinatorDescriptor {
-  /// Returns a new coordinator descriptor with a different key.
-  func withKey(key newKey: String) -> Self
-  /// Returns a new coordinator descriptor with new props.
-  func withProps(props: Props) -> Self
-  /// Build a objc ref-based object descriptor.
-  func toRef() -> objc_CoordinatorDescriptor
-}
-
-/// See `makeCoordinatorDescriptor` to construct a new descriptor.
-/// - note: Use the `toRef` method to pass the descriptor straight to some objc apis.
-public struct CoordinatorDescriptor<C: Coordinator<S, P>, S: State, P: Props>
-  : AnyCoordinatorDescriptor {
-  /// The coordinator type.
-  let type: C.Type
-  /// The coordinator key.
-  var key: String
-  /// The coordinator initial state.
-  let initialState: S
-  /// The coordinator volatile props.
-  var props: P
-
-  /// See `makeCoordinatorDescriptor` to construct a new descriptor.
-  fileprivate init(
-    type: C.Type = C.self,
-    key: String = String(describing: C.self),
-    initialState: S = S(),
-    props: P = P()
-  ) {
-    self.type = type
-    self.key = key
-    self.props = props
-    self.initialState = initialState
-  }
-  /// Returns a new coordinator descriptor with a different key.
-  public func withKey(key: String) -> Self {
-    assign(self) { $0.key = key }
-  }
-  /// Returns a new coordinator descriptor with new props.
-  public func withProps(props: Props) -> Self {
-    assign(self) {
-      guard let props = props as? P else { return }
-      $0.props = props
-    }
-  }
-  /// - note: Use the `toRef` method to pass the descriptor straight to some objc apis.
-  public func toRef() -> objc_CoordinatorDescriptor {
-    objc_CoordinatorDescriptor(type: type, key: key, initialState: initialState, props: props)
-  }
-  
-  private func assign<T>(_ value: T, changes: (inout T) -> Void) -> T {
-    var copy = value
-    changes(&copy)
-    return copy
-  }
-}
-
 // MARK: - Alias types
 
 // Drops the YG prefix.
@@ -232,12 +136,4 @@ extension YGWrap: WritableKeyPathBoxableEnum { }
 extension YGDisplay: WritableKeyPathBoxableEnum { }
 extension YGOverflow: WritableKeyPathBoxableEnum { }
 
-// MARK: - Type Erasure
-
-// Convenience type-erased protocols.
-@objc public protocol AnyProps: class { }
-@objc public protocol AnyState: class { }
-
-extension Props: AnyProps { }
-extension State: AnyState { }
 

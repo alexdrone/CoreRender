@@ -36,7 +36,7 @@ func makeDemoWidget(ctx: Context, coordinator: CounterCoordinator) -> NodeBuilde
   }
   .alignItems(.center)
   .matchHostingViewWidth(withMargin: 0)
-  .withCoordinator(coordinator.descriptor())
+  .withCoordinator(coordinator)
 }
 
 // MARK: - Coordinator

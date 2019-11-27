@@ -85,11 +85,7 @@
 
 - (void)testThatCoordinatorIsPassedDownToNodeSubtree {
   __block auto expectRootNodeHasCoordinator = NO;
-  __block auto expectRooNodeHasState = NO;
-  __block auto expectRootNodeHasProps = NO;
   __block auto expectLeafNodeHasCoordinator = NO;
-  __block auto expectLeafNodeHasState = NO;
-  __block auto expectLeafNodeHasProps = NO;
   const auto root =
       [CRNode nodeWithType:UIView.class
            reuseIdentifier:nil
@@ -98,8 +94,6 @@
                 layoutSpec:^(CRNodeLayoutSpec *spec) {
                   const auto coordinator = [spec coordinatorOfType:TestCoordinator.class];
                   expectRootNodeHasCoordinator = CR_DYNAMIC_CAST(TestCoordinator, coordinator);
-                  expectRooNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.anyState);
-                  expectRootNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.anyProps);
                 }];
   [root bindCoordinator:self.testDescriptor];
 
@@ -108,8 +102,6 @@
                 layoutSpec:^(CRNodeLayoutSpec *spec) {
                   const auto coordinator = [spec coordinatorOfType:TestCoordinator.class];
                   expectLeafNodeHasCoordinator = CR_DYNAMIC_CAST(TestCoordinator, coordinator);
-                  expectLeafNodeHasState = CR_DYNAMIC_CAST(CRNullState, coordinator.anyState);
-                  expectLeafNodeHasProps = CR_DYNAMIC_CAST(CRNullProps, coordinator.anyProps);
                 }];
   [root appendChildren:@[ leaf ]];
 
@@ -121,18 +113,11 @@
       constrainedToSize:CGSizeMake(320, CR_CGFLOAT_FLEXIBLE)
             withOptions:CRNodeLayoutOptionsSizeContainerViewToFit];
   XCTAssertTrue(expectRootNodeHasCoordinator);
-  XCTAssertTrue(expectRooNodeHasState);
-  XCTAssertTrue(expectRootNodeHasProps);
   XCTAssertTrue(expectLeafNodeHasCoordinator);
-  XCTAssertTrue(expectLeafNodeHasState);
-  XCTAssertTrue(expectLeafNodeHasProps);
 }
 
 - (CRCoordinatorDescriptor *)testDescriptor {
-  return [[CRCoordinatorDescriptor alloc] initWithType:TestCoordinator.class
-                                                   key:@"test"
-                                          initialState:CRNullState.null
-                                                 props:CRNullProps.null];
+  return [[CRCoordinatorDescriptor alloc] initWithType:TestCoordinator.class key:@"test"];
 }
 
 @end

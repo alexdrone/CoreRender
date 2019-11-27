@@ -20,8 +20,6 @@ typedef NS_OPTIONS(NSUInteger, CRNodeLayoutOptions) {
 @class CRCoordinator;
 @class CRCoordinatorDescriptor;
 @class CRNodeLayoutSpec<__covariant V : UIView *>;
-@class CRState;
-@class CRProps;
 
 NS_SWIFT_NAME(NodeDelegate)
 @protocol CRNodeDelegate <NSObject>
