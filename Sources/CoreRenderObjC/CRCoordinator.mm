@@ -1,9 +1,10 @@
 #import "CRContext.h"
+
 #import "CRCoordinator+Private.h"
 #import "CRMacros.h"
 #import "CRNode.h"
+#import "CRNodeHierarchy.h"
 
-NSString *CRCoordinatorStatelessKey = @"_CRCoordinatorStatelessKey";
 NSString *CRIllegalCoordinatorTypeExceptionName = @"IllegalCoordinatorType";
 
 #pragma mark - Coordinator
@@ -32,12 +33,18 @@ NSString *CRIllegalCoordinatorTypeExceptionName = @"IllegalCoordinatorType";
   return self;
 }
 
-- (void)onInit {
-  // Override in subclasses.
+- (void)setNeedsReconcile {
+  CR_ASSERT_ON_MAIN_THREAD();
+  [self.body setNeedsReconcile];
 }
 
-- (void)onMount {
-  // Override in subclasses.
+- (void)setNeedsLayout {
+  CR_ASSERT_ON_MAIN_THREAD();
+  [self.body setNeedsLayout];
+}
+
+- (void)onLayout {
+  CR_ASSERT_ON_MAIN_THREAD();
 }
 
 @end

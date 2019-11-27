@@ -9,8 +9,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class CRCoordinatorDescriptor;
 @protocol CRNodeDelegate;
 
-extern NSString *CRCoordinatorStatelessKey;
-
 NS_SWIFT_NAME(Coordinator)
 @interface CRCoordinator : NSObject
 /// The context associated with this coordinator.
@@ -28,12 +26,16 @@ NS_SWIFT_NAME(Coordinator)
 /// Coordinators are instantiated from @c CRContext.
 - (instancetype)init;
 
-/// Called whenever the coordinator is constructed.
-- (void)onInit;
+/// Constructs a new node hierarchy and reconciles it against the currently mounted view hierarchy.
+- (void)setNeedsReconcile;
 
-/// The UI node  associated to this coordinator has just been added to the view hierarchy.
-/// @note: This is similiar to @c viewDidAppear on @c UIViewController.
-- (void)onMount;
+/// Tells the already mounted hierarchy must be re-layout.
+/// @note This is preferable to @c setNeedsReconcile whenever there's going to be no changes in
+/// the view hierarchy,
+- (void)setNeedsLayout;
+
+/// Overrides this method to manually configure the view hierarchy after it has been layed out.
+- (void)onLayout;
 
 @end
 

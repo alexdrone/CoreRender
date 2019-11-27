@@ -266,7 +266,7 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
       safeAreaOffset.y = safeArea.top;
     }
   }
-  NSUInteger numberOfLayoutPasses = 2;
+  NSUInteger numberOfLayoutPasses = 1;
   for (NSUInteger pass = 0; pass < numberOfLayoutPasses; pass++) {
     [self _configureConstrainedToSize:size withOptions:options];
     [self _computeFlexboxLayoutConstrainedToSize:size];
@@ -275,7 +275,6 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
   frame.origin.x += safeAreaOffset.x;
   frame.origin.y += safeAreaOffset.y;
   _renderedView.frame = frame;
-  [self _animateLayoutChangesIfNecessary];
 
   if (options & CRNodeLayoutOptionsSizeContainerViewToFit) {
     auto superview = _renderedView.superview;
@@ -290,6 +289,9 @@ void CRIllegalCoordinatorTypeException(NSString *reason) {
     superview.frame = rect;
   }
   [_renderedView cr_adjustContentSizePostLayoutRecursivelyIfNeeded];
+
+  [self.coordinator onLayout];
+  [self _animateLayoutChangesIfNecessary];
 }
 
 - (void)_reconcileNode:(CRNode *)node
