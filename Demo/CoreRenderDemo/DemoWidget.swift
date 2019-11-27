@@ -2,11 +2,15 @@ import Foundation
 import CoreRender
 import CoreRenderObjC
 
+// MARK: - Wrapping Component
+
 func DemoWidget(ctx: Context) -> OpaqueNodeBuilder {
   Component(type: DemoWidgetCoordinator.self, context: ctx) { ctx, coordinator in
     makeBody(ctx: ctx, coordinator: coordinator)
   }
 }
+
+// MARK: - Coordinator
 
 class DemoWidgetCoordinator: Coordinator {
   var count: UInt = 0
@@ -16,25 +20,9 @@ class DemoWidgetCoordinator: Coordinator {
     count += 1
     body?.setNeedsReconcile()
   }
-
-  // Example of manual access to the underlying view hierarchy.
-  // Transitions can be performed in the node description as well, this is just an
-  // example of manual view hierarchy manipulation.
-  func doSomeFunkyStuff() {
-    guard let body = body, let view = body.root.view(withKey: Const.increaseButtonKey) else {
-      return
-    }
-    let transform = isRotated
-      ? CGAffineTransform.identity
-      : CGAffineTransform.init(rotationAngle: .pi)
-    isRotated.toggle()
-    UIView.animate(withDuration: 1) {
-      view.transform = transform
-    }
-  }
 }
 
-// MARK: - Private
+// MARK: - Body
 
 private func makeBody(ctx: Context, coordinator: DemoWidgetCoordinator) -> OpaqueNodeBuilder {
   VStackNode {
@@ -71,6 +59,26 @@ private func makeBody(ctx: Context, coordinator: DemoWidgetCoordinator) -> Opaqu
   }
   .alignItems(.center)
   .matchHostingViewWidth(withMargin: 0)
+}
+
+// MARK: - Manual View Manipulation Example
+
+extension DemoWidgetCoordinator {
+  // Example of manual access to the underlying view hierarchy.
+  // Transitions can be performed in the node description as well, this is just an
+  // example of manual view hierarchy manipulation.
+  func doSomeFunkyStuff() {
+    guard let body = body, let view = body.root.view(withKey: Const.increaseButtonKey) else {
+      return
+    }
+    let transform = isRotated
+      ? CGAffineTransform.identity
+      : CGAffineTransform.init(rotationAngle: .pi)
+    isRotated.toggle()
+    UIView.animate(withDuration: 1) {
+      view.transform = transform
+    }
+  }
 }
 
 // MARK: - Constants
