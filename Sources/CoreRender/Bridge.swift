@@ -11,21 +11,61 @@ import CoreRenderObjC
 /// You create custom views by declaring types that conform to the `Component`
 /// protocol. Implement the required `body` property to provide the content
 /// and behavior for your custom view.
-public func Component<C: Coordinator>(
+public struct Component<C: Coordinator>: OpaqueNodeBuilderConvertible {
+  private let context: Context
+  private let key: String
+  private let props: [AnyProp]
+  private let body: (Context, C) -> OpaqueNodeBuilder
+
+  public init(
+    context: Context,
+    key: String = NSStringFromClass(C.self),
+    props: [AnyProp] = [],
+    body: @escaping (Context, C) -> OpaqueNodeBuilder
+  ) {
+    self.context = context
+    self.key = key
+    self.props = props
+    self.body = body
+  }
+
+  /// Forward the call to `build` to return the root node for this hierarchy.
+  public func builder() -> OpaqueNodeBuilder {
+    makeComponent(type: C.self, context: context, key: key, props: props, body: body)
+  }
+}
+
+/// Pure function builder for `Component`.
+public func makeComponent<C: Coordinator>(
   type: C.Type,
   context: Context,
-  key: String = String(describing: type(of: C.self)),
-  props: (C) -> Void = { _ in },
+  key: String = NSStringFromClass(C.self),
+  props: [AnyProp] = [],
   body: (Context, C) -> OpaqueNodeBuilder
 ) -> OpaqueNodeBuilder {
+  let reuseIdentifier = NSStringFromClass(C.self)
   let coordinator = context.coordinator(CoordinatorDescriptor(type: C.self, key: key)) as! C
-  props(coordinator)
-  return body(context, coordinator).withCoordinator(coordinator)
+  for setter in props {
+    setter.apply(coordinator: coordinator)
+  }
+  return body(context, coordinator)
+    .withReuseIdentifier(reuseIdentifier)
+    .withCoordinator(coordinator)
+}
+
+// MARK: - OpaqueNodeBuilderConvertible
+
+public protocol OpaqueNodeBuilderConvertible {
+  func builder() -> OpaqueNodeBuilder
+}
+
+extension OpaqueNodeBuilder: OpaqueNodeBuilderConvertible {
+  public func builder() -> OpaqueNodeBuilder { self }
 }
 
 // MARK: - Function builders
 
-/// - note: Shorthand to build a NodeBuilder using Swift function builders.
+/// Node builder.
 ///
 /// - `withReuseIdentifier`: The reuse identifier for this node is its hierarchy.
 /// Identifiers help Render understand which items have changed.
@@ -52,30 +92,69 @@ public func Component<C: Coordinator>(
 /// - `build`: Builds the concrete node.
 public func Node<V: UIView>(
   _ type: V.Type = V.self,
-  @_ContentBuilder builder: () -> _Builder = _Builder.default
+  @ContentBuilder builder: () -> ChildrenBuilder = ChildrenBuilder.default
 ) -> NodeBuilder<V> {
   let children = builder().children.compactMap { $0 as? ConcreteNode }
   return NodeBuilder(type: type).withChildren(children)
 }
 
 @_functionBuilder
-public struct _ContentBuilder {
-  public static func buildBlock(_ nodes: OpaqueNodeBuilder...) -> _Builder {
-    let children = nodes.filter { $0 !== NullNode.nullNode }
-    return _Builder(children: children.map { $0.build() })
+public struct ContentBuilder {
+  public static func buildBlock(
+    _ nodes: OpaqueNodeBuilderConvertible...
+  ) -> ChildrenBuilder {
+    return ChildrenBuilder(children: nodes.map { $0.builder().build() })
   }
 }
 
 /// Intermediate structure used as a return type from @_ContentBuilder.
-public struct _Builder {
+public struct ChildrenBuilder {
   /// Default (no children).
-  public static let none = _Builder(children: [])
+  public static let none = ChildrenBuilder(children: [])
   /// Returns an empty builder.
-  public static let `default`: () -> _Builder = {
-    return _Builder.none
+  public static let `default`: () -> ChildrenBuilder = {
+    return ChildrenBuilder.none
   }
   /// The wrapped childrens.
   let children: [AnyNode]
+}
+
+// MARK: - Props
+
+public protocol AnyProp {
+  /// Setup the coordinator with the given prop.
+  func apply(coordinator: Coordinator)
+}
+
+/// Any custom-defined property in the coordinator, that is not internal state.
+public struct Prop<C: Coordinator, V>: AnyProp {
+  public typealias CoordinatorType = C
+  public let keyPath: ReferenceWritableKeyPath<C, V>
+  public let value: V
+
+  public init(_ keyPath: ReferenceWritableKeyPath<C, V>, _ value: V) {
+    self.keyPath = keyPath
+    self.value = value
+  }
+  /// Setup the coordinator with the given prop.
+  public func apply(coordinator: Coordinator) {
+    guard let coordinator = coordinator as? C else { return }
+    coordinator[keyPath: keyPath] = value
+  }
+}
+
+/// Any custom-defined configuration closure for the coordinator.
+public struct BlockProp<C: Coordinator, V> {
+  public let block: (C) -> Void
+
+  public init(_ block: @escaping (C) -> Void) {
+    self.block = block
+  }
+  /// Setup the coordinator with the given prop.
+  public func apply(coordinator: Coordinator) {
+    guard let coordinator = coordinator as? C else { return }
+    block(coordinator)
+  }
 }
 
 // MARK: - Property setters
@@ -135,5 +214,3 @@ extension YGEdge: WritableKeyPathBoxableEnum { }
 extension YGWrap: WritableKeyPathBoxableEnum { }
 extension YGDisplay: WritableKeyPathBoxableEnum { }
 extension YGOverflow: WritableKeyPathBoxableEnum { }
-
-

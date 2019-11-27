@@ -15,11 +15,11 @@ class CRSwiftInteropTests: XCTestCase {
   func testGetCoordinator() {
     let context = Context()
 
-    Component(type: FooCoordinator.self, context: context) { _, _ in
+    Component<FooCoordinator>(context: context) { _, _ in
       VStackNode {
         LabelNode(text: "Foor")
         LabelNode(text: "Bar")
-        Component(type: BarCoordinator.self, context: context) { _, _ in
+        Component<FooCoordinator>(context: context) { _, _ in
           ButtonNode(key: "Hi")
         }
       }

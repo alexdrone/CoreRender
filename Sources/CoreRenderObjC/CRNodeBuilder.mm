@@ -20,26 +20,6 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
   return builder;
 }
 
-@implementation CROpaqueNodeBuilder
-
-- (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
-  NSAssert(NO, @"Called on abstract super class.");
-}
-
-- (instancetype)withCoordinator:(CRCoordinator *)coordinator {
-  NSAssert(NO, @"Called on abstract super class.");
-}
-
-- (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor {
-  NSAssert(NO, @"Called on abstract super class.");
-}
-
-- (CRNode *)build {
-  NSAssert(NO, @"Called on abstract super class.");
-}
-
-@end
-
 @implementation CRNullNodeBuilder
 
 - (CRNullNode *)build {
@@ -142,3 +122,33 @@ static CRNodeBuilder *CRBuild(Class type, void(NS_NOESCAPE ^ configure)(CRNodeBu
 }
 
 @end
+
+@implementation CROpaqueNodeBuilder
+
+- (instancetype)withReuseIdentifier:(NSString *)reuseIdentifier {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+- (instancetype)withKey:(NSString *)key {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+
+- (instancetype)withLayoutSpec:(void (^)(CRNodeLayoutSpec<UIView *> *))layoutSpec {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+- (instancetype)withCoordinator:(CRCoordinator *)coordinator {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+- (instancetype)withCoordinatorDescriptor:(CRCoordinatorDescriptor *)descriptor {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+- (CRNode *)build {
+  NSAssert(NO, @"Called on abstract super class.");
+}
+
+@end
+

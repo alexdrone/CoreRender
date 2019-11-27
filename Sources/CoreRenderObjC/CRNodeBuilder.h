@@ -7,6 +7,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(OpaqueNodeBuilder)
 @interface CROpaqueNodeBuilder : NSObject
+/// Optional reuse identifier.
+/// @note: This is required if the node has a custom @c viewInit.
+- (instancetype)withReuseIdentifier:(NSString *)reuseIdentifier;
+/// Unique node key (required for stateful components).
+/// @note: This is required if @c coordinatorType or @c state is set.
+- (instancetype)withKey:(NSString *)key;
 /// The coordinator assigned to this node.
 - (instancetype)withCoordinator:(CRCoordinator *)coordinator;
 /// The coordinator type assigned to this node.
@@ -28,12 +34,6 @@ NS_SWIFT_NAME(NodeBuilder)
 - (instancetype)init NS_UNAVAILABLE;
 /// The view type of the desired @c CRNode.
 - (instancetype)initWithType:(Class)type;
-/// Optional reuse identifier.
-/// @note: This is required if the node has a custom @c viewInit.
-- (instancetype)withReuseIdentifier:(NSString *)reuseIdentifier;
-/// Unique node key (required for stateful components).
-/// @note: This is required if @c coordinatorType or @c state is set.
-- (instancetype)withKey:(NSString *)key;
 /// Custom view initialization code.
 - (instancetype)withViewInit:(UIView * (^)(NSString *))viewInit;
 /// Defines the node configuration and layout.
